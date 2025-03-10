@@ -33,14 +33,14 @@ We are committed to guide/help learners who are intellectually impaired to be so
    ```sh
    git clone  https://github.com/Nokwanda2000/Ekukhanyeni-npo.git
 
-2. **Enter directory**
+2. **Enter directory:**
  ```sh
    cd Ekukhanyeni-Special-School
 ```
 
 3. **Install Dependencies:**
    ```sh 
-     npm install
+   npm install
    ```
      
 4. **Run Development server:**
