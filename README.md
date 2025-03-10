@@ -34,16 +34,16 @@ We are committed to guide/help learners who are intellectually impaired to be so
    git clone  https://github.com/Nokwanda2000/Ekukhanyeni-npo.git
 
 2. **Enter directory:**
- ```sh
+   ```sh
    cd Ekukhanyeni-Special-School
-```
+
 
 3. **Install Dependencies:**
    ```sh 
     npm install
-   ```
+
      
 4. **Run Development server:**
   ```sh 
   npm run dev
-```
+
