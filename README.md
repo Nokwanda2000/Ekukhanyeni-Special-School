@@ -44,6 +44,6 @@ We are committed to guide/help learners who are intellectually impaired to be so
 
      
 4. **Run Development server:**
-  ```sh 
-  npm run dev
+   ```sh
+   npm run dev
 
