@@ -36,11 +36,14 @@ We are committed to guide/help learners who are intellectually impaired to be so
 2. **Enter directory**
  ```sh
    cd Ekukhanyeni-Special-School
+```
 
 3. **Install Dependencies:**
    ```sh 
      npm install
+   ```
      
 4. **Run Development server:**
   ```sh 
   npm run dev
+```
