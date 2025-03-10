@@ -28,14 +28,14 @@ function App() {
      
       <Routes>
         <Route path="/" element={<Client />}>
-        <Route path="/Homepage" element={<Homepage />} />
+        <Route index element={<Homepage />} />
          <Route path='Contactpage' element={<Contactpage />} />
          <Route path="TimetablesPage" element={<TimetablesPage />} />
          <Route path="ProgrammesPage" element={<ProgrammesPage />} />
          <Route path="Eventspage" element={<Eventspage />} />
          <Route path="AboutUspage" element={<AboutUspage />} />
          <Route path="/NoAuth" element={<NoAuth />} />
-         <Route path='Nopage' element={<NoPage />} />
+         <Route path='*' element={<NoPage />} />
          
 
         
@@ -44,12 +44,13 @@ function App() {
         </Route>
 
 
-        <Route path="/" element={<CMS />}>
+        <Route path="/CMS" element={<CMS />}>
           <Route index element={<LoginCMS/>} />
           <Route path='EventsCMS' element={<EventsCMS />} />
           <Route path="FormSubmissionsCMS" element={<FormSubmissionsCMS />} />
           <Route path="UsersCMS" element={<UsersCMS />} />
           <Route path='TimetablesCMS' element={<TimetablesCMS />} />
+          <Route path='*' element={<NoPage />} />
         </Route>
       </Routes>
 
