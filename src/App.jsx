@@ -6,14 +6,16 @@ import CMS from './cmspages/CMS'
 import Homepage from './pages/Homepage'
 import NoPage from './pages/NoPage'
 import NoAuth from './pages/NoAuth'
-import Loginpage from './cmspages/Loginpage';
+import LoginCMS from './cmspages/LoginCMS';
 import AboutUspage from './pages/AboutUspage';
 import Contactpage from './pages/Contactpage';
 import TimetablesPage from './pages/TimetablesPage';
 import ProgrammesPage from './pages/ProgrammesPage';
+import EventsCMS from './cmspages/Eventscms';
+import FormSubmissionsCMS from './cmspages/FormSubmissionsCMS';
+import UsersCMS from './cmspages/UsersCMS';
+import TimetablesCMS from './cmspages/TimetablesCMS';
 import Eventspage from './pages/Eventspage';
-import FormSubmissionsPage from './cmspages/FormSubmissionsPage';
-import UsersPage from './cmspages/UsersPage';
 
 
 
@@ -43,11 +45,11 @@ function App() {
 
 
         <Route path="/" element={<CMS />}>
-          <Route index element={<Loginpage />} />
-          <Route path='Eventspage' element={<Eventspage />} />
-          <Route path="FormSubmissionsPage" element={<FormSubmissionsPage />} />
-          <Route path="UsersPage" element={<UsersPage />} />
-          <Route path='Timetables' element={<Timetables />} />
+          <Route index element={<LoginCMS/>} />
+          <Route path='EventsCMS' element={<EventsCMS />} />
+          <Route path="FormSubmissionsCMS" element={<FormSubmissionsCMS />} />
+          <Route path="UsersCMS" element={<UsersCMS />} />
+          <Route path='TimetablesCMS' element={<TimetablesCMS />} />
         </Route>
       </Routes>
 

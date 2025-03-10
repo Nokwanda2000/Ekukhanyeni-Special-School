@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Eventspage() {
+export default function EventsCMS() {
   return (
     <div>
       

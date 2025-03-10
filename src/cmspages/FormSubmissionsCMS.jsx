@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function FormSubmissionsPage() {
+export default function FormSubmissionsCMS() {
   return (
     <div>
       
