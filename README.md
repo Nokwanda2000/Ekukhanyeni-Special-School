@@ -40,7 +40,7 @@ We are committed to guide/help learners who are intellectually impaired to be so
 
 3. **Install Dependencies:**
    ```sh 
-   npm install
+    npm install
    ```
      
 4. **Run Development server:**
