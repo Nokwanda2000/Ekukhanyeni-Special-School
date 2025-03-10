@@ -14,12 +14,7 @@ import ProgrammesPage from './pages/ProgrammesPage';
 import Eventspage from './pages/Eventspage';
 import FormSubmissionsPage from './cmspages/FormSubmissionsPage';
 import UsersPage from './cmspages/UsersPage';
-import ClientNavbar from './components/ClientNavbar';
-import CMSnavbar from './components/CMSnavbar';
-import ClientFooter from './components/ClientFooter';
-import CMSfooter from './components/CMSfooter';
-import StrollToTop from './components/StrollToTop';
-import FacebookButton from './components/FacebookButton';
+
 
 
 
@@ -28,7 +23,7 @@ function App() {
   return (
     <>
      <BrowserRouter>
-     <ClientNavbar />
+     
       <Routes>
         <Route path="/" element={<Client />}>
         <Route path="/Homepage" element={<Homepage />} />
@@ -56,7 +51,7 @@ function App() {
         </Route>
       </Routes>
 
-      <ClientFooter />
+      
     </BrowserRouter>
      
 
