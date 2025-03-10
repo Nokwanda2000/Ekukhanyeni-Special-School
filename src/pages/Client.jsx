@@ -1,4 +1,5 @@
 import React from 'react'
+import ClientFooter from '../components/ClientFooter'
 import { Link, Outlet } from 'react-router-dom'
 
 export default function Client() {
@@ -29,7 +30,7 @@ export default function Client() {
       </nav>
 
       <Outlet />
-      
+    <ClientFooter />
     </div>
   )
 }
