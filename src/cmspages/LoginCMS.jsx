@@ -10,136 +10,135 @@ const SignIn = () => {
     position: 'relative',
   };
 
-  const backgroundStyles = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    height: '100%',
-    width: '50%',
-    overflow: 'hidden',
-  };
-
+  // Circle decoration styles
   const circleStyles = {
     position: 'absolute',
     borderRadius: '50%',
   };
 
-  const largeYellowCircle = {
-    backgroundColor: '#f59e0b', // yellow-500
-    height: '8rem',
-    width: '8rem',
-    top: '-2.5rem',
-    left: '-2.5rem',
-  };
-
-  const largeBlueCircle = {
-    backgroundColor: '#3b82f6', // blue-500
-    height: '8rem',
-    width: '8rem',
-    bottom: '0',
-    right: '2.5rem',
-    opacity: 0.25,
-  };
-
-  const mediumOrangeCircle = {
-    backgroundColor: '#fb923c', // orange-300
+  // Top right orange circle
+  const topOrangeCircle = {
+    backgroundColor: '#FFA500',
     height: '4rem',
     width: '4rem',
-    top: '2.5rem',
-    right: '2.5rem',
+    top: '5rem',
+    right: '25%',
   };
 
-  const smallBlueCircle = {
-    backgroundColor: '#93c5fd', // blue-200
-    height: '3rem',
-    width: '3rem',
-    bottom: '2.5rem',
-    left: '5rem',
-    opacity: 0.5,
+  // Bottom right orange circle (half visible)
+  const bottomOrangeCircle = {
+    backgroundColor: '#FFA500',
+    height: '6rem',
+    width: '6rem',
+    bottom: '-1rem',
+    right: '30%',
   };
 
-  const formWrapperStyles = {
-    backgroundColor: '#f3f4f6', // gray-100
-    borderRadius: '0.5rem', // rounded-lg
-    padding: '1.5rem',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // shadow-md
+  // Large yellow circle on left
+  const largeYellowCircle = {
+    backgroundColor: '#FFDD00',
+    height: '8rem',
+    width: '8rem',
+    top: '7rem',
+    left: '20%',
   };
 
+  // Blue striped circles
+  const stripedCircleLeft = {
+    height: '7rem',
+    width: '7rem',
+    bottom: '5rem',
+    left: '15%',
+    background: 'repeating-linear-gradient(45deg, #007BFF, #007BFF 10px, #f0f8ff 10px, #f0f8ff 20px)',
+    borderRadius: '50%',
+  };
+
+  const stripedCircleTop = {
+    height: '5rem',
+    width: '5rem',
+    top: '10%',
+    left: '25%',
+    background: 'repeating-linear-gradient(45deg, #007BFF, #007BFF 10px, #f0f8ff 10px, #f0f8ff 20px)',
+    borderRadius: '50%',
+  };
+
+  // Form container styles
   const formContainerStyles = {
-    backgroundColor: 'white',
-    padding: '2rem',
-    borderRadius: '0.5rem',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // shadow-lg
     width: '100%',
-    maxWidth: '28rem', // max-w-md equivalent
+    maxWidth: '28rem',
+    zIndex: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   };
 
+  // Title and subtitle styles
   const titleStyles = {
-    fontSize: '2.25rem', // text-4xl
-    fontWeight: '700', // font-bold
-    textAlign: 'center',
-    marginBottom: '1rem',
+    fontSize: '2rem',
+    fontWeight: '700',
+    marginBottom: '0.5rem',
+    color: '#000',
   };
 
   const subtitleStyles = {
-    fontSize: '1.125rem', // text-lg
-    color: '#4b5563', // gray-600
-    marginBottom: '2rem',
-    textAlign: 'center',
+    fontSize: '1.125rem',
+    color: '#8D8D00',
+    marginBottom: '1.5rem',
   };
 
+  // Logo styles
+  const logoStyles = {
+    width: '5rem',
+    height: 'auto',
+    marginBottom: '2rem',
+  };
+
+  // Input styles
   const inputStyles = {
     width: '100%',
-    padding: '0.5rem',
+    padding: '1rem',
     marginBottom: '1rem',
-    border: '1px solid #d1d5db', // border-gray-300
-    borderRadius: '0.375rem', // rounded
+    border: 'none',
+    borderRadius: '0.375rem',
+    backgroundColor: '#f0f0f0',
+    fontSize: '1rem',
   };
 
+  // Button styles
   const buttonStyles = {
     width: '100%',
-    backgroundColor: '#2563eb', // blue-500
+    backgroundColor: '#007BFF',
     color: 'white',
-    padding: '0.5rem',
-    borderRadius: '0.375rem', // rounded
+    padding: '1rem',
+    borderRadius: '0.375rem',
+    border: 'none',
     cursor: 'pointer',
-    transition: 'background-color 0.3s ease', // transition duration-300
-  };
-
-  const hoverStyles = {
-    backgroundColor: '#1d4ed8', // blue-700 on hover
+    fontSize: '1rem',
+    fontWeight: '600',
+    marginTop: '0.5rem',
   };
 
   return (
     <div style={containerStyles}>
-      {/* Background Circles */}
-      <div style={backgroundStyles}>
-        <div style={{ ...circleStyles, ...largeYellowCircle }}></div>
-        <div style={{ ...circleStyles, ...largeBlueCircle }}></div>
-        <div style={{ ...circleStyles, ...mediumOrangeCircle }}></div>
-        <div style={{ ...circleStyles, ...smallBlueCircle }}></div>
-      </div>
+      {/* Background Decorative Elements */}
+      <div style={{ ...circleStyles, ...topOrangeCircle }}></div>
+      <div style={{ ...circleStyles, ...bottomOrangeCircle }}></div>
+      <div style={{ ...circleStyles, ...largeYellowCircle }}></div>
+      <div style={stripedCircleLeft}></div>
+      <div style={stripedCircleTop}></div>
 
-      {/* Centered content */}
+      {/* Form Content */}
       <div style={formContainerStyles}>
         <h1 style={titleStyles}>Sign In</h1>
         <p style={subtitleStyles}>Welcome please sign in...</p>
 
         <img
-  src="../../src/assets/Ekukhanyeni Logo 2.jpg"
-  alt="Logo"
-  className="mb-6"
-  style={{
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    width: '150px', // Adjust the width as needed
-    height: 'auto', // Maintain the aspect ratio
-  }}
-/>
+          src="../../src/assets/Ekukhanyeni Logo 2.jpg"
+          alt="School Logo"
+          style={logoStyles}
+        />
 
-
-        <div style={formWrapperStyles}>
+        <div style={{ width: '100%' }}>
           <input
             type="email"
             placeholder="Email address"
@@ -150,11 +149,7 @@ const SignIn = () => {
             placeholder="Password"
             style={inputStyles}
           />
-          <button
-            style={buttonStyles}
-            onMouseEnter={(e) => e.target.style.backgroundColor = hoverStyles.backgroundColor}
-            onMouseLeave={(e) => e.target.style.backgroundColor = '#2563eb'} // revert to original
-          >
+          <button style={buttonStyles}>
             Sign in
           </button>
         </div>
