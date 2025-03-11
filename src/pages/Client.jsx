@@ -1,6 +1,7 @@
 import React from 'react'
 import ClientFooter from '../components/ClientFooter'
 import { Link, Outlet } from 'react-router-dom'
+import SponsorBanner from '../components/SponsorBanner'
 
 export default function Client() {
   return (
@@ -30,6 +31,7 @@ export default function Client() {
       </nav>
 
       <Outlet />
+      <SponsorBanner />
     <ClientFooter />
     </div>
   )
