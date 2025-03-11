@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Clock, Phone, User } from 'lucide-react';
+import { Link } from "react-router-dom"; 
 
 // Import images (ensure they are inside the 'src/assets' folder)
 import schoolLogo from '../../src/assets/Ekukhanyeni Logo 2.jpg';
@@ -13,27 +14,48 @@ const ClientFooter = () => {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
-          {/* Left Column - School Info */}
-          <div className="flex flex-col items-start space-y-6">
-            <div>
-              <img 
-                src={schoolLogo} 
-                alt="School Logo" 
-                className="h-40 w-40 object-contain"
-              />
-            </div>
-            <p className="text-lg text-gray-700 max-w-xs">
-              We are committed to guide/help learners who are intellectually impaired to be socially, economically and spiritually independent.
-            </p>
-            <a 
-              href="/staff-login" 
-              className="bg-blue-500 text-white px-10 py-20 rounded-lg text-xl font-medium flex items-center hover:bg-blue-600 transition"
-              aria-label="Staff Sign In"
-            >
-              <User size={28} className="mr-3" />
-              Staff Sign In
-            </a>
-          </div>
+          {/* Left Column - School Info with added left padding */}
+          <div className="flex flex-col items-center space-y-6 pl-4 ml-4">
+  <div>
+    <img 
+      src={schoolLogo} 
+      alt="School Logo" 
+      className="h-40 w-40 object-contain"
+    />
+  </div>
+  <p className="text-lg text-gray-700 max-w-xs">
+    We are committed to guide/help learners who are intellectually impaired to be socially, economically and spiritually independent.
+  </p>
+
+  <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: '1.5rem' }}>
+  <Link
+    to="/CMS"
+    style={{
+      backgroundColor: '#2563eb', // bg-blue-600 equivalent
+      color: 'white',
+      padding: '1rem', // px-8 py-4 equivalent
+      borderRadius: '0.5rem', // rounded-lg equivalent
+      fontSize: '1.125rem', // text-lg equivalent
+      fontWeight: 600, // font-semibold equivalent
+      display: 'flex',
+      marginRight: '3rem',
+      alignItems: 'center',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // shadow-md equivalent
+      transition: 'background-color 0.3s ease', // transition duration-300 equivalent
+    
+    }}
+    onMouseEnter={(e) => e.target.style.backgroundColor = '#1d4ed8'} // hover:bg-blue-700 equivalent
+    onMouseLeave={(e) => e.target.style.backgroundColor = '#2563eb'} // revert to original bg color
+    aria-label="Staff Sign In"
+  >
+    <User size={22} />
+    Staff Sign In
+  </Link>
+</div>
+
+
+</div>
+
 
           {/* Middle Column - Contact Info */}
           <div className="flex flex-col space-y-8">
@@ -56,21 +78,21 @@ const ClientFooter = () => {
                 <p className="text-gray-700 text-lg">Mon - Fri 7 AM - 3 PM</p>
               </div>
             </div>
+            <div className="flex items-start">
+  <div className="mr-4 text-blue-500">
+    <MapPin size={36} />
+  </div>
+  <div>
+    <h3 className="font-medium text-gray-900 text-xl">Address</h3>
+    <p className="text-gray-700 text-lg">
+      Mdoni Road,<br />
+      Edendale,<br />
+      Pietermaritzburg,<br />
+      KwaZulu Natal
+    </p>
+  </div>
+</div>
 
-            <div className="flex items-center">
-              <div className="mr-4 text-blue-500">
-                <MapPin size={36} />
-              </div>
-              <div>
-                <h3 className="font-medium text-gray-900 mb-2 text-xl">Address</h3>
-                <p className="text-gray-700 text-lg">
-                  Mdoni Road,<br />
-                  Edendale,<br />
-                  Pietermaritzburg,<br />
-                  KwaZulu Natal
-                </p>
-              </div>
-            </div>
           </div>
 
           {/* Right Column - Quick Links & Map */}
@@ -115,12 +137,13 @@ const ClientFooter = () => {
             </div>
           </div>
         </div>
+        <br />
 
-        {/* Partners/Sponsors Section with vertical divider */}
+        {/* Partners/Sponsors Section with vertical divider and left-side spacer */}
         <div className="mt-10 pt-6 border-t border-gray-200">
           <div className="flex">
-            {/* Vertical line divider with extra space above */}
-            <div className="w-1 border-l-2 border-gray-200 self-stretch mt-4"></div>
+            {/* Left spacer for extra left space */}
+            {/* <div className="w-6"></div> */}
             <div className="flex-1 flex flex-wrap justify-center items-center gap-12 pl-6">
               <img 
                 src={departmentLogo} 
