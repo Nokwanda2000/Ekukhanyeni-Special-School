@@ -3,6 +3,7 @@ import ClientFooter from '../components/ClientFooter'
 import { Link, Outlet } from 'react-router-dom'
 import StrollToTop from '../components/StrollToTop'
 
+
 export default function Client() {
   return (
     <div>
@@ -33,6 +34,7 @@ export default function Client() {
       <Outlet />
     <ClientFooter />
     <StrollToTop />
+    
     </div>
   )
 }

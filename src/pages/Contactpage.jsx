@@ -233,7 +233,7 @@ const ContactPage = () => {
       </div>
 
       <div style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 50 }}>
-        <button 
+        {/* <button 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           style={{
             backgroundColor: 'blue', 
@@ -255,7 +255,7 @@ const ContactPage = () => {
           <svg xmlns="http://www.w3.org/2000/svg" style={{ height: '1.5rem', width: '1.5rem' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
           </svg>
-        </button>
+        </button> */}
       </div>
     </div>
   );
