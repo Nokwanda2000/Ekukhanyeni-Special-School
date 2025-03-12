@@ -2,7 +2,7 @@
 // import { Search } from 'lucide-react';
 
 // const FormSubmissionsDashboard = () => {
-//   // Sample data - in a real app, this would come from an API
+  
 //   const [submissions, setSubmissions] = useState([
 //     { id: 1, name: "John Doe", email: "john@example.com", message: "I'd like to register for the upcoming event.", subject: "Event Registration" },
 //     { id: 2, name: "Jane Smith", email: "jane@example.com", message: "When does the summer program begin?", subject: "Summer Program" },

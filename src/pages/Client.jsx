@@ -3,6 +3,7 @@ import ClientFooter from '../components/ClientFooter'
 import { Link, Outlet } from 'react-router-dom'
 import StrollToTop from '../components/StrollToTop'
 // import FormSubmissionsDashboard from '../cmspages/FormSubmissionsCMS'
+import SponsorBanner from '../components/SponsorBanner'
 
 
 
