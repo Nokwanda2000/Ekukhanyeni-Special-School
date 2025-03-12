@@ -21,32 +21,29 @@ export default function ScrollToTop() {
   };
 
   return (
-    <div style={{ position: "fixed", bottom: "1.5rem", right: "1.5rem", zIndex: 50 }}>
+    <div className="fixed bottom-6 right-6 z-50">
       <button
         onClick={handleClick}
-        style={{
-          backgroundColor: "#ecc94b",
-          color: "white",
-          width: "3rem",
-          height: "3rem",
-          borderRadius: "9999px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-          transition: "background-color 200ms",
-          border: "none",
-          cursor: "pointer",
-        }}
-        onMouseOver={(e) => (e.target.style.backgroundColor = "#d69e2e")}
-        onMouseOut={(e) => (e.target.style.backgroundColor = "#ecc94b")}
+        className="bg-yellow-500 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transition-colors duration-200 hover:bg-yellow-600"
       >
         {isAtTop ? (
-          <svg xmlns="http://www.w3.org/2000/svg" style={{ height: "1.5rem", width: "1.5rem" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" style={{ height: "1.5rem", width: "1.5rem" }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
           </svg>
         )}
