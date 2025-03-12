@@ -16,6 +16,8 @@ import FormSubmissionsCMS from './cmspages/FormSubmissionsCMS';
 import UsersCMS from './cmspages/UsersCMS';
 import TimetablesCMS from './cmspages/TimetablesCMS';
 import Eventspage from './pages/Eventspage';
+import SponsorBanner from './components/SponsorBanner';
+import TimetableCMS from './cmspages/TimetablesCMS';
 
 
 
@@ -37,6 +39,9 @@ function App() {
          <Route path="/NoAuth" element={<NoAuth />} />
          <Route path='*' element={<NoPage />} />
          
+    
+       
+         
 
         
       
@@ -49,7 +54,7 @@ function App() {
           <Route path='EventsCMS' element={<EventsCMS />} />
           <Route path="FormSubmissionsCMS" element={<FormSubmissionsCMS />} />
           <Route path="UsersCMS" element={<UsersCMS />} />
-          <Route path='TimetablesCMS' element={<TimetablesCMS />} />
+          <Route path='TimetableCMS' element={<TimetableCMS />} />
           <Route path='*' element={<NoPage />} />
         </Route>
       </Routes>

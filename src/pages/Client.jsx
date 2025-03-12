@@ -5,6 +5,7 @@ import StrollToTop from '../components/StrollToTop'
 // import FormSubmissionsDashboard from '../cmspages/FormSubmissionsCMS'
 
 
+
 export default function Client() {
   return (
     <div>
@@ -34,6 +35,7 @@ export default function Client() {
       {/* <FormSubmissionsDashboard/> */}
 
       <Outlet />
+      <SponsorBanner />
     <ClientFooter />
     <StrollToTop />
     

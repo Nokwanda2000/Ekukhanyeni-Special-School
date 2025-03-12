@@ -31,7 +31,7 @@ We are committed to guide/help learners who are intellectually impaired to be so
   ### Steps
 1. **Clone the repository:**
    ```sh
-   git clone  https://github.com/Nokwanda2000/Ekukhanyeni-npo.git
+   git clone  https://github.com/Nokwanda2000/Ekukhanyeni-Special-School.git
 
 2. **Enter directory:**
    ```sh
