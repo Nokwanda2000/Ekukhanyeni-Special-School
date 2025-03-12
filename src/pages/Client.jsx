@@ -2,6 +2,7 @@ import React from 'react'
 import ClientFooter from '../components/ClientFooter'
 import { Link, Outlet } from 'react-router-dom'
 import StrollToTop from '../components/StrollToTop'
+// import FormSubmissionsDashboard from '../cmspages/FormSubmissionsCMS'
 
 
 export default function Client() {
@@ -30,10 +31,12 @@ export default function Client() {
   
         </ul>
       </nav>
+      {/* <FormSubmissionsDashboard/> */}
 
       <Outlet />
     <ClientFooter />
     <StrollToTop />
+    
     
     </div>
   )
