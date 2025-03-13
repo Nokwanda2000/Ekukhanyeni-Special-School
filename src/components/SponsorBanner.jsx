@@ -1,14 +1,50 @@
 import React, { useState, useEffect } from 'react';
+import { db } from '../utills/FirebaseConfig'; // Assuming firebase.js is in the same folder
+import { addDoc, collection } from 'firebase/firestore';
 import HandshakeIcon from '../assets/handshake.png';
 
+// SponsorBanner component
 const SponsorBanner = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
+  // Handle screen resize
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Handle form input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  // Handle form submission to Firebase
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      // Add form data to Firestore
+      await addDoc(collection(db, 'sponsors'), formData);
+      setFormData({ name: '', email: '', phone: '' }); // Clear form after successful submission
+      alert('Thank you for becoming a sponsor!');
+    } catch (err) {
+      setError('Error submitting your form. Please try again.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const containerStyle = {
     display: 'flex',
@@ -85,7 +121,7 @@ const SponsorBanner = () => {
   };
 
   const buttonStyle = {
-    width: '100%',
+    width: '100%', // Make button match the width of input
     padding: '0.5rem',
     backgroundColor: '#3B82F6',
     color: 'white',
@@ -115,19 +151,48 @@ const SponsorBanner = () => {
 
           {/* Form elements */}
           <div style={formStyle}>
-            <div style={gridStyle}>
-              <input type="text" placeholder="Name" style={inputStyle} />
-              <input type="email" placeholder="Email" style={inputStyle} />
-              <input type="tel" placeholder="Phone Number" style={inputStyle} />
-              <button
-                type="submit"
-                style={buttonStyle}
-                onMouseOver={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
-                onMouseOut={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
-              >
-                Submit
-              </button>
-            </div>
+            <form onSubmit={handleSubmit}>
+              <div style={gridStyle}>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  placeholder="Name"
+                  style={inputStyle}
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="Email"
+                  style={inputStyle}
+                  required
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  placeholder="Phone Number"
+                  style={inputStyle}
+                  required
+                />
+                <button
+                  type="submit"
+                  style={buttonStyle}
+                  onMouseOver={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
+                  onMouseOut={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
+                  disabled={loading}
+                >
+                  {loading ? 'Submitting...' : 'Submit'}
+                </button>
+              </div>
+
+              {error && <p className="text-red-500">{error}</p>}
+            </form>
           </div>
         </div>
       </div>
