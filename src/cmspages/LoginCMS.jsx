@@ -8,6 +8,8 @@ const SignIn = () => {
     minHeight: '100vh',
     backgroundColor: 'white',
     position: 'relative',
+    backgroundImage: "url('../../src/assets/signin bg.png')", // Change to your actual image path
+    backgroundSize: 'cover',
   };
 
   // Circle decoration styles
@@ -70,11 +72,17 @@ const SignIn = () => {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    padding: '2rem', // Add padding for better spacing
+    borderRadius: '10px', // Optional: Rounded corners
+  
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
   };
+  
 
   // Title and subtitle styles
   const titleStyles = {
-    fontSize: '2rem',
+    fontSize: '2.5rem',
     fontWeight: '700',
     marginBottom: '0.5rem',
     color: '#000',
@@ -88,7 +96,7 @@ const SignIn = () => {
 
   // Logo styles
   const logoStyles = {
-    width: '5rem',
+    width: '10rem',
     height: 'auto',
     marginBottom: '2rem',
   };
@@ -121,23 +129,18 @@ const SignIn = () => {
   return (
     <div style={containerStyles}>
       {/* Background Decorative Elements */}
-      <div style={{ ...circleStyles, ...topOrangeCircle }}></div>
-      <div style={{ ...circleStyles, ...bottomOrangeCircle }}></div>
-      <div style={{ ...circleStyles, ...largeYellowCircle }}></div>
-      <div style={stripedCircleLeft}></div>
-      <div style={stripedCircleTop}></div>
+     
 
       {/* Form Content */}
       <div style={formContainerStyles}>
-        <h1 style={titleStyles}>Sign In</h1>
-        <p style={subtitleStyles}>Welcome please sign in...</p>
-
-        <img
+      <img
           src="../../src/assets/Ekukhanyeni Logo 2.jpg"
           alt="School Logo"
           style={logoStyles}
         />
 
+        <h1 style={titleStyles}>Sign In</h1>
+        <p style={subtitleStyles}>Welcome please sign in...</p>
         <div style={{ width: '100%' }}>
           <input
             type="email"

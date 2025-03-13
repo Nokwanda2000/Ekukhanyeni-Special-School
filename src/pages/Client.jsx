@@ -85,6 +85,8 @@ export default function Client() {
           </ul>
         </div>
       </nav>
+     
+      
 
       {/* Main Content */}
       <main className="flex-grow">
@@ -93,8 +95,8 @@ export default function Client() {
       
       {/* Footer Components */}
       <SponsorBanner />
-      <ClientFooter />
-      <StrollToTop />
+    <ClientFooter />
+    <StrollToTop />
     </div>
   );
 }
