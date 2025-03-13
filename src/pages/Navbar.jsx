@@ -1,16 +1,13 @@
 import React from 'react';
-import ClientFooter from '../components/ClientFooter';
-import { Link, Outlet } from 'react-router-dom';
-import StrollToTop from '../components/StrollToTop';
-import SponsorBanner from '../components/SponsorBanner';
+import { Link } from 'react-router-dom';
 import { MapPin, Phone, Clock } from 'lucide-react';
 
-// Import your logo image - update the path as needed
-import logo from '../assets/logo.png'; 
+// Import your logo image
+import logo from '../assets/logo.png'; // Update the path as needed
 
-export default function Client() {
+const Navbar = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="w-full">
       {/* Info Bar */}
       <div className="bg-gray-100 w-full py-2">
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
@@ -61,42 +58,20 @@ export default function Client() {
       </div>
       
       {/* Navigation Menu */}
-      <nav className="bg-white w-full shadow-md">
-        <div className="container mx-auto flex justify-center md:justify-start">
-          <ul className="flex flex-wrap justify-center">
-            <li>
-              <Link to="/" className="inline-block px-4 py-4 hover:underline font-medium">Home</Link>
-            </li>
-            <li>
-              <Link to="/Eventspage" className="inline-block px-4 py-4 hover:underline font-medium">Events</Link>
-            </li>
-            <li>
-              <Link to="/TimetablesPage" className="inline-block px-4 py-4 hover:underline font-medium">Timetables</Link>
-            </li>
-            <li>
-              <Link to="/AboutUspage" className="inline-block px-4 py-4 hover:underline font-medium">About Us</Link>
-            </li>
-            <li>
-              <Link to="/ProgrammesPage" className="inline-block px-4 py-4 hover:underline font-medium">Our Programmes</Link>
-            </li>
-            <li>
-              <Link to="/Contactpage" className="inline-block px-4 py-4 hover:underline font-medium">Contact Us</Link>
-            </li>
-          </ul>
+      <div className="bg-white w-full shadow-md">
+        <div className="container mx-auto flex justify-center md:justify-start items-center">
+          <nav className="flex flex-wrap justify-center">
+            <Link to="/" className="px-4 py-4 hover:underline font-medium">Home</Link>
+            <Link to="/Eventspage" className="px-4 py-4 hover:underline font-medium">Events</Link>
+            <Link to="/TimetablesPage" className="px-4 py-4 hover:underline font-medium">Timetables</Link>
+            <Link to="/AboutUspage" className="px-4 py-4 hover:underline font-medium">About Us</Link>
+            <Link to="/ProgrammesPage" className="px-4 py-4 hover:underline font-medium">Our Programmes</Link>
+            <Link to="/Contactpage" className="px-4 py-4 hover:underline font-medium">Contact Us</Link>
+          </nav>
         </div>
-      </nav>
-     
-      
-
-      {/* Main Content */}
-      <main className="flex-grow">
-        <Outlet />
-      </main>
-      
-      {/* Footer Components */}
-      <SponsorBanner />
-    <ClientFooter />
-    <StrollToTop />
+      </div>
     </div>
   );
-}
+};
+
+export default Navbar;
