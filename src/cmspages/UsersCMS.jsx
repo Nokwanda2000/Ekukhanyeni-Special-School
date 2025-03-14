@@ -3,7 +3,7 @@ import React from 'react'
 export default function UsersCMS() {
   return (
     <div>
-          <h1>Users CMS</h1>
+          <h1>HELLO USER</h1>
     </div>
   )
 }

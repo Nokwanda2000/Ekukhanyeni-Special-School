@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Phone } from 'lucide-react';
 import { db } from '../utills/FirebaseConfig'; // Import Firestore
-import { collection, addDoc } from 'firebase/firestore'; // Import Firestore functions
-
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 const ContactPage = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -34,19 +33,25 @@ const ContactPage = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // Add a new document with a generated ID
-      await addDoc(collection(db, 'contacts'), formData);
-      alert('Form submitted successfully!');
-      setFormData({ name: '', email: '', phone: '', message: '' });
-    } catch (error) {
-      console.error('Error adding document: ', error);
-      alert('Error submitting form. Please try again.');
-    }
-  };
+  
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    // Add a timestamp to the form data
+    const dataWithTimestamp = {
+      ...formData,
+      timestamp: serverTimestamp()  // Correctly using serverTimestamp()
+    };
 
+    // Add a new document with a generated ID
+    await addDoc(collection(db, 'contacts'), dataWithTimestamp);
+    alert('Form submitted successfully!');
+    setFormData({ name: '', email: '', phone: '', message: '' });
+  } catch (error) {
+    console.error('Error adding document: ', error);
+    alert('Error submitting form. Please try again.');
+  }
+};
   return (
     <div style={{ fontFamily: 'sans-serif', color: '#2d3748', overflowX: 'hidden', backgroundColor: '#F2F7FD' }}>
       <div style={{ 
@@ -230,32 +235,6 @@ const ContactPage = () => {
             </div>
           </div>
         </div>
-      </div>
-
-      <div style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 50 }}>
-        {/* <button 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          style={{
-            backgroundColor: 'blue', 
-            color: 'white', 
-            width: '3rem', 
-            height: '3rem', 
-            borderRadius: '9999px', 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-            transition: 'background-color 200ms',
-            border: 'none',
-            cursor: 'pointer'
-          }}
-          onMouseOver={(e) => e.target.style.backgroundColor = '#d69e2e'}
-          onMouseOut={(e) => e.target.style.backgroundColor = '#ecc94b'}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" style={{ height: '1.5rem', width: '1.5rem' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-          </svg>
-        </button> */}
       </div>
     </div>
   );
