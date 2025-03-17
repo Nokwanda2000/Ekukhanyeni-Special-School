@@ -1,6 +1,74 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCfQfe_LO3LiCr9UiLhuAwaAB16K2HToxI",
+  authDomain: "ekukhanyeni-73230.firebaseapp.com",
+  projectId: "ekukhanyeni-73230",
+  storageBucket: "ekukhanyeni-73230.firebasestorage.app",
+  messagingSenderId: "94881707429",
+  appId: "1:94881707429:web:4f5a4160d3515676b8e44c",
+  measurementId: "G-J4WBLBPNMF"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
 const SignIn = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  // Check if user is already authenticated
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is already signed in, redirect to dashboard
+        navigate('/UsersCMS');
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      // Sign in with Firebase authentication
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log('User signed in successfully:', userCredential.user);
+      
+      // Redirect to dashboard after successful login
+      navigate('/UsersCMS');
+    } catch (error) {
+      console.error('Error signing in:', error);
+      
+      // Handle specific error codes
+      if (error.code === 'auth/invalid-credential' || 
+          error.code === 'auth/user-not-found' || 
+          error.code === 'auth/wrong-password') {
+        setError('Invalid email or password. Please try again.');
+      } else if (error.code === 'auth/too-many-requests') {
+        setError('Too many failed login attempts. Please try again later.');
+      } else {
+        setError('Failed to sign in. Please try again.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const containerStyles = {
     display: 'flex',
     alignItems: 'center',
@@ -10,58 +78,6 @@ const SignIn = () => {
     position: 'relative',
     backgroundImage: "url('../../src/assets/signin bg.png')", // Change to your actual image path
     backgroundSize: 'cover',
-  };
-
-  // Circle decoration styles
-  const circleStyles = {
-    position: 'absolute',
-    borderRadius: '50%',
-  };
-
-  // Top right orange circle
-  const topOrangeCircle = {
-    backgroundColor: '#FFA500',
-    height: '4rem',
-    width: '4rem',
-    top: '5rem',
-    right: '25%',
-  };
-
-  // Bottom right orange circle (half visible)
-  const bottomOrangeCircle = {
-    backgroundColor: '#FFA500',
-    height: '6rem',
-    width: '6rem',
-    bottom: '-1rem',
-    right: '30%',
-  };
-
-  // Large yellow circle on left
-  const largeYellowCircle = {
-    backgroundColor: '#FFDD00',
-    height: '8rem',
-    width: '8rem',
-    top: '7rem',
-    left: '20%',
-  };
-
-  // Blue striped circles
-  const stripedCircleLeft = {
-    height: '7rem',
-    width: '7rem',
-    bottom: '5rem',
-    left: '15%',
-    background: 'repeating-linear-gradient(45deg, #007BFF, #007BFF 10px, #f0f8ff 10px, #f0f8ff 20px)',
-    borderRadius: '50%',
-  };
-
-  const stripedCircleTop = {
-    height: '5rem',
-    width: '5rem',
-    top: '10%',
-    left: '25%',
-    background: 'repeating-linear-gradient(45deg, #007BFF, #007BFF 10px, #f0f8ff 10px, #f0f8ff 20px)',
-    borderRadius: '50%',
   };
 
   // Form container styles
@@ -74,11 +90,9 @@ const SignIn = () => {
     alignItems: 'center',
     padding: '2rem', // Add padding for better spacing
     borderRadius: '10px', // Optional: Rounded corners
-  
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
   };
-  
 
   // Title and subtitle styles
   const titleStyles = {
@@ -120,20 +134,25 @@ const SignIn = () => {
     padding: '1rem',
     borderRadius: '0.375rem',
     border: 'none',
-    cursor: 'pointer',
+    cursor: loading ? 'not-allowed' : 'pointer',
     fontSize: '1rem',
     fontWeight: '600',
     marginTop: '0.5rem',
+    opacity: loading ? 0.7 : 1,
+  };
+
+  // Error message styles
+  const errorStyles = {
+    color: 'red',
+    textAlign: 'center',
+    marginBottom: '1rem',
+    width: '100%',
   };
 
   return (
     <div style={containerStyles}>
-      {/* Background Decorative Elements */}
-     
-
-      {/* Form Content */}
       <div style={formContainerStyles}>
-      <img
+        <img
           src="../../src/assets/Ekukhanyeni Logo 2.jpg"
           alt="School Logo"
           style={logoStyles}
@@ -141,21 +160,34 @@ const SignIn = () => {
 
         <h1 style={titleStyles}>Sign In</h1>
         <p style={subtitleStyles}>Welcome please sign in...</p>
-        <div style={{ width: '100%' }}>
+        
+        {error && <p style={errorStyles}>{error}</p>}
+        
+        <form onSubmit={handleSignIn} style={{ width: '100%' }}>
           <input
             type="email"
             placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             style={inputStyles}
+            required
           />
           <input
             type="password"
             placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             style={inputStyles}
+            required
           />
-          <button style={buttonStyles}>
-            Sign in
+          <button 
+            type="submit" 
+            style={buttonStyles}
+            disabled={loading}
+          >
+            {loading ? 'Signing in...' : 'Sign in'}
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );
