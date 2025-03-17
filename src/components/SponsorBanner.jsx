@@ -57,8 +57,8 @@ const SponsorBanner = () => {
   const bannerStyle = {
     display: 'flex',
     width: '100%',
-    maxWidth: '1000px',
-    borderRadius: '2rem',
+    // maxWidth: '1000px',
+    // borderRadius: '2rem',
     overflow: 'hidden',
     background: 'linear-gradient(to right, #FBBF24, #10B981, #3B82F6)',
     padding: '1rem',

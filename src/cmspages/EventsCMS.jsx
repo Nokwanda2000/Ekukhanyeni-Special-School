@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from "react";
 
 const EventsManagementPage = () => {
   const [events, setEvents] = useState([]);
@@ -13,6 +13,8 @@ const EventsManagementPage = () => {
     picture: null,
   });
 
+
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
