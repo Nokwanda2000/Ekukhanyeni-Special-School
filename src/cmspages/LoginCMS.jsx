@@ -1,43 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCfQfe_LO3LiCr9UiLhuAwaAB16K2HToxI",
-  authDomain: "ekukhanyeni-73230.firebaseapp.com",
-  projectId: "ekukhanyeni-73230",
-  storageBucket: "ekukhanyeni-73230.firebasestorage.app",
-  messagingSenderId: "94881707429",
-  appId: "1:94881707429:web:4f5a4160d3515676b8e44c",
-  measurementId: "G-J4WBLBPNMF"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-
-const SignIn = () => {
+const LoginCMS = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const auth = getAuth();
 
   // Check if user is already authenticated
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is already signed in, redirect to dashboard
-        navigate('/UsersCMS');
-      }
-    });
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       // User is already signed in, redirect to UsersCMS
+  //       navigate('/UsersCMS');
+  //     }
+  //   });
 
-    return () => unsubscribe();
-  }, [navigate]);
+  //   return () => unsubscribe();
+  // }, [navigate, auth]);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -49,8 +32,8 @@ const SignIn = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log('User signed in successfully:', userCredential.user);
       
-      // Redirect to dashboard after successful login
-      navigate('/UsersCMS');
+      // Redirect to UsersCMS after successful login
+      navigate('/CMS/UsersCMS');
     } catch (error) {
       console.error('Error signing in:', error);
       
@@ -76,11 +59,10 @@ const SignIn = () => {
     minHeight: '100vh',
     backgroundColor: 'white',
     position: 'relative',
-    backgroundImage: "url('../../src/assets/signin bg.png')", // Change to your actual image path
+    backgroundImage: "url('../../src/assets/signin bg.png')",
     backgroundSize: 'cover',
   };
 
-  // Form container styles
   const formContainerStyles = {
     width: '100%',
     maxWidth: '28rem',
@@ -88,13 +70,12 @@ const SignIn = () => {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '2rem', // Add padding for better spacing
-    borderRadius: '10px', // Optional: Rounded corners
+    padding: '2rem',
+    borderRadius: '10px',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
   };
 
-  // Title and subtitle styles
   const titleStyles = {
     fontSize: '2.5rem',
     fontWeight: '700',
@@ -108,14 +89,12 @@ const SignIn = () => {
     marginBottom: '1.5rem',
   };
 
-  // Logo styles
   const logoStyles = {
     width: '10rem',
     height: 'auto',
     marginBottom: '2rem',
   };
 
-  // Input styles
   const inputStyles = {
     width: '100%',
     padding: '1rem',
@@ -126,7 +105,6 @@ const SignIn = () => {
     fontSize: '1rem',
   };
 
-  // Button styles
   const buttonStyles = {
     width: '100%',
     backgroundColor: '#007BFF',
@@ -141,7 +119,6 @@ const SignIn = () => {
     opacity: loading ? 0.7 : 1,
   };
 
-  // Error message styles
   const errorStyles = {
     color: 'red',
     textAlign: 'center',
@@ -158,7 +135,7 @@ const SignIn = () => {
           style={logoStyles}
         />
 
-        <h1 style={titleStyles}>Sign In</h1>
+        <h1 style={titleStyles}> Sign In</h1>
         <p style={subtitleStyles}>Welcome please sign in...</p>
         
         {error && <p style={errorStyles}>{error}</p>}
@@ -193,4 +170,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default LoginCMS;

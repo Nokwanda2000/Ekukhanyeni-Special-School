@@ -1,16 +1,37 @@
-import React, { useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, Outlet, useLocation, Navigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import Logo from '../assets/Ekukhanyeni Special School trpnt logo.png';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function CMS() {
   const location = useLocation();
-  const hideNav = location.pathname === "/";
+  const isLoginPage = location.pathname === "/CMS";
   const [isOpen, setIsOpen] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
+  if (loading) {
+    return <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>Loading...</div>;
+  }
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#f8f9fa", color: "#000" }}>
-      {!hideNav && (
+      {!isLoginPage && isAuthenticated && (
         <>
           {/* Sidebar */}
           <div
@@ -90,10 +111,10 @@ export default function CMS() {
           flex: 1,
           padding: "20px",
           transition: "margin-left 0.3s ease-in-out",
-          marginLeft: hideNav ? "0" : isOpen ? "260px" : "0",
+          marginLeft: isLoginPage || !isAuthenticated ? "0" : isOpen ? "260px" : "0",
         }}
       >
-        <Outlet />
+        {isLoginPage || isAuthenticated ? <Outlet /> : <Navigate to="/CMS" replace />}
       </div>
     </div>
   );
