@@ -428,64 +428,6 @@ const EditUserModal = ({ isOpen, onClose, user, onUpdateUser }) => {
   );
 };
 
-// UserCard component for mobile view
-const UserCard = ({ user, onEdit, onDelete }) => {
-  return (
-    <div style={{
-      padding: '15px',
-      borderRadius: '8px',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-      marginBottom: '15px',
-      backgroundColor: 'white'
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-        <div style={{ 
-          width: '30px', 
-          height: '30px', 
-          borderRadius: '50%', 
-          backgroundColor: user.color,
-          marginRight: '10px',
-          flexShrink: 0
-        }}></div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 'bold' }}>{user.name}</div>
-          <div style={{ fontSize: '14px', color: '#666' }}>{user.email}</div>
-        </div>
-      </div>
-      
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-        <button
-          onClick={() => onEdit(user)}
-          style={{
-            backgroundColor: '#FFD700',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '8px 0',
-            cursor: 'pointer',
-            width: '48%'
-          }}
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => onDelete(user.id, user.docId)}
-          style={{
-            backgroundColor: '#FF4E64',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            padding: '8px 0',
-            cursor: 'pointer',
-            width: '48%'
-          }}
-        >
-          Delete
-        </button>
-      </div>
-    </div>
-  );
-};
-
 // Main UsersCMS component
 const UsersCMS = () => {
   const [users, setUsers] = useState([]);
@@ -496,22 +438,7 @@ const UsersCMS = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
   const usersPerPage = 5;
-  
-  // Check if viewport is mobile
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    checkIfMobile();
-    window.addEventListener('resize', checkIfMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkIfMobile);
-    };
-  }, []);
   
   // Fetch users from Firestore on component mount
   useEffect(() => {
@@ -604,7 +531,7 @@ const UsersCMS = () => {
       padding: '20px'
     }}>
       <h1 style={{ 
-        fontSize: '24px',
+        fontSize: '20px',
         marginBottom: '20px',
         fontWeight: 'bold'
       }}>Users</h1>
@@ -623,11 +550,9 @@ const UsersCMS = () => {
       
       <div style={{
         display: 'flex',
-        flexDirection: isMobile ? 'column' : 'row',
         justifyContent: 'space-between',
-        alignItems: isMobile ? 'flex-start' : 'center',
-        marginBottom: '20px',
-        gap: '15px'
+        alignItems: 'center',
+        marginBottom: '20px'
       }}>
         <input
           type="text"
@@ -636,25 +561,23 @@ const UsersCMS = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{
             padding: '10px',
-            width: isMobile ? '100%' : '300px',
+            width: '300px',
             borderRadius: '5px',
             border: '1px solid #ddd',
             fontSize: '14px'
           }}
         />
         
-        {!isMobile && (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{ 
-              width: '40px', 
-              height: '40px', 
-              borderRadius: '50%', 
-              backgroundColor: '#eee',
-              marginRight: '10px'
-            }}></div>
-            <span style={{ fontWeight: 'normal' }}>Admin</span>
-          </div>
-        )}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ 
+            width: '40px', 
+            height: '40px', 
+            borderRadius: '50%', 
+            backgroundColor: '#eee',
+            marginRight: '10px'
+          }}></div>
+          <span style={{ fontWeight: 'normal' }}>Admin</span>
+        </div>
       </div>
       
       <button
@@ -664,11 +587,10 @@ const UsersCMS = () => {
           color: 'white',
           border: 'none',
           borderRadius: '5px',
-          padding: '10px 15px',
+          padding: '8px 12px',
           cursor: 'pointer',
           fontSize: '14px',
-          marginBottom: '20px',
-          width: isMobile ? '100%' : 'auto'
+          marginBottom: '20px'
         }}
       >
         + Add user
@@ -680,20 +602,7 @@ const UsersCMS = () => {
         <div style={{ textAlign: 'center', padding: '20px' }}>
           {searchTerm ? 'No users match your search.' : 'No users found. Add your first user!'}
         </div>
-      ) : isMobile ? (
-        // Mobile view - Card layout
-        <div>
-          {currentUsers.map((user) => (
-            <UserCard 
-              key={user.id} 
-              user={user} 
-              onEdit={handleEdit} 
-              onDelete={handleDelete}
-            />
-          ))}
-        </div>
       ) : (
-        // Desktop view - Table layout
         <div style={{ overflowX: 'auto' }}>
           <table style={{ 
             width: '100%', 
@@ -703,6 +612,7 @@ const UsersCMS = () => {
             <thead>
               <tr style={{ borderBottom: '1px solid #eee' }}>
                 <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>User Name</th>
+                {/* <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>User ID</th> */}
                 <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Email</th>
                 <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Actions</th>
               </tr>
@@ -720,6 +630,7 @@ const UsersCMS = () => {
                     }}></div>
                     {user.name}
                   </td>
+                  {/* <td style={{ padding: '15px' }}>{user.id}</td> */}
                   <td style={{ padding: '15px' }}>{user.email}</td>
                   <td style={{ padding: '15px' }}>
                     <button
