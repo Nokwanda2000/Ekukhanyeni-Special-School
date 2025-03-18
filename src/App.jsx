@@ -12,7 +12,7 @@ import AboutUspage from './pages/AboutUspage';
 import Contactpage from './pages/Contactpage';
 import TimetablesPage from './pages/TimetablesPage';
 import ProgrammesPage from './pages/ProgrammesPage';
-import EventsCMS from './cmspages/Eventscms';
+import EventsCMS from './cmspages/EventsCMS';
 import UsersCMS from './cmspages/UsersCMS';
 import TimetablesCMS from './cmspages/TimetablesCMS';
 import Eventspage from './pages/Eventspage';
