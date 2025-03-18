@@ -81,7 +81,7 @@ export default function CMS() {
               <SideNavLink to="/CMS/UsersCMS">Users</SideNavLink>
               <SideNavLink to="/CMS/EventsCMS">Events</SideNavLink>
               <SideNavLink to="/CMS/TimetablesCMS">Timetable</SideNavLink>
-              <SideNavLink to="/CMS/FormSubmissionsCMS">Contact Us</SideNavLink>
+              <SideNavLink to="/CMS/FormSubmissionsCMS">Form Submissions</SideNavLink>
             </nav>
           </div>
 
