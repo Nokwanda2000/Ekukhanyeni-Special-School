@@ -137,7 +137,9 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
         padding: '20px',
         borderRadius: '8px',
         width: '90%',
-        maxWidth: '400px'
+        maxWidth: '400px',
+        maxHeight: '90vh',
+        overflowY: 'auto'
       }}>
         <h2 style={{ marginBottom: '20px' }}>Add New User</h2>
         <form onSubmit={handleSubmit}>
@@ -155,7 +157,8 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
                 width: '100%',
                 padding: '10px',
                 borderRadius: '5px',
-                border: '1px solid #ddd'
+                border: '1px solid #ddd',
+                boxSizing: 'border-box'
               }}
             />
             {errors.name && (
@@ -173,7 +176,8 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
                 width: '100%',
                 padding: '10px',
                 borderRadius: '5px',
-                border: '1px solid #ddd'
+                border: '1px solid #ddd',
+                boxSizing: 'border-box'
               }}
             />
             {errors.email && (
@@ -191,7 +195,8 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
                 width: '100%',
                 padding: '10px',
                 borderRadius: '5px',
-                border: '1px solid #ddd'
+                border: '1px solid #ddd',
+                boxSizing: 'border-box'
               }}
             />
             {errors.password && (
@@ -209,7 +214,8 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
                 width: '100%',
                 padding: '10px',
                 borderRadius: '5px',
-                border: '1px solid #ddd'
+                border: '1px solid #ddd',
+                boxSizing: 'border-box'
               }}
             />
             {errors.confirmPassword && (
@@ -349,7 +355,9 @@ const EditUserModal = ({ isOpen, onClose, user, onUpdateUser }) => {
         padding: '20px',
         borderRadius: '8px',
         width: '90%',
-        maxWidth: '400px'
+        maxWidth: '400px',
+        maxHeight: '90vh',
+        overflowY: 'auto'
       }}>
         <h2 style={{ marginBottom: '20px' }}>Edit User</h2>
         <form onSubmit={handleSubmit}>
@@ -367,7 +375,8 @@ const EditUserModal = ({ isOpen, onClose, user, onUpdateUser }) => {
                 width: '100%',
                 padding: '10px',
                 borderRadius: '5px',
-                border: '1px solid #ddd'
+                border: '1px solid #ddd',
+                boxSizing: 'border-box'
               }}
             />
             {errors.name && (
@@ -385,7 +394,8 @@ const EditUserModal = ({ isOpen, onClose, user, onUpdateUser }) => {
                 width: '100%',
                 padding: '10px',
                 borderRadius: '5px',
-                border: '1px solid #ddd'
+                border: '1px solid #ddd',
+                boxSizing: 'border-box'
               }}
             />
             {errors.email && (
@@ -438,7 +448,20 @@ const UsersCMS = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   const usersPerPage = 5;
+  
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+  }, []);
   
   // Fetch users from Firestore on component mount
   useEffect(() => {
@@ -492,17 +515,19 @@ const UsersCMS = () => {
   };
   
   const handleDelete = async (userId, docId) => {
-    try {
-      // Delete user document from Firestore
-      await deleteDoc(doc(db, "users", docId));
-      
-      // Update state to remove the user
-      const updatedUsers = users.filter(user => user.id !== userId);
-      setUsers(updatedUsers);
-      console.log(`Deleted user with ID: ${userId}`);
-    } catch (error) {
-      console.error('Error deleting user:', error);
-      setError('Failed to delete user. Please try again.');
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        // Delete user document from Firestore
+        await deleteDoc(doc(db, "users", docId));
+        
+        // Update state to remove the user
+        const updatedUsers = users.filter(user => user.id !== userId);
+        setUsers(updatedUsers);
+        console.log(`Deleted user with ID: ${userId}`);
+      } catch (error) {
+        console.error('Error deleting user:', error);
+        setError('Failed to delete user. Please try again.');
+      }
     }
   };
   
@@ -522,13 +547,16 @@ const UsersCMS = () => {
     setUsers(updatedUsers);
     console.log('User updated:', updatedUser);
   };
+
+  // Check if mobile view
+  const isMobile = windowWidth < 768;
   
   return (
     <div style={{ 
       fontFamily: 'Arial, sans-serif',
       maxWidth: '100%',
       margin: '0 auto',
-      padding: '20px'
+      padding: isMobile ? '10px' : '20px'
     }}>
       <h1 style={{ 
         fontSize: '20px',
@@ -550,9 +578,11 @@ const UsersCMS = () => {
       
       <div style={{
         display: 'flex',
+        flexDirection: isMobile ? 'column' : 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '20px'
+        alignItems: isMobile ? 'flex-start' : 'center',
+        marginBottom: '20px',
+        gap: isMobile ? '15px' : '0'
       }}>
         <input
           type="text"
@@ -561,10 +591,11 @@ const UsersCMS = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{
             padding: '10px',
-            width: '300px',
+            width: isMobile ? '100%' : '300px',
             borderRadius: '5px',
             border: '1px solid #ddd',
-            fontSize: '14px'
+            fontSize: '14px',
+            boxSizing: 'border-box'
           }}
         />
         
@@ -590,7 +621,8 @@ const UsersCMS = () => {
           padding: '8px 12px',
           cursor: 'pointer',
           fontSize: '14px',
-          marginBottom: '20px'
+          marginBottom: '20px',
+          width: isMobile ? '100%' : 'auto'
         }}
       >
         + Add user
@@ -604,23 +636,20 @@ const UsersCMS = () => {
         </div>
       ) : (
         <div style={{ overflowX: 'auto' }}>
-          <table style={{ 
-            width: '100%', 
-            borderCollapse: 'collapse',
-            marginTop: '10px'
-          }}>
-            <thead>
-              <tr style={{ borderBottom: '1px solid #eee' }}>
-                <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>User Name</th>
-                {/* <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>User ID</th> */}
-                <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Email</th>
-                <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
+          {isMobile ? (
+            // Mobile card view
+            <div style={{ width: '100%' }}>
               {currentUsers.map((user) => (
-                <tr key={user.id} style={{ borderBottom: '1px solid #eee' }}>
-                  <td style={{ padding: '15px', display: 'flex', alignItems: 'center' }}>
+                <div 
+                  key={user.id} 
+                  style={{ 
+                    border: '1px solid #eee', 
+                    borderRadius: '8px',
+                    padding: '15px',
+                    marginBottom: '15px'
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                     <div style={{ 
                       width: '30px', 
                       height: '30px', 
@@ -628,20 +657,25 @@ const UsersCMS = () => {
                       backgroundColor: user.color,
                       marginRight: '10px'
                     }}></div>
-                    {user.name}
-                  </td>
-                  {/* <td style={{ padding: '15px' }}>{user.id}</td> */}
-                  <td style={{ padding: '15px' }}>{user.email}</td>
-                  <td style={{ padding: '15px' }}>
+                    <div>
+                      <div style={{ fontWeight: 'bold' }}>{user.name}</div>
+                      <div style={{ fontSize: '14px', color: '#666' }}>{user.email}</div>
+                    </div>
+                  </div>
+                  <div style={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between',
+                    marginTop: '10px'
+                  }}>
                     <button
                       onClick={() => handleEdit(user)}
                       style={{
                         backgroundColor: '#FFD700',
                         border: 'none',
                         borderRadius: '5px',
-                        padding: '8px 20px',
-                        marginRight: '10px',
-                        cursor: 'pointer'
+                        padding: '8px 0',
+                        cursor: 'pointer',
+                        width: '48%'
                       }}
                     >
                       Edit
@@ -653,17 +687,78 @@ const UsersCMS = () => {
                         color: 'white',
                         border: 'none',
                         borderRadius: '5px',
-                        padding: '8px 20px',
-                        cursor: 'pointer'
+                        padding: '8px 0',
+                        cursor: 'pointer',
+                        width: '48%'
                       }}
                     >
                       Delete
                     </button>
-                  </td>
-                </tr>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+          ) : (
+            // Desktop table view
+            <table style={{ 
+              width: '100%', 
+              borderCollapse: 'collapse',
+              marginTop: '10px'
+            }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid #eee' }}>
+                  <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>User Name</th>
+                  <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Email</th>
+                  <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentUsers.map((user) => (
+                  <tr key={user.id} style={{ borderBottom: '1px solid #eee' }}>
+                    <td style={{ padding: '15px', display: 'flex', alignItems: 'center' }}>
+                      <div style={{ 
+                        width: '30px', 
+                        height: '30px', 
+                        borderRadius: '50%', 
+                        backgroundColor: user.color,
+                        marginRight: '10px'
+                      }}></div>
+                      {user.name}
+                    </td>
+                    <td style={{ padding: '15px' }}>{user.email}</td>
+                    <td style={{ padding: '15px' }}>
+                      <button
+                        onClick={() => handleEdit(user)}
+                        style={{
+                          backgroundColor: '#FFD700',
+                          border: 'none',
+                          borderRadius: '5px',
+                          padding: '8px 20px',
+                          marginRight: '10px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(user.id, user.docId)}
+                        style={{
+                          backgroundColor: '#FF4E64',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '5px',
+                          padding: '8px 20px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       )}
       
