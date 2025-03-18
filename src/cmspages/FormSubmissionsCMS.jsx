@@ -16,6 +16,12 @@ const FormSubmissionsCMS = () => {
         ...doc.data(),
       }));
       setSubmissions(data);
+      const querySnapshot2 = await getDocs(collection(db, 'contacts'));
+      const data2 = querySnapshot2.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setSubmissions(data2);
     };
 
     fetchSubmissions();
