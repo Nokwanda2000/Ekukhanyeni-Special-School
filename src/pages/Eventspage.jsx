@@ -136,7 +136,7 @@ export default function Eventspage() {
               </Button>
             </CardFooter>
           </Card>
-        ))}
+        ))}       
       </div>
 
       {/* Modal */}
