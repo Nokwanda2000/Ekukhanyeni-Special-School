@@ -32,5 +32,5 @@ export default function CMS() {
         <Outlet />
       </div>
     </div>
-  );
+  );  
 }
