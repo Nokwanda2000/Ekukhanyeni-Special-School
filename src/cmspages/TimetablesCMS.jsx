@@ -1,385 +1,668 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../utills/FirebaseConfig';
-import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { 
+  collection, 
+  addDoc, 
+  updateDoc, 
+  doc, 
+  deleteDoc, 
+  getDocs,
+  query,
+  where 
+} from 'firebase/firestore';
 
 const TimetableCMS = () => {
-  const [grade, setGrade] = useState('');
-  const [day, setDay] = useState('');
-  const [activity, setActivity] = useState('');
-  const [time, setTime] = useState('');
-  const [message, setMessage] = useState('');
-  const [timetableEntries, setTimetableEntries] = useState([]);
-  const [activeTab, setActiveTab] = useState('Grade 1');
+  const [timetableData, setTimetableData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedEntry, setSelectedEntry] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    timeBlock: '',
+    weekday: '',
+    grade: '',
+    startTime: '',
+    endTime: '',
+    activity: '',
+  });
+  const [selectedGrade, setSelectedGrade] = useState('Grade 1-4 LSPID');
+  const [showListView, setShowListView] = useState(false);
 
-  const grades = ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5'];
-  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const grades = ['Grade 1-4 LSPID', 'Grade 1-3 D-CAPS', 'Grade 4 Skills', 'Grade 5 Skills'];
+  const timeBlocks = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 
   // Fetch timetable data from Firestore
   useEffect(() => {
-    const fetchTimetableEntries = async () => {
+    const fetchTimetableData = async () => {
       try {
         setLoading(true);
-        const timetableRef = collection(db, 'timetables');
-        const snapshot = await getDocs(timetableRef);
-        const entries = snapshot.docs.map(doc => ({
+        const timetableCollection = collection(db, 'timetables');
+        const timetableSnapshot = await getDocs(timetableCollection);
+        const timetableList = timetableSnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }));
-        setTimetableEntries(entries);
+        setTimetableData(timetableList);
       } catch (error) {
-        console.error("Error fetching timetable entries:", error);
-        setMessage('Error loading timetable data.');
+        console.error("Error fetching timetable data: ", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTimetableEntries();
+    fetchTimetableData();
   }, []);
 
-  // Add new timetable entry
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setMessage('');
-      const timetableRef = collection(db, 'timetables');
-      const newEntry = {
-        grade,
-        day,
-        activity,
-        time,
-        createdAt: new Date()
-      };
-      
-      const docRef = await addDoc(timetableRef, newEntry);
-      
-      // Add the new entry to state with its ID
-      setTimetableEntries([...timetableEntries, { id: docRef.id, ...newEntry }]);
-      
-      setMessage('Timetable successfully added!');
-      setGrade('');
-      setDay('');
-      setActivity('');
-      setTime('');
-    } catch (error) {
-      console.error("Error adding timetable:", error);
-      setMessage('Error adding timetable.');
-    }
-  };
-
-  // Remove timetable entry
-  const handleRemoveEntry = async (id) => {
-    try {
-      await deleteDoc(doc(db, 'timetables', id));
-      setTimetableEntries(timetableEntries.filter(entry => entry.id !== id));
-      setMessage('Entry removed successfully.');
-    } catch (error) {
-      console.error("Error removing entry:", error);
-      setMessage('Error removing entry.');
-    }
-  };
-
-  // Filter entries based on active tab/grade
-  const filteredEntries = timetableEntries.filter(entry => 
-    entry.grade === activeTab || entry.grade.includes(activeTab)
-  );
-
-  // Function to determine cell background color based on subject
-  const getCellColor = (subject) => {
-    if (!subject) return 'white';
+  const handleCellClick = (block, day) => {
+    // Find existing entry for this cell
+    const entry = timetableData.find(
+      e => e.timeBlock === block && e.weekday === day && e.grade === selectedGrade
+    );
     
-    const colors = {
-      'Reading': '#d4e6f1',
-      'Math': '#f5cba7',
-      'Science': '#d5f5e3',
-      'Art': '#f5e7f1',
-      'Music': '#e8daef',
-      'Social Studies': '#fdebd0',
-      'P.E.': '#fcf3cf',
-      'Recess': '#fcf8e3',
-      'Snack Time': '#fcf8e3',
-      'Break': '#fcf8e3',
-      'Lunch': '#fcf8e3'
-    };
-    
-    // Check if any key is a substring of the subject
-    for (const [key, value] of Object.entries(colors)) {
-      if (subject.includes(key)) {
-        return value;
-      }
-    }
-    
-    return 'white';
-  };
-
-  // Group entries by time for display in timetable format
-  const groupedByTime = () => {
-    const timeGroups = {};
-    
-    filteredEntries.forEach(entry => {
-      if (!timeGroups[entry.time]) {
-        timeGroups[entry.time] = {
-          time: entry.time,
-          Monday: null,
-          Tuesday: null,
-          Wednesday: null,
-          Thursday: null,
-          Friday: null
-        };
-      }
-      
-      timeGroups[entry.time][entry.day] = {
+    if (entry) {
+      // Edit existing entry
+      setSelectedEntry(entry);
+      setFormData({
+        timeBlock: entry.timeBlock,
+        weekday: entry.weekday,
+        grade: entry.grade,
+        startTime: entry.startTime,
+        endTime: entry.endTime,
         activity: entry.activity,
-        id: entry.id
-      };
-    });
-    
-    // Convert to array and sort by time
-    return Object.values(timeGroups).sort((a, b) => {
-      // Extract start time for sorting
-      const getStartTime = (timeRange) => {
-        const match = timeRange.match(/(\d+):(\d+)/);
-        if (match) {
-          return parseInt(match[1]) * 60 + parseInt(match[2]);
-        }
-        return 0;
-      };
-      
-      return getStartTime(a.time) - getStartTime(b.time);
+      });
+    } else {
+      // Create new entry
+      setSelectedEntry(null);
+      setFormData({
+        timeBlock: block,
+        weekday: day,
+        grade: selectedGrade,
+        startTime: '',
+        endTime: '',
+        activity: '',
+      });
+    }
+    setShowModal(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
     });
   };
 
-  const timetableRows = groupedByTime();
+  const handleSaveChanges = async () => {
+    try {
+      if (selectedEntry) {
+        // Update existing entry in Firestore
+        const entryRef = doc(db, 'timetables', selectedEntry.id);
+        await updateDoc(entryRef, formData);
+        
+        // Update state
+        setTimetableData(timetableData.map(entry => 
+          entry.id === selectedEntry.id ? { ...entry, ...formData } : entry
+        ));
+      } else {
+        // Create new entry in Firestore
+        const docRef = await addDoc(collection(db, 'timetables'), formData);
+        
+        // Update state with new entry including the Firestore document ID
+        const newEntry = {
+          id: docRef.id,
+          ...formData
+        };
+        setTimetableData([...timetableData, newEntry]);
+      }
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error saving timetable entry: ", error);
+      alert("Error saving timetable entry. Please try again.");
+    }
+  };
+
+  const handleGradeChange = (grade) => {
+    setSelectedGrade(grade);
+  };
+
+  const handleAddNew = () => {
+    setSelectedEntry(null);
+    setFormData({
+      timeBlock: '',
+      weekday: '',
+      grade: selectedGrade,
+      startTime: '',
+      endTime: '',
+      activity: '',
+    });
+    setShowModal(true);
+  };
+
+  const handleDeleteEntry = async (id) => {
+    try {
+      // Delete from Firestore
+      await deleteDoc(doc(db, 'timetables', id));
+      
+      // Update state
+      setTimetableData(timetableData.filter(entry => entry.id !== id));
+    } catch (error) {
+      console.error("Error deleting timetable entry: ", error);
+      alert("Error deleting timetable entry. Please try again.");
+    }
+  };
+
+  // Get data for the selected grade
+  const filteredData = timetableData.filter(entry => entry.grade === selectedGrade);
+
+  if (loading) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh'
+      }}>
+        <div>Loading timetable data...</div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-screen-xl mx-auto p-8 bg-gray-50 rounded-lg shadow mb-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Timetable</h1>
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
-          <span className="text-sm font-medium">Admin</span>
+    <div style={{
+      fontFamily: 'Arial, sans-serif',
+      maxWidth: '1200px',
+      margin: '0 auto',
+      padding: '20px'
+    }}>
+      <h1 style={{
+        fontSize: '24px',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: '#3b82f6',
+        marginBottom: '24px'
+      }}>Timetables</h1>
+      
+      {/* View toggle */}
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '20px'
+      }}>
+        <button 
+          onClick={handleAddNew}
+          style={{
+            backgroundColor: '#0095ff',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            padding: '10px 15px',
+            cursor: 'pointer',
+            fontWeight: 'bold'
+          }}
+        >
+          + Add timetable
+        </button>
+        
+        <div style={{
+          display: 'flex',
+          gap: '10px'
+        }}>
+          <button 
+            onClick={() => setShowListView(false)}
+            style={{
+              backgroundColor: !showListView ? '#0095ff' : '#e5e5e5',
+              color: !showListView ? 'white' : 'black',
+              border: 'none',
+              borderRadius: '4px',
+              padding: '8px 12px',
+              cursor: 'pointer'
+            }}
+          >
+            Grid View
+          </button>
+          <button 
+            onClick={() => setShowListView(true)}
+            style={{
+              backgroundColor: showListView ? '#0095ff' : '#e5e5e5',
+              color: showListView ? 'white' : 'black',
+              border: 'none',
+              borderRadius: '4px',
+              padding: '8px 12px',
+              cursor: 'pointer'
+            }}
+          >
+            List View
+          </button>
         </div>
       </div>
       
-      <div className="mb-8">
-        <input
-          type="text"
-          placeholder="Search"
-          className="w-full md:w-80 px-4 py-2 border focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-      <br></br>
-      <br></br>
-
-      <button className="mb-10 bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 flex items-center gap-2 transition-colors">
-        <span className="font-bold">+</span> Add new Timetable
-      </button>
-      <br></br>
-      <br></br>
-      {/* Tabs */}
-      <div className="flex mb-8 overflow-x-auto space-x-4">
-        {grades.map((tab, index) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-10 py-10 mr-10 font-medium transition-colors ${
-              activeTab === tab 
-                ? index === 0 
-                  ? 'bg-blue-500 text-white shadow-md' 
-                  : index === grades.length - 1 
-                    ? 'bg-green-500 text-white shadow-md' 
-                    : 'bg-gray-800 text-white shadow-md'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+      {/* Grade filter buttons */}
+      <div style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        gap: '8px',
+        marginBottom: '24px'
+      }}>
+        {grades.map(grade => (
+          <button 
+            key={grade} 
+            style={{
+              padding: '8px 16px',
+              borderRadius: '4px',
+              backgroundColor: selectedGrade === grade ? '#3b82f6' : '#dbeafe',
+              color: selectedGrade === grade ? 'white' : '#3b82f6',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'background-color 0.2s'
+            }}
+            onClick={() => handleGradeChange(grade)}
           >
-            {tab}
+            {grade}
           </button>
         ))}
-        {/* <button className="px-8 py-3 bg-green-500 hover:bg-green-600 text-white ml-auto shadow-md transition-colors">
-          Save changes
-        </button> */}
       </div>
-
-      {loading ? (
-        <div className="text-center py-16">
-          <p className="text-gray-500">Loading timetable data...</p>
-        </div>
-      ) : timetableRows.length === 0 ? (
-        <div className="text-center py-16 border bg-white">
-          <p className="text-gray-500">No timetable entries for {activeTab}.</p>
-          <p className="text-gray-400 text-sm mt-2">Add entries using the form below.</p>
-          <br></br>
-      <br></br>
-        </div>
-        
-      ) : (
-        
-        <div className="overflow-x-auto mb-10">
-          <table className="w-full border-collapse bg-white overflow-hidden shadow-sm">
+      
+      {/* List View */}
+      {showListView && (
+        <div style={{
+          overflowX: 'auto',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          borderRadius: '8px'
+        }}>
+          <table style={{
+            width: '100%',
+            borderCollapse: 'collapse'
+          }}>
             <thead>
-              <tr className="bg-gray-100">
-                <th className="border border-gray-200 px-6 py-4 text-left font-semibold text-gray-700">Time</th>
-                {days.map(day => (
-                  <th key={day} className="border border-gray-200 px-6 py-4 text-center font-semibold text-gray-700">{day}</th>
-                ))}
-                <th className="border border-gray-200 px-6 py-4 text-center font-semibold text-gray-700">Notes</th>
+              <tr style={{ backgroundColor: '#f3f4f6' }}>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e5e7eb' }}>Block</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e5e7eb' }}>Weekday</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e5e7eb' }}>Grade</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e5e7eb' }}>Time</th>
+                <th style={{ padding: '12px', textAlign: 'left', borderBottom: '1px solid #e5e7eb' }}>Activity</th>
+                <th style={{ padding: '12px', textAlign: 'center', borderBottom: '1px solid #e5e7eb' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {timetableRows.map((row, rowIndex) => (
-                <tr key={rowIndex} className={rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                  <td className="border border-gray-200 px-6 py-4 font-medium">{row.time}</td>
-                  {days.map(day => {
-                    const cellData = row[day];
-                    return (
-                      <td 
-                        key={day} 
-                        className="border border-gray-200 px-6 py-4 text-center relative group"
-                        style={{ backgroundColor: cellData ? getCellColor(cellData.activity) : 'white' }}
+              {timetableData.filter(entry => entry.grade === selectedGrade).map(entry => (
+                <tr key={entry.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                  <td style={{ padding: '12px' }}>{entry.timeBlock}</td>
+                  <td style={{ padding: '12px' }}>{entry.weekday}</td>
+                  <td style={{ padding: '12px' }}>{entry.grade}</td>
+                  <td style={{ padding: '12px' }}>{entry.startTime} - {entry.endTime}</td>
+                  <td style={{ padding: '12px' }}>{entry.activity}</td>
+                  <td style={{ padding: '12px', textAlign: 'center' }}>
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      gap: '8px'
+                    }}>
+                      <button
+                        onClick={() => {
+                          setSelectedEntry(entry);
+                          setFormData({
+                            timeBlock: entry.timeBlock,
+                            weekday: entry.weekday,
+                            grade: entry.grade,
+                            startTime: entry.startTime,
+                            endTime: entry.endTime,
+                            activity: entry.activity,
+                          });
+                          setShowModal(true);
+                        }}
+                        style={{
+                          backgroundColor: '#ffdd00',
+                          color: 'black',
+                          border: 'none',
+                          borderRadius: '4px',
+                          padding: '6px 12px',
+                          cursor: 'pointer',
+                          fontWeight: 'bold'
+                        }}
                       >
-                        {cellData ? (
-                          <>
-                            <div className="flex justify-between items-center">
-                              <span className="flex-grow">{cellData.activity}</span>
-                              <button 
-                                onClick={() => handleRemoveEntry(cellData.id)}
-                                className="opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-700 ml-2 p-1 hover:bg-red-100 transition-opacity"
-                                title="Remove entry"
-                              >
-                                ×
-                              </button>
-                            </div>
-                          </>
-                        ) : null}
-                      </td>
-                    );
-                  })}
-                  <td className="border border-gray-200 px-6 py-4"></td>
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteEntry(entry.id)}
+                        style={{
+                          backgroundColor: '#ff3b5c',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          padding: '6px 12px',
+                          cursor: 'pointer',
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       )}
-
-<br></br>
-<br></br>
-
-      {/* Subject Legend */}
-      <div className="my-8 p-6 bg-white shadow-sm">
-        <h3 className="text-sm font-semibold mb-4 text-gray-700">Subject Legend:</h3>
-        <div className="flex flex-wrap gap-6">
-          <div className="flex items-center">
-            <span className="inline-block w-5 h-5 mr-2" style={{ backgroundColor: getCellColor('Reading') }}></span>
-            <span className="text-sm">Reading</span>
-          </div>
-          <div className="flex items-center">
-            <span className="inline-block w-5 h-5 mr-2" style={{ backgroundColor: getCellColor('Math') }}></span>
-            <span className="text-sm">Math</span>
-          </div>
-          <div className="flex items-center">
-            <span className="inline-block w-5 h-5 mr-2" style={{ backgroundColor: getCellColor('Science') }}></span>
-            <span className="text-sm">Science</span>
-          </div>
-          <div className="flex items-center">
-            <span className="inline-block w-5 h-5 mr-2" style={{ backgroundColor: getCellColor('Social Studies') }}></span>
-            <span className="text-sm">Social Studies</span>
-          </div>
-          <div className="flex items-center">
-            <span className="inline-block w-5 h-5 mr-2" style={{ backgroundColor: getCellColor('Art') }}></span>
-            <span className="text-sm">Art/Music</span>
-          </div>
-          <div className="flex items-center">
-            <span className="inline-block w-5 h-5 mr-2" style={{ backgroundColor: getCellColor('P.E.') }}></span>
-            <span className="text-sm">P.E.</span>
-          </div>
-          <div className="flex items-center">
-            <span className="inline-block w-5 h-5 mr-2" style={{ backgroundColor: getCellColor('Break') }}></span>
-            <span className="text-sm">Break</span>
+      
+      {/* Grid View */}
+      {!showListView && (
+        <div style={{
+          overflowX: 'auto',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          borderRadius: '8px'
+        }}>
+          <table style={{
+            width: '100%',
+            borderCollapse: 'collapse'
+          }}>
+            <thead>
+              <tr>
+                <th style={{
+                  border: '1px solid #e5e7eb',
+                  padding: '8px',
+                  backgroundColor: '#f3f4f6'
+                }}>Time Block</th>
+                {weekdays.map(day => (
+                  <th key={day} style={{
+                    border: '1px solid #e5e7eb',
+                    padding: '8px',
+                    backgroundColor: '#f3f4f6'
+                  }}>{day}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {timeBlocks.map(block => (
+                <tr key={block}>
+                  <td style={{
+                    border: '1px solid #e5e7eb',
+                    padding: '8px',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    backgroundColor: '#f9fafb'
+                  }}>{block}</td>
+                  {weekdays.map(day => {
+                    const entry = filteredData.find(
+                      e => e.timeBlock === block && e.weekday === day
+                    );
+                    
+                    return (
+                      <td 
+                        key={day} 
+                        style={{
+                          border: '1px solid #e5e7eb',
+                          padding: '8px',
+                          textAlign: 'center',
+                          cursor: 'pointer',
+                          height: '80px',
+                          verticalAlign: 'top',
+                          backgroundColor: entry ? '#f0f9ff' : 'white'
+                        }}
+                        onClick={() => handleCellClick(block, day)}
+                      >
+                        {entry ? (
+                          <div>
+                            <div style={{
+                              fontWeight: '500',
+                              marginBottom: '4px'
+                            }}>{entry.activity}</div>
+                            <div style={{
+                              fontSize: '0.875rem',
+                              color: '#4b5563'
+                            }}>
+                              {entry.startTime} - {entry.endTime}
+                            </div>
+                          </div>
+                        ) : (
+                          <div style={{
+                            color: '#9ca3af',
+                            height: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}>Empty</div>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      
+      {/* Edit/Create Modal */}
+      {showModal && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '16px',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            padding: '24px',
+            borderRadius: '8px',
+            boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+            width: '100%',
+            maxWidth: '500px'
+          }}>
+            <h2 style={{
+              fontSize: '1.25rem',
+              fontWeight: 'bold',
+              marginBottom: '16px'
+            }}>
+              {selectedEntry ? 'Edit Timetable Entry' : 'Create New Entry'}
+            </h2>
+            
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px'
+            }}>
+              <div>
+                <label style={{
+                  display: 'block',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  color: '#4b5563',
+                  marginBottom: '4px'
+                }}>Time Block</label>
+                <select 
+                  name="timeBlock"
+                  value={formData.timeBlock}
+                  onChange={handleInputChange}
+                  style={{
+                    marginTop: '4px',
+                    display: 'block',
+                    width: '100%',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '4px',
+                    padding: '8px',
+                    backgroundColor: selectedEntry ? '#f3f4f6' : 'white'
+                  }}
+                  disabled={selectedEntry !== null}
+                >
+                  <option value="">Select Time Block</option>
+                  {timeBlocks.map(block => (
+                    <option key={block} value={block}>Block {block}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div>
+                <label style={{
+                  display: 'block',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  color: '#4b5563',
+                  marginBottom: '4px'
+                }}>Weekday</label>
+                <select 
+                  name="weekday"
+                  value={formData.weekday}
+                  onChange={handleInputChange}
+                  style={{
+                    marginTop: '4px',
+                    display: 'block',
+                    width: '100%',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '4px',
+                    padding: '8px',
+                    backgroundColor: selectedEntry ? '#f3f4f6' : 'white'
+                  }}
+                  disabled={selectedEntry !== null}
+                >
+                  <option value="">Select Weekday</option>
+                  {weekdays.map(day => (
+                    <option key={day} value={day}>{day}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div>
+                <label style={{
+                  display: 'block',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  color: '#4b5563',
+                  marginBottom: '4px'
+                }}>Grade</label>
+                <input 
+                  type="text"
+                  name="grade"
+                  value={formData.grade}
+                  style={{
+                    marginTop: '4px',
+                    display: 'block',
+                    width: '100%',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '4px',
+                    padding: '8px',
+                    backgroundColor: '#f3f4f6'
+                  }}
+                  readOnly
+                />
+              </div>
+              
+              <div>
+                <label style={{
+                  display: 'block',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  color: '#4b5563',
+                  marginBottom: '4px'
+                }}>Start Time</label>
+                <input
+                  type="time"
+                  name="startTime"
+                  value={formData.startTime}
+                  onChange={handleInputChange}
+                  style={{
+                    marginTop: '4px',
+                    display: 'block',
+                    width: '100%',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '4px',
+                    padding: '8px'
+                  }}
+                />
+              </div>
+              
+              <div>
+                <label style={{
+                  display: 'block',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  color: '#4b5563',
+                  marginBottom: '4px'
+                }}>End Time</label>
+                <input
+                  type="time"
+                  name="endTime"
+                  value={formData.endTime}
+                  onChange={handleInputChange}
+                  style={{
+                    marginTop: '4px',
+                    display: 'block',
+                    width: '100%',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '4px',
+                    padding: '8px'
+                  }}
+                />
+              </div>
+              
+              <div>
+                <label style={{
+                  display: 'block',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  color: '#4b5563',
+                  marginBottom: '4px'
+                }}>Activity</label>
+                <input
+                  type="text"
+                  name="activity"
+                  value={formData.activity}
+                  onChange={handleInputChange}
+                  style={{
+                    marginTop: '4px',
+                    display: 'block',
+                    width: '100%',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '4px',
+                    padding: '8px'
+                  }}
+                  placeholder="Enter activity name"
+                />
+              </div>
+            </div>
+            
+            <div style={{
+              marginTop: '24px',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              gap: '12px'
+            }}>
+              <button 
+                onClick={() => setShowModal(false)}
+                style={{
+                  backgroundColor: '#d1d5db',
+                  padding: '8px 16px',
+                  borderRadius: '4px',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleSaveChanges}
+                style={{
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  padding: '8px 16px',
+                  borderRadius: '4px',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                {selectedEntry ? 'Save Changes' : 'Create'}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-      <br></br>
-      <br></br>
-
-      {/* Admin Form */}
-      <div className="mt-10 p-8 border bg-white shadow-sm">
-        <h2 className="text-xl font-bold mb-6 text-gray-800">Add Timetable Entry</h2>
-        {message && (
-          <div className={`p-4 mb-6 ${message.includes('Error') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
-            {message}
-          </div>
-        )}
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">Grade</label>
-              <select 
-                value={grade} 
-                onChange={(e) => setGrade(e.target.value)} 
-                required
-                className="w-full px-4 py-3 border focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-              >
-                <option value="">Select Grade</option>
-                {grades.map((g) => (
-                  <option key={g} value={g}>
-                    {g}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">Day</label>
-              <select 
-                value={day} 
-                onChange={(e) => setDay(e.target.value)} 
-                required
-                className="w-full px-4 py-3 border focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-              >
-                <option value="">Select Day</option>
-                {days.map((d) => (
-                  <option key={d} value={d}>
-                    {d}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">Activity/Subject</label>
-              <input
-                type="text"
-                value={activity}
-                onChange={(e) => setActivity(e.target.value)}
-                required
-                placeholder="e.g. Math, Reading, Science"
-                className="w-full px-4 py-3 border focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-2 text-gray-700">Time Slot</label>
-              <input
-                type="text"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-                required
-                placeholder="e.g. 8:00 - 9:00"
-                className="w-full px-4 py-3 border focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          </div>
-          <div className="flex justify-end mt-8">
-            <button 
-              type="submit" 
-              className="px-8 py-3 bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors shadow-sm"
-            >
-              Add Timetable Entry
-            </button>
-          </div>
-        </form>
-      </div>
+      )}
     </div>
   );
 };
