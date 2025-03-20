@@ -106,6 +106,7 @@ export default function Eventspage() {
           <div style={{ padding: '15px' }}>
             <h2 style={{ fontSize: '1.5rem', color: '#333', fontWeight: 'bold' }}>{event.name}</h2>
             <h2 style={{ fontSize: '1rem', color: '#666' }}>{event.location}</h2>
+            <h2 style={{ fontSize: '1rem', color: '#666' }}>{event.date}</h2>
             <h2 style={{ fontSize: '1rem', color: '#666' }}>{event.startTime} - {event.endTime}</h2>
             <h2 style={{ fontSize: '1rem', color: '#666' }}>{event.description}</h2>
           </div>
@@ -149,6 +150,7 @@ export default function Eventspage() {
         }} onClick={(e) => e.stopPropagation()}>
           <h2 style={{ fontSize: '1.5rem', marginBottom: '10px' }}>{modalContent.name}</h2>
           <p><strong>Location:</strong> {modalContent.location}</p>
+          <p><strong>Date:</strong> {modalContent.date}</p>
           <p><strong>Start Time:</strong> {modalContent.startTime}</p>
           <p><strong>End Time:</strong> {modalContent.endTime}</p>
           <p><strong>Description:</strong> {modalContent.description}</p>
