@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import Sidebar from '/cmspages/CMSbar';
+import Sidebar from './CMSbar';
 import MobileToggleButton from '/MobileToggle';
 
 export default function CMS() {
