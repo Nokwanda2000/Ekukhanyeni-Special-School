@@ -34,8 +34,16 @@ const SponsorBanner = () => {
     setError('');
 
     try {
+      // Add a timestamp to the form data
+      const timestamp = new Date();
+
+      const sponsorData = {
+        ...formData,
+        timestamp: timestamp.toISOString(), // Store the timestamp as ISO string
+      };
+
       // Add form data to Firestore
-      await addDoc(collection(db, 'sponsors'), formData);
+      await addDoc(collection(db, 'sponsors'), sponsorData);
       setFormData({ name: '', email: '', phone: '' }); // Clear form after successful submission
       alert('Thank you for becoming a sponsor!');
     } catch (err) {
@@ -57,8 +65,6 @@ const SponsorBanner = () => {
   const bannerStyle = {
     display: 'flex',
     width: '100%',
-    maxWidth: '1000px',
-    borderRadius: '2rem',
     overflow: 'hidden',
     background: 'linear-gradient(to right, #FBBF24, #10B981, #3B82F6)',
     padding: '1rem',

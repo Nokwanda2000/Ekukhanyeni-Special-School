@@ -52,7 +52,7 @@ const AboutUs = () => {
           
           {/* Principal image section */}
           <div>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>About Us</h2>
+            
             <div style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '8px', overflow: 'hidden' }}>
               <img 
                 src="../../src/assets/principal1.jpg" 
