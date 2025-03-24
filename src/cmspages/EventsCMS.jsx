@@ -459,7 +459,7 @@ const EventsCMS = () => {
       <button
         onClick={handleAddEvent}
         style={{
-          backgroundColor: '#0088ff',
+          backgroundColor: '#2563EB',
           color: 'white',
           border: 'none',
           borderRadius: '5px',

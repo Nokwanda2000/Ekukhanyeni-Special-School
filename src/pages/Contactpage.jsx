@@ -197,7 +197,7 @@ const handleSubmit = async (e) => {
                   <button
                     type="submit"
                     style={{
-                      backgroundColor: '#0082FB',
+                      backgroundColor: '#2563EB',
                       color: 'white',
                       padding: '0.75rem 3rem',
                       borderRadius: '0.375rem',
