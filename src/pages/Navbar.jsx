@@ -201,10 +201,10 @@ const Navbar = () => {
               </div>
               <div>
                 <p className="font-bold text-sm">Address</p>
-                <p className="text-sm">140 Mdoni Road,</p>
-                <p className="text-sm">Edendale,</p>
-                <p className="text-sm">Pietermaritzburg,</p>
-                <p className="text-sm">Kwa Zulu Natal</p>
+                <p className="text-sm">Sutherlands Road</p>
+                <p className="text-sm">Masons Mill</p>
+                <p className="text-sm">Pietermaritzburg</p>
+                <p className="text-sm">3201</p>
               </div>
             </div>
           </div>

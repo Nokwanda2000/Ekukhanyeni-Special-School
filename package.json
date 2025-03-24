@@ -10,15 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@material-tailwind/react": "^2.1.10",
-    "@tailwindcss/vite": "^4.0.12",
     "axios": "^1.8.3",
     "firebase": "^11.4.0",
     "lucide-react": "^0.479.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
-    "require": "^2.4.20"
+    "require": "^0.4.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

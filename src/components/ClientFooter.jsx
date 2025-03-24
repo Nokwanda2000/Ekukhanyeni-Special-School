@@ -71,7 +71,7 @@ const ClientFooter = () => {
               <div>
                 <h3 style={{ fontWeight: '600', fontSize: '1rem', color: '#000', margin: '0' }}>Address</h3>
                 <p style={{ color: '#4B5563', fontSize: '0.9rem', margin: '0', lineHeight: '1.4' }}>
-                  Mdoni Road, Edendale, Pietermaritzburg, KwaZulu Natal
+                Sutherlands Road, Masons Mill, Pietermaritzburg, 3201
                 </p>
               </div>
             </div>
