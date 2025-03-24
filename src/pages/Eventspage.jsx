@@ -87,47 +87,54 @@ export default function Eventspage() {
 
     {/* Events Grid */}
     <div style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-      gap: '20px',
-      padding: '0 20px'
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+  gap: '20px',
+  padding: '0 20px',
+  margin: '0 auto', // Center the grid
+  maxWidth: '1200px' // Limit the maximum width of the grid
+}}>
+  {events.map((event) => (
+    <div key={event.id} style={{
+      background: 'white',
+      borderRadius: '10px',
+      overflow: 'hidden',
+      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+      transition: 'transform 0.3s',
+      display: 'flex',
+      flexDirection: 'column', // Stack children vertically
+      height: '100%' // Ensure cards take full height
     }}>
-      {events.map((event) => (
-        <div key={event.id} style={{
-          background: 'white',
-          borderRadius: '10px',
-          overflow: 'hidden',
-          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-          transition: 'transform 0.3s'
-        }}>
-          <div style={{ height: '200px', overflow: 'hidden' }}>
-            <img src={event.imageUrl} alt={event.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          </div>
-          <div style={{ padding: '15px' }}>
-            <h2 style={{ fontSize: '1.5rem', color: '#333', fontWeight: 'bold' }}>{event.name}</h2>
-            <h2 style={{ fontSize: '1rem', color: '#666' }}>{event.location}</h2>
-            <h2 style={{ fontSize: '1rem', color: '#666' }}>{event.date}</h2>
-            <h2 style={{ fontSize: '1rem', color: '#666' }}>{event.startTime} - {event.endTime}</h2>
-            <h2 style={{ fontSize: '1rem', color: '#666' }}>{event.description}</h2>
-          </div>
-          <div style={{ textAlign: 'center', padding: '10px' }}>
-            <button style={{
-              background: '#0082FC',
-              color: 'white',
-              border: 'none',
-              padding: '10px 20px',
-              fontSize: '1rem',
-              cursor: 'pointer',
-              borderRadius: '5px'
-            }} onClick={() => handleOpenModal(event)}
-              onMouseOver={(e) => e.target.style.background = '#005bb5'}
-              onMouseOut={(e) => e.target.style.background = '#0082FC'}>
-              View More
-            </button>
-          </div>
-        </div>
-      ))}
+      <div style={{ height: '200px', overflow: 'hidden' }}>
+        <img src={event.imageURL} alt={event.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      </div>
+      <div style={{ padding: '15px', flexGrow: 1 }}> {/* Allow this section to grow */}
+        <h2 style={{ fontSize: '1.5rem', color: '#333', fontWeight: 'bold' }}>{event.name}</h2>
+        <h3 style={{ fontSize: '1rem', color: '#666' }}>{event.location}</h3>
+        <h4 style={{ fontSize: '1rem', color: '#666' }}>{event.date}</h4>
+        <h4 style={{ fontSize: '1rem', color: '#666' }}>{event.startTime} - {event.endTime}</h4>
+        <p style={{ fontSize: '1rem', color: '#666' }}>{event.description}</p>
+      </div>
+      <div style={{ textAlign: 'center', padding: '10px' }}>
+        <button style={{
+          background: '#2563EB',
+          color: 'white',
+          border: 'none',
+          padding: '10px 20px',
+          fontSize: '1rem',
+          cursor: 'pointer',
+          borderRadius: '5px',
+          width: '100%', // Make button full width
+          transition: 'background 0.3s'
+        }} onClick={() => handleOpenModal(event)}
+          onMouseOver={(e) => e.target.style.background = '#005bb5'}
+          onMouseOut={(e) => e.target.style.background = '#0082FC'}>
+          View More
+        </button>
+      </div>
     </div>
+  ))}
+</div>
 
     {/* Modal */}
     {isModalOpen && modalContent && (
