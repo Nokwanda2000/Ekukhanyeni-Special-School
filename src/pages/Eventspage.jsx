@@ -81,7 +81,7 @@ export default function Eventspage() {
         <span style={{ cursor: 'pointer' }} onMouseOver={(e) => (e.target.style.color = '#3182ce')}
           onMouseOut={(e) => (e.target.style.color = '#718096')}>
           Home
-        </span>{' '} | <span style={{ fontWeight: '500' }}>Contacts</span>
+        </span>{' '} | <span style={{ fontWeight: '500' }}>Events</span>
       </div>
     </div>
 
