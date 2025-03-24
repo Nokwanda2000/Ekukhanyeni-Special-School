@@ -5,7 +5,7 @@ import Logo from '../assets/Ekukhanyeni Special School trpnt logo.png';
 
 export default function CMS() {
   const location = useLocation();
-  const hideNav = location.pathname === "/";
+  const hideNav = location.pathname === "/CMS";
   const [isOpen, setIsOpen] = useState(true);
 
   return (
