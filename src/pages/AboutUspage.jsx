@@ -55,7 +55,7 @@ const AboutUs = () => {
             
             <div style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '8px', overflow: 'hidden' }}>
               <img 
-                src="../../src/assets/principal1.jpg" 
+                src="principal1.jpg" 
                 alt="Principal and Staff" 
                 style={{ width: '100%', display: 'block' }}
               />
