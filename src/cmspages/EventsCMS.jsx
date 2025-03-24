@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import { db } from '/utills/FirebaseConfig';
+import { db } from '../../src/utills/FirebaseConfig';
 
 // AddEventModal component
 const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {
@@ -24,7 +24,7 @@ const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Reset errors
     const newErrors = {
       title: '',
@@ -35,7 +35,7 @@ const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {
       description: '',
       image: ''
     };
-  
+
     // Validate fields
     if (!title) newErrors.title = 'Title is required';
     if (!date) newErrors.date = 'Date is required';
@@ -44,60 +44,40 @@ const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {
     if (!location) newErrors.location = 'Location is required';
     if (!description) newErrors.description = 'Description is required';
     if (!image) newErrors.image = 'Image is required';
-  
+
     setErrors(newErrors);
-  
+
     // If no errors, add event
     if (!Object.values(newErrors).some(error => error)) {
       try {
-        // Convert image to Base64
-        const reader = new FileReader();
-        reader.readAsDataURL(image);
-        reader.onloadend = async () => {
-          const base64data = reader.result;
-  
-          try {
-            const eventDocRef = await addDoc(collection(db, "events"), {
-              title,
-              date,
-              startTime,
-              endTime,
-              location,
-              description,
-              imageURL: base64data, // Store Base64 string
-              createdAt: new Date()
-            });
-  
-            // Add event to the state
-            onAddEvent({
-              id: eventDocRef.id,
-              title,
-              date,
-              startTime,
-              endTime,
-              location,
-              description,
-              imageURL: base64data // Store Base64 string
-            });
-  
-            // Close modal
-            onClose();
-          } catch (error) {
-            console.error('Error adding event to Firestore:', error);
-            newErrors.firebase = `Failed to add event: ${error.message}`;
-            setErrors(newErrors);
-          }
-        };
-  
-        // Handle error in reading the file
-        reader.onerror = (error) => {
-          console.error('Error reading file:', error);
-          newErrors.image = 'Failed to read image file.';
-          setErrors(newErrors);
-        };
+        const eventDocRef = await addDoc(collection(db, "events"), {
+          title,
+          date,
+          startTime,
+          endTime,
+          location,
+          description,
+          imageURL: URL.createObjectURL(image),
+          createdAt: new Date()
+        });
+
+        // Add event to the state
+        onAddEvent({
+          id: eventDocRef.id,
+          title,
+          date,
+          startTime,
+          endTime,
+          location,
+          description,
+          imageURL: URL.createObjectURL(image)
+        });
+
+        // Close modal
+        onClose();
       } catch (error) {
-        console.error('Error processing image:', error);
-        newErrors.firebase = `Failed to process image: ${error.message}`;
+        console.error('Error adding event:', error);
+        newErrors.firebase = `Failed to add event: ${error.message}`;
         setErrors(newErrors);
       }
     }
@@ -459,7 +439,7 @@ const EventsCMS = () => {
       <button
         onClick={handleAddEvent}
         style={{
-          backgroundColor: '#2563EB',
+          backgroundColor: '#0088ff',
           color: 'white',
           border: 'none',
           borderRadius: '5px',

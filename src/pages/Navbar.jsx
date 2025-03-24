@@ -149,7 +149,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Clock } from 'lucide-react'; // Import icons
-import Logo from '../assets/Ekukhanyeni Special School trpnt logo.png';
+import Logo from '/Ekukhanyeni Special School trpnt logo.png';
 
 const Navbar = () => {
   // State to handle mobile menu toggle
