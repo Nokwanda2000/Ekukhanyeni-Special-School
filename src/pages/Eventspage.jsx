@@ -117,7 +117,7 @@ export default function Eventspage() {
       </div>
       <div style={{ textAlign: 'center', padding: '10px' }}>
         <button style={{
-          background: '#0082FC',
+          background: '#2563EB',
           color: 'white',
           border: 'none',
           padding: '10px 20px',
