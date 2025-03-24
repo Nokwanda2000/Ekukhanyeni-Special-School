@@ -19,7 +19,7 @@ const EkukhanyeniProfessionalSchool = () => {
     
       {/* Hero Section */}
       <section style={{
-        backgroundImage: 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("../../src/assets/slide2.jpg")',
+        backgroundImage: 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("/slide2.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: 'clamp(300px, 50vh, 500px)',
