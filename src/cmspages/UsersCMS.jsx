@@ -15,7 +15,7 @@ import {
   where, 
   updateDoc 
 } from 'firebase/firestore';
-import { db } from '../../src/utills/FirebaseConfig';
+import { db } from '/utills/FirebaseConfig';
 
 // AddUserModal component
 const AddUserModal = ({ isOpen, onClose, onAddUser }) => {

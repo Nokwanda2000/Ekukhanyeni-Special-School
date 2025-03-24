@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import { db } from '../../src/utills/FirebaseConfig';
+import { db } from '/utills/FirebaseConfig';
 
 // AddEventModal component
 const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {

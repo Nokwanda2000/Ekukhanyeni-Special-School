@@ -3,10 +3,10 @@ import { MapPin, Clock, Phone, User } from 'lucide-react';
 import { Link } from "react-router-dom";
 
 // Import images
-import schoolLogo from '../../src/assets/Ekukhanyeni Logo 2.jpg';
-import departmentLogo from '../../src/assets/Department of Educatiuon.jpg';
-import UmgeniLogo from '../../src/assets/sponsor.jpg';
-import mLabLogo from '../../src/assets/mlab-2017-results-infographic-.png'; 
+import schoolLogo from '/Ekukhanyeni Logo 2.jpg';
+import departmentLogo from '/Department of Educatiuon.jpg';
+import UmgeniLogo from '/sponsor.jpg';
+import mLabLogo from '/mlab-2017-results-infographic-.png'; 
 
 const ClientFooter = () => {
   return (
