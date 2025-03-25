@@ -1,169 +1,132 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Clock } from 'lucide-react'; // Import icons
+import { MapPin, Phone, Clock } from 'lucide-react'; 
 import Logo from '/Ekukhanyeni Special School trpnt logo.png';
 
 const Navbar = () => {
-  // State to handle mobile menu toggle
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // Toggle menu visibility
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const infoBarStyles = {
-    backgroundColor: '#f3f4f6',
-    width: '100%',
-    padding: '0.5rem 0',
-  };
-
-  const containerStyles = {
+  const topBarStyles = {
     display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '0 2rem',
-    maxWidth: '1200px',
-    margin: '0 auto',
+    padding: '2rem 2rem',
+    backgroundColor: '#f3f4f6',
   };
 
-  const infoItemStyles = {
+  const logoStyles = {
+    height: '80px',
+  };
+
+  const contactInfoStyles = {
     display: 'flex',
+    gap: '2rem',
     alignItems: 'center',
+    fontFamily: 'Arial, sans-serif',
+  };
+
+  const contactGroupStyles = {
+    display: 'flex',
+    flexDirection: 'column',
     gap: '0.5rem',
   };
 
-  const infoTextStyles = {
+  const contactHeaderStyles = {
+    fontSize: '0.75rem',
+    fontWeight: '600',
+    color: '#4b5563',
+    letterSpacing: '0.05em',
+    marginBottom: '0.25rem',
+  };
+
+  const contactItemStyles = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
     fontSize: '0.875rem',
     color: '#6b7280',
   };
 
   const navBarStyles = {
-    borderBottom: '1px solid #e5e7eb',
-    padding: '1rem 0',
-    backgroundColor: '#f3f4f6',
-  };
-
-  const navContainerStyles = {
-    width: '100%',
-  };
-
-  const navMenuStyles = {
-    display: 'flex',
-    justifyContent: 'center',
-    padding: '1rem 0',
+    padding: '1rem 2rem',
+    backgroundColor: 'white',
+    marginTop: '2rem',
   };
 
   const navListStyles = {
     display: 'flex',
-    gap: '1.5rem', // 24px space between nav items
+    justifyContent: 'center',
+    gap: '2.5rem',
     listStyle: 'none',
     padding: '0',
+    margin: '0',
+    width: '100%',
   };
-
-  const navItemStyles = {};
 
   const navLinkStyles = {
-    padding: '0.75rem 1rem',
-    fontWeight: '500',
     textDecoration: 'none',
     color: '#333',
-  };
-
-  const activeLinkStyles = {
-    textDecoration: 'underline',
-  };
-
-  const mobileMenuStyles = {
-    display: isMenuOpen ? 'block' : 'none',
-    backgroundColor: '#f3f4f6',
+    fontWeight: '600',
+    fontSize: '1.450rem',
+    padding: '0.5rem 1rem',
+    transition: 'color 0.3s ease',
+    letterSpacing: '0.5px',
+    fontFamily: '"Poppins", sans-serif',
   };
 
   return (
     <div>
-      {/* Info Bar with Logo and Contact Information */}
-      <div style={infoBarStyles}>
-        <div style={containerStyles}>
-          {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem', marginLeft: '2rem' }}>
-            <img src={Logo} alt="Logo" style={{ height: '120px' }} />
+      <div style={topBarStyles}>
+        {/* Logo */}
+        <img src={Logo} alt="Logo" style={logoStyles} />
+
+        {/* Contact Information */}
+        <div style={contactInfoStyles}>
+          <div style={contactGroupStyles}>
+            <div style={contactHeaderStyles}>Call</div>
+            <div style={contactItemStyles}>
+              <Phone size={20} />
+              <span>+27 33 398 1325</span>
+            </div>
           </div>
 
-          {/* Contact Info */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {/* Call */}
-            <div style={infoItemStyles}>
-              <div style={{ borderRadius: '50%', padding: '0.5rem', backgroundColor: '#e5e7eb' }}>
-                <Phone style={{ width: '20px', height: '20px', color: '#3b82f6' }} />
-              </div>
-              <div>
-                <p style={{ fontWeight: 'bold', fontSize: '0.875rem' }}>Call</p>
-                <p style={infoTextStyles}>+27 33 398 1325</p>
-              </div>
+          <div style={contactGroupStyles}>
+            <div style={contactHeaderStyles}>Opening Hours</div>
+            <div style={contactItemStyles}>
+              <Clock size={20} />
+              <span>Mon - Fri 7 AM - 3 PM</span>
             </div>
+          </div>
 
-            {/* Operating Hours */}
-            <div style={infoItemStyles}>
-              <div style={{ borderRadius: '50%', padding: '0.5rem', backgroundColor: '#e5e7eb' }}>
-                <Clock style={{ width: '20px', height: '20px', color: '#3b82f6' }} />
-              </div>
-              <div>
-                <p style={{ fontWeight: 'bold', fontSize: '0.875rem' }}>Operating Hours</p>
-                <p style={infoTextStyles}>Mon - Fri 7 AM - 3 PM</p>
-              </div>
-            </div>
-
-            {/* Address */}
-            <div style={infoItemStyles}>
-              <div style={{ borderRadius: '50%', padding: '0.5rem', backgroundColor: '#e5e7eb' }}>
-                <MapPin style={{ width: '20px', height: '20px', color: '#3b82f6' }} />
-              </div>
-              <div>
-                <p style={{ fontWeight: 'bold', fontSize: '0.875rem' }}>Address</p>
-                <p style={infoTextStyles}>Sutherlands Road</p>
-                <p style={infoTextStyles}>Masons Mill</p>
-                <p style={infoTextStyles}>Pietermaritzburg</p>
-                <p style={infoTextStyles}>3201</p>
-              </div>
+          <div style={contactGroupStyles}>
+            <div style={contactHeaderStyles}>Address</div>
+            <div style={contactItemStyles}>
+              <MapPin size={20} />
+              <span>Mdoni Road, Edendale, Pietermaritzburg, KwaZulu Natal</span>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Mobile Hamburger Menu */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 2rem', backgroundColor: '#1f2937', color: 'white' }}>
-        <button onClick={toggleMenu} style={{ color: 'white', background: 'none', border: 'none', fontSize: '1rem' }}>
-          {isMenuOpen ? 'Close Menu' : 'Open Menu'}
-        </button>
       </div>
 
       {/* Navigation Menu */}
-      <div style={mobileMenuStyles}>
-        <div style={navContainerStyles}>
-          <nav>
-            <ul style={navListStyles}>
-              <li style={navItemStyles}>
-                <Link to="/" style={navLinkStyles}>Home</Link>
-              </li>
-              <li style={navItemStyles}>
-                <Link to="/Eventspage" style={{ ...navLinkStyles, ...activeLinkStyles }}>Events</Link>
-              </li>
-              <li style={navItemStyles}>
-                <Link to="/TimetablesPage" style={navLinkStyles}>Timetables</Link>
-              </li>
-              <li style={navItemStyles}>
-                <Link to="/AboutUspage" style={navLinkStyles}>About Us</Link>
-              </li>
-              <li style={navItemStyles}>
-                <Link to="/ProgrammesPage" style={navLinkStyles}>Our Programmes</Link>
-              </li>
-              <li style={navItemStyles}>
-                <Link to="/Contactpage" style={navLinkStyles}>Contact Us</Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
+      <div style={navBarStyles}>
+        <nav>
+          <ul style={navListStyles}>
+            <li>
+              <Link to="/" style={navLinkStyles}>Home</Link>
+            </li>
+            <li>
+              <Link to="/AboutUspage" style={navLinkStyles}>About</Link>
+            </li>
+            <li>
+              <Link to="/ProgrammesPage" style={navLinkStyles}>Programmes</Link>
+            </li>
+            <li>
+              <Link to="/TeachingStaffPage" style={navLinkStyles}>Teaching Staff</Link>
+            </li>
+            <li>
+              <Link to="/Contactpage" style={navLinkStyles}>Contacts</Link>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   );
