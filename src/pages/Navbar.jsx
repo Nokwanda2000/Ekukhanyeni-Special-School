@@ -14,6 +14,7 @@ const Navbar = () => {
 
   const logoStyles = {
     height: '80px',
+    color:"#2563eb" 
   };
 
   const contactInfoStyles = {
@@ -83,7 +84,7 @@ const Navbar = () => {
           <div style={contactGroupStyles}>
             <div style={contactHeaderStyles}>Call</div>
             <div style={contactItemStyles}>
-              <Phone size={20} />
+              <Phone size={20} color="#2563eb"  />
               <span>+27 33 398 1325</span>
             </div>
           </div>
@@ -91,7 +92,7 @@ const Navbar = () => {
           <div style={contactGroupStyles}>
             <div style={contactHeaderStyles}>Opening Hours</div>
             <div style={contactItemStyles}>
-              <Clock size={20} />
+              <Clock size={20} color="#2563eb"  />
               <span>Mon - Fri 7 AM - 3 PM</span>
             </div>
           </div>
@@ -99,7 +100,7 @@ const Navbar = () => {
           <div style={contactGroupStyles}>
             <div style={contactHeaderStyles}>Address</div>
             <div style={contactItemStyles}>
-              <MapPin size={20} />
+              <MapPin size={20} color="#2563eb" />
               <span>Mdoni Road, Edendale, Pietermaritzburg, KwaZulu Natal</span>
             </div>
           </div>
@@ -114,13 +115,16 @@ const Navbar = () => {
               <Link to="/" style={navLinkStyles}>Home</Link>
             </li>
             <li>
-              <Link to="/AboutUspage" style={navLinkStyles}>About</Link>
+              <Link to="/Eventspage" style={navLinkStyles}>Events</Link>
             </li>
             <li>
-              <Link to="/ProgrammesPage" style={navLinkStyles}>Programmes</Link>
+              <Link to="/TimetablesPage" style={navLinkStyles}>Timetables</Link>
             </li>
             <li>
-              <Link to="/TeachingStaffPage" style={navLinkStyles}>Teaching Staff</Link>
+              <Link to="/AboutUsPage" style={navLinkStyles}>About Us</Link>
+            </li>
+            <li>
+              <Link to="/Programmespage" style={navLinkStyles}>Programmes</Link>
             </li>
             <li>
               <Link to="/Contactpage" style={navLinkStyles}>Contacts</Link>
