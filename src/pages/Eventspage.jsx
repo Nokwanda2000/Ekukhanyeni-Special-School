@@ -3,27 +3,6 @@ import { db } from '../utills/FirebaseConfig'; // Firebase config
 import { collection, getDocs } from 'firebase/firestore';
 
 
-const events = [
-  // {
-  //   title: "Tech Conference 2023",
-  //   location: "San Francisco, CA",
-  //   startTime: "2023-11-05 10:00 AM",
-  //   endTime: "2023-11-05 5:00 PM",
-  //   description: "Join us for the biggest tech conference of the year, featuring industry experts and the latest in technology trends.",
-  //   imageUrl:
-  //     "https://images.unsplash.com/photo-1556740749-887f6717d7e4?crop=entropy&cs=tinysrgb&fit=max&ixid=MnwzNjY1OXwwfDF8c2VhcmNofDEwfHxjb250ZXh0fGVufDB8fHx8&ixlib=rb-1.2.1&q=80&w=1080",
-  // },
-  // {
-  //   title: "UI/UX Design Workshop",
-  //   location: "New York, NY",
-  //   startTime: "2023-11-12 9:00 AM",
-  //   endTime: "2023-11-12 4:00 PM",
-  //   description: "A hands-on workshop focusing on UI/UX design principles, trends, and best practices.",
-  //   imageUrl:
-  //     "https://images.unsplash.com/photo-1540553016722-983e48a2cd10?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80",
-  // },
-];
-
 export default function Eventspage() {
 
   const [events, setEvents] = useState([]);
