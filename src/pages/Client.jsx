@@ -10,23 +10,13 @@ export default function Client() {
     <div className="flex flex-col min-h-screen">
       {/* Use the Navbar Component */}
       <Navbar />
-
-      {/* Main Content */}
-      <main style={styles.mainContent}>
-        <Outlet />
-      </main>
-      
-      {/* Footer Components */}
+      <Outlet />
       <SponsorBanner />
       <ClientFooter />
       <StrollToTop />
+
     </div>
   );
 }
 
-const styles = {
-  mainContent: {
-    flexGrow: 1,
-    padding: '2rem',
-  },
-};
+

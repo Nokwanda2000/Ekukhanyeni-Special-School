@@ -1,36 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
-
 const EkukhanyeniProfessionalSchool = () => {
   return (
-    <div style={{
-      fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-      color: '#333',
-      lineHeight: '1.6',
-      margin: '0',
-      padding: '0',
-      boxSizing: 'border-box',
-      backgroundColor: '#f8f9fa',
-      overflowX: 'hidden',
-      width: '100%'
-    }}>
-    
-      {/* Hero Section */}
-      <section style={{
+    <>
+    {/* Hero Section - Full Width */}
+    <section style={{
         backgroundImage: 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("/slide2.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: 'clamp(300px, 50vh, 500px)',
+        height: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
         color: 'white',
-        padding: '0 5%'
+        width: '100%',
+
       }}>
-        <div style={{ maxWidth: '800px' }}>
+        <div style={{width: '100%', padding: '0 20px'}}>
           <h1 style={{
             fontSize: 'clamp(24px, 6vw, 42px)',
             fontWeight: '700',
@@ -45,7 +33,6 @@ const EkukhanyeniProfessionalSchool = () => {
           </p>
           <Link to="/AboutUspage" style={{ color: '#0088cc', textDecoration: 'none', fontSize: 'clamp(14px, 3vw, 16px)' }}>
           <button 
-            onClick={() => navigateTo('about')}
             style={{
               backgroundColor: '#2563EB',
               color: 'white',
@@ -64,10 +51,22 @@ const EkukhanyeniProfessionalSchool = () => {
           </Link>
         </div>
       </section>
+    <div style={{
+      fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      color: '#333',
+      lineHeight: '1.6',
+      margin: '0',
+      padding: '0',
+      boxSizing: 'border-box',
+      backgroundColor: '#f8f9fa',
+      overflowX: 'hidden',
+    }}>
+    
+      
 
       {/* Mission Statement */}
       <section style={{
-        padding: '60px 5%',
+        padding: '60px 20px',
         backgroundColor: 'white',
         textAlign: 'center'
       }}>
@@ -90,7 +89,7 @@ const EkukhanyeniProfessionalSchool = () => {
 
       {/* Support Section */}
       <section style={{
-        padding: '60px 5%',
+        padding: '60px 20px',
         backgroundColor: '#f8f9fa',
         position: 'relative',
         overflow: 'hidden'
@@ -213,7 +212,7 @@ const EkukhanyeniProfessionalSchool = () => {
 
       {/* Image Gallery */}
       <section style={{
-        padding: '60px 5%',
+        padding: '60px 20px',
         backgroundColor: 'white'
       }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -269,7 +268,9 @@ const EkukhanyeniProfessionalSchool = () => {
           </div>
         </div>
       </section>
-</div>)
+    </div>
+    </>
+  )
 }
      
-   export default EkukhanyeniProfessionalSchool  
+export default EkukhanyeniProfessionalSchool
