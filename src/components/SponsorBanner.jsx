@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { db } from '../utills/FirebaseConfig'; // Assuming firebase.js is in the same folder
+import { db } from '../utills/FirebaseConfig';
 import { addDoc, collection } from 'firebase/firestore';
 import HandshakeIcon from '/handshake.png';
 
-// SponsorBanner component
 const SponsorBanner = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [formData, setFormData] = useState({
@@ -14,37 +13,28 @@ const SponsorBanner = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Handle screen resize
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Handle form input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Handle form submission to Firebase
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
     try {
-      // Add a timestamp to the form data
-      const timestamp = new Date();
-
-      const sponsorData = {
+      await addDoc(collection(db, 'sponsors'), {
         ...formData,
-        timestamp: timestamp.toISOString(), // Store the timestamp as ISO string
-      };
-
-      // Add form data to Firestore
-      await addDoc(collection(db, 'sponsors'), sponsorData);
-      setFormData({ name: '', email: '', phone: '' }); // Clear form after successful submission
+        timestamp: new Date().toISOString()
+      });
+      setFormData({ name: '', email: '', phone: '' });
       alert('Thank you for becoming a sponsor!');
     } catch (err) {
       setError('Error submitting your form. Please try again.');
@@ -54,152 +44,151 @@ const SponsorBanner = () => {
     }
   };
 
+  // Main container styles
   const containerStyle = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    padding: '2rem 0',
+    padding: isMobile ? '1rem' : '2rem',
   };
 
+  // Banner styles
   const bannerStyle = {
     display: 'flex',
     width: '100%',
-    overflow: 'hidden',
+    maxWidth: '1200px',
     background: 'linear-gradient(to right, #FBBF24, #10B981, #3B82F6)',
-    padding: '1rem',
-    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-    flexDirection: 'column',
-  };
-
-  const contentStyle = {
-    display: 'flex',
+    borderRadius: '20px',
+    padding: isMobile ? '1.5rem' : '2rem',
+    boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)',
+    flexDirection: isMobile ? 'column' : 'row',
     alignItems: 'center',
-    width: '100%',
-    padding: '0 3rem',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    gap: isMobile ? '1.5rem' : '3rem',
   };
 
+  // Left section styles
   const leftSectionStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     textAlign: 'center',
-    marginBottom: '1rem',
+    flex: isMobile ? '0 0 auto' : '0 0 30%',
   };
 
   const titleStyle = {
-    fontSize: '2rem',
+    fontSize: isMobile ? '1.5rem' : '2rem',
     fontWeight: 'bold',
     color: 'black',
-    paddingTop: '1.5rem',
-    marginRight: '2rem',
+    marginBottom: '1rem',
+    lineHeight: '1.2',
   };
 
   const iconStyle = {
-    marginBottom: '0.8rem',
-    width: '4rem',
-    height: '4rem',
-    fill: 'black',
+    width: isMobile ? '3rem' : '4rem',
+    height: isMobile ? '3rem' : '4rem',
   };
 
+  // Form styles
   const formStyle = {
     flex: 1,
     width: '100%',
   };
 
-  // Dynamic grid style for responsiveness
   const gridStyle = {
     display: 'grid',
-    gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', // 1 column for small screens, 2 for larger screens
+    gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
     gap: '1rem',
+    alignItems: 'end'
   };
 
   const inputStyle = {
     width: '100%',
-    padding: '0.5rem',
-    borderRadius: '0.375rem',
-    backgroundColor: 'rgba(254, 240, 138, 0.8)',
-    border: '1px solid #ffff',
+    padding: '0.75rem',
+    borderRadius: '12px',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    border: '2px solid rgba(255, 255, 255, 0.3)',
     color: 'black',
     fontSize: '1rem',
+    transition: 'all 0.3s ease',
+    outline: 'none',
+    marginBottom: '0'
   };
 
   const buttonStyle = {
-    width: '100%', // Make button match the width of input
-    padding: '0.5rem',
+    width: '100%',
+    padding: '0.75rem',
     backgroundColor: '#3B82F6',
     color: 'white',
-    fontWeight: 500,
-    borderRadius: '0.375rem',
-    transition: 'background-color 0.2s',
-    border: '1px solid black',
-  };
-
-  const buttonHoverStyle = {
-    backgroundColor: '#2563EB',
+    fontWeight: '600',
+    borderRadius: '12px',
+    border: 'none',
+    fontSize: '1rem',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    height: '100%',
+    boxSizing: 'border-box',
+    // Removed gridColumn to make it align with phone number
   };
 
   return (
     <div style={containerStyle}>
       <div style={bannerStyle}>
-        <div style={contentStyle}>
-          {/* Left side with title and icon */}
-          <div style={leftSectionStyle}>
-            <h2 style={titleStyle}>
-              Become A<br />Sponsor
-            </h2>
-            <div style={{ marginTop: '0.75rem' }}>
-              <img src={HandshakeIcon} alt="Handshake" style={iconStyle} />
+        {/* Left section with title and icon */}
+        <div style={leftSectionStyle}>
+          <h2 style={titleStyle}>Become A Sponsor</h2>
+          <img src={HandshakeIcon} alt="Handshake" style={iconStyle} />
+        </div>
+
+        {/* Right section with form */}
+        <div style={formStyle}>
+          <form onSubmit={handleSubmit}>
+            <div style={gridStyle}>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                placeholder="Name"
+                style={inputStyle}
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="Email"
+                style={inputStyle}
+                required
+              />
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                placeholder="Phone Number"
+                style={inputStyle}
+                required
+              />
+              <button
+                type="submit"
+                style={{
+                  ...buttonStyle,
+                  // Position it next to phone number on desktop
+                  gridColumn: isMobile ? '1' : '2',
+                  // Align with the phone input
+                  marginTop: isMobile ? '0' : '0'
+                }}
+                onMouseOver={(e) => (e.target.style.backgroundColor = '#2563EB')}
+                onMouseOut={(e) => (e.target.style.backgroundColor = '#3B82F6')}
+                disabled={loading}
+              >
+                {loading ? 'Submitting...' : 'Submit'}
+              </button>
             </div>
-          </div>
-
-          {/* Form elements */}
-          <div style={formStyle}>
-            <form onSubmit={handleSubmit}>
-              <div style={gridStyle}>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Name"
-                  style={inputStyle}
-                  required
-                />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  placeholder="Email"
-                  style={inputStyle}
-                  required
-                />
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleInputChange}
-                  placeholder="Phone Number"
-                  style={inputStyle}
-                  required
-                />
-                <button
-                  type="submit"
-                  style={buttonStyle}
-                  onMouseOver={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
-                  onMouseOut={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
-                  disabled={loading}
-                >
-                  {loading ? 'Submitting...' : 'Submit'}
-                </button>
-              </div>
-
-              {error && <p className="text-red-500">{error}</p>}
-            </form>
-          </div>
+            {error && <p style={{ color: 'red', marginTop: '0.5rem' }}>{error}</p>}
+          </form>
         </div>
       </div>
     </div>

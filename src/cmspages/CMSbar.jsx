@@ -21,6 +21,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         zIndex: 1000,
       }}
     >
+      {/* Close button inside the sidebar */}
       <button
         style={{
           position: "absolute",
@@ -29,12 +30,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           background: "none",
           border: "none",
           cursor: "pointer",
-          color: "#444",
-          display: "block",
+          color: "#1D4ED8",
         }}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(false)}
       >
-        <X size={30} />
+        <X size={24} />
       </button>
 
       {/* Logo */}
@@ -58,7 +58,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   );
 };
 
-// Reusable Sidebar Link Component
+// SideNavLink component
 const SideNavLink = ({ to, children }) => (
   <Link
     to={to}
