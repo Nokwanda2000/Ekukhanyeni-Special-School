@@ -82,7 +82,7 @@ const handleSubmit = async (e) => {
       
       <div style={{ width: '100%', height: '24rem', overflow: 'hidden', justifyContent: 'center', alignItems: 'center' }}>
         <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3467.4962773811662!2d30.351424910789202!3d-29.647370112872633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ef6bd30916269f3%3A0x44fe6382070879e3!2sEkukhanyeni%20Special%20School!5e0!3m2!1sen!2sza!4v1741684158708!5m2!1sen!2sza"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3467.496115928745!2d30.3540052!3d-29.6473748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ef6bd3076d139f7%3A0x956d0b8c71eea78!2sEkukhanyeni!5e0!3m2!1sen!2sza!4v1742888262365!5m2!1sen!2sza"
           width="100%" 
           height="100%" 
           style={{ border: 0, width: '100%', height: '100%', objectFit: 'cover' }} 

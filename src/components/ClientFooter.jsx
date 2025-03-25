@@ -111,7 +111,7 @@ const ClientFooter = () => {
               borderRadius: '0.375rem',
               border: '1px solid #d1d5db',
             }}
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3446.345376110522!2d30.342897775452723!3d-29.641601474064226!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ef5d7db109f64b9%3A0x68eb66586c45506b!2sMdoni%20Rd%2C%20Edendale%2C%20Pietermaritzburg%2C%203211!5e0!3m2!1sen!2sza!4v1710000000000"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3467.496115928745!2d30.3540052!3d-29.6473748!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ef6bd3076d139f7%3A0x956d0b8c71eea78!2sEkukhanyeni!5e0!3m2!1sen!2sza!4v1742888262365!5m2!1sen!2sza"
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

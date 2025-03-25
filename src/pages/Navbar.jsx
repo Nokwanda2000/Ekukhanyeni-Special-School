@@ -121,10 +121,10 @@ const Navbar = () => {
               </div>
               <div>
                 <p style={{ fontWeight: 'bold', fontSize: '0.875rem' }}>Address</p>
-                <p style={infoTextStyles}>140 Mdoni Road,</p>
-                <p style={infoTextStyles}>Edendale,</p>
-                <p style={infoTextStyles}>Pietermaritzburg,</p>
-                <p style={infoTextStyles}>Kwa Zulu Natal</p>
+                <p style={infoTextStyles}>Sutherlands Road</p>
+                <p style={infoTextStyles}>Masons Mill</p>
+                <p style={infoTextStyles}>Pietermaritzburg</p>
+                <p style={infoTextStyles}>3201</p>
               </div>
             </div>
           </div>
