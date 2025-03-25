@@ -232,7 +232,7 @@ const EkukhanyeniProfessionalSchool = () => {
           }}>
             <div style={{ flex: '1 1 300px', minWidth: '250px', maxWidth: '400px' }}>
               <img 
-                src="../../src/assets/slide 3.jpg" 
+                src="/slide 3.jpg" 
                 alt="Students in classroom" 
                 style={{
                   width: '100%',
@@ -244,7 +244,7 @@ const EkukhanyeniProfessionalSchool = () => {
             </div>
             <div style={{ flex: '1 1 300px', minWidth: '250px', maxWidth: '400px' }}>
               <img 
-                src="../../src/assets/bead2.jpg" 
+                src="/bead2.jpg" 
                 alt="Arts and crafts activities" 
                 style={{
                   width: '100%',
@@ -256,7 +256,7 @@ const EkukhanyeniProfessionalSchool = () => {
             </div>
             <div style={{ flex: '1 1 300px', minWidth: '250px', maxWidth: '400px' }}>
               <img 
-                src="../../src/assets/gardening.jpg" 
+                src="/gardening.jpg" 
                 alt="Outdoor activities" 
                 style={{
                   width: '100%',

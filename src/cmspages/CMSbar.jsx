@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { X } from "lucide-react";
-import Logo from '../assets/Ekukhanyeni Special School trpnt logo.png';
+import Logo from '/Ekukhanyeni Special School trpnt logo.png';
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   return (

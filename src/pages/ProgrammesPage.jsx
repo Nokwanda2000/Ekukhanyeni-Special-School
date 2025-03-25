@@ -38,7 +38,7 @@ const OurProgrammes = () => {
           <div>
             <div style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '8px', overflow: 'hidden', position: 'relative' }}>
               <img 
-                src="../../src/assets/IMG-20240319-WA0001.jpg" 
+                src="/IMG-20240319-WA0001.jpg" 
                 alt="Ekukhanyeni Centre Children" 
                 style={{ width: '100%', display: 'block' }}
               />
@@ -81,13 +81,71 @@ const OurProgrammes = () => {
           <div>
             <div style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '8px', overflow: 'hidden' }}>
               <img 
-                src="../../src/assets/IMG-20240221-WA0019.jpg" 
+                src="/IMG-20240221-WA0019.jpg" 
                 alt="Teacher explaining to students" 
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
             </div>
           </div>
         </div>
+
+        {/* What is LSPID section */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
+          {/* LSPID text */}
+          <div>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>What is LSPID?</h2>
+            <div style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#4a5568' }}>
+              <p style={{ marginBottom: '1rem' }}>
+              LSPID is the Learning Programme (LP) for children with Severe to Profound Intellectual Disability (SPID).
+              </p>
+              <p style={{ marginBottom: '1rem' }}>
+              The goal of this programme is to asses the learning needs (strengths and weeknesses) of children with SPID, plan intergrated programmes and activities to ensure maximum development and community intergration and intergrate the Learning Programme into the Daily Programme by means of illustrative examples.
+              </p>
+            </div>
+          </div>
+          
+          {/* DCAPS image */}
+          <div>
+            <div style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '8px', overflow: 'hidden' }}>
+              <img 
+                src="/IMG-20240221-WA0009.jpg"
+                alt="Teacher explaining to students" 
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Skills Development section */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
+          {/* Skills Development text */}
+          <div>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>Skills Development</h2>
+            <div style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#4a5568' }}>
+              <p style={{ marginBottom: '1rem' }}>
+              From Grade 4 to Grade 5 our students mostly focus on improving skills and developing new ones.
+              </p>
+              <p style={{ marginBottom: '1rem' }}>
+              These include the likes of leatherwork, woodwork and printing. The students also take part in the agricultrural side of skills including gardening, sewing and garmet making. This is done in the hopes that they can be prepared for life outside of the classroom.
+              </p>
+            </div>
+          </div>
+          
+          {/* DCAPS image */}
+          <div>
+            <div style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '8px', overflow: 'hidden' }}>
+              <img 
+                src="/IMG-20240221-WA0016.jpg" 
+                alt="Teacher explaining to students" 
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+          </div>
+        </div>
+
+        
+
+        
 
         {/* Programs Grid */}
         <div style={{ marginTop: '2rem', marginBottom: '3rem' }}>
@@ -105,7 +163,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/IMG-20240221-WA0007.jpg" 
+                  src="/IMG-20240221-WA0007.jpg" 
                   alt="Woodwork class" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -124,7 +182,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/IMG-20240221-WA0002.jpg" 
+                  src="/IMG-20240221-WA0002.jpg" 
                   alt="Leather work class" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -143,7 +201,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/gardening.jpg" 
+                  src="/gardening.jpg" 
                   alt="Students gardening" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -168,7 +226,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/IMG-20240222-WA0011.jpg" 
+                  src="/IMG-20240221-WA0024.jpg" 
                   alt="Sewing class" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -187,7 +245,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/bead2.jpg" 
+                  src="/bead2.jpg" 
                   alt="Bead work class" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -206,7 +264,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/sport1.jpg" 
+                  src="/sport1.jpg" 
                   alt="Students playing sports" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />

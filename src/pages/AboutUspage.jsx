@@ -72,7 +72,7 @@ const AboutUs = () => {
           <div>
             <div style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '8px', overflow: 'hidden' }}>
               <img 
-                src="../../src/assets/slide2.jpg" 
+                src="/slide2.jpg" 
                 alt="School Achievements" 
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />

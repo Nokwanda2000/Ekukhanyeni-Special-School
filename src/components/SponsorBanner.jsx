@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../utills/FirebaseConfig'; // Assuming firebase.js is in the same folder
 import { addDoc, collection } from 'firebase/firestore';
-import HandshakeIcon from '../assets/handshake.png';
+import HandshakeIcon from '/handshake.png';
 
 // SponsorBanner component
 const SponsorBanner = () => {
@@ -65,20 +65,18 @@ const SponsorBanner = () => {
   const bannerStyle = {
     display: 'flex',
     width: '100%',
-    maxWidth: '1000px', // Increased max width for a larger banner
     overflow: 'hidden',
     background: 'linear-gradient(to right, #FBBF24, #10B981, #3B82F6)',
-    padding: '2rem', // Increased padding for more space
+    padding: '1rem',
     boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
     flexDirection: 'column',
-    borderRadius: '10px', // Add border radius for a softer look
   };
 
   const contentStyle = {
     display: 'flex',
     alignItems: 'center',
     width: '100%',
-    padding: '0 2rem', // Adjust padding for smaller screens
+    padding: '0 3rem',
     flexWrap: 'wrap',
     justifyContent: 'center',
   };
@@ -92,7 +90,7 @@ const SponsorBanner = () => {
   };
 
   const titleStyle = {
-    fontSize: '2.5rem', // Increased font size for the title
+    fontSize: '2rem',
     fontWeight: 'bold',
     color: 'black',
     paddingTop: '1.5rem',
@@ -120,7 +118,7 @@ const SponsorBanner = () => {
 
   const inputStyle = {
     width: '100%',
-    padding: '0.75rem', // Increased padding for inputs
+    padding: '0.5rem',
     borderRadius: '0.375rem',
     backgroundColor: 'rgba(254, 240, 138, 0.8)',
     border: '1px solid #ffff',
@@ -130,8 +128,8 @@ const SponsorBanner = () => {
 
   const buttonStyle = {
     width: '100%', // Make button match the width of input
-    padding: '0.75rem', // Increased padding for button
-    backgroundColor: '#2563EB',
+    padding: '0.5rem',
+    backgroundColor: '#3B82F6',
     color: 'white',
     fontWeight: 500,
     borderRadius: '0.375rem',
