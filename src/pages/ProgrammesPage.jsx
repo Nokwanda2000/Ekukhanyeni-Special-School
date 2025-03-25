@@ -38,7 +38,7 @@ const OurProgrammes = () => {
           <div>
             <div style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '8px', overflow: 'hidden', position: 'relative' }}>
               <img 
-                src="../../src/assets/IMG-20240319-WA0001.jpg" 
+                src="/IMG-20240319-WA0001.jpg" 
                 alt="Ekukhanyeni Centre Children" 
                 style={{ width: '100%', display: 'block' }}
               />
@@ -81,7 +81,7 @@ const OurProgrammes = () => {
           <div>
             <div style={{ boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '8px', overflow: 'hidden' }}>
               <img 
-                src="../../src/assets/IMG-20240221-WA0019.jpg" 
+                src="/IMG-20240221-WA0019.jpg" 
                 alt="Teacher explaining to students" 
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
@@ -105,7 +105,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/IMG-20240221-WA0007.jpg" 
+                  src="/IMG-20240221-WA0007.jpg" 
                   alt="Woodwork class" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -124,7 +124,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/IMG-20240221-WA0002.jpg" 
+                  src="/IMG-20240221-WA0002.jpg" 
                   alt="Leather work class" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -143,7 +143,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/gardening.jpg" 
+                  src="/gardening.jpg" 
                   alt="Students gardening" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -168,7 +168,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/IMG-20240222-WA0011.jpg" 
+                  src="/IMG-20240222-WA0011.jpg" 
                   alt="Sewing class" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -187,7 +187,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/bead2.jpg" 
+                  src="/bead2.jpg" 
                   alt="Bead work class" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
@@ -206,7 +206,7 @@ const OurProgrammes = () => {
             <div style={{ border: '1px solid #e2e8f0', borderRadius: '8px', overflow: 'hidden' }}>
               <div style={{ height: '200px', overflow: 'hidden' }}>
                 <img 
-                  src="../../src/assets/sport1.jpg" 
+                  src="/sport1.jpg" 
                   alt="Students playing sports" 
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />

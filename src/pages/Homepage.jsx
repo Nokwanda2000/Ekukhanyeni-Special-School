@@ -19,7 +19,7 @@ const EkukhanyeniProfessionalSchool = () => {
     
       {/* Hero Section */}
       <section style={{
-        backgroundImage: 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("../../src/assets/slide2.jpg")',
+        backgroundImage: 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("/slide2.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         height: 'clamp(300px, 50vh, 500px)',
@@ -47,7 +47,7 @@ const EkukhanyeniProfessionalSchool = () => {
           <button 
             onClick={() => navigateTo('about')}
             style={{
-              backgroundColor: '#0088cc',
+              backgroundColor: '#2563EB',
               color: 'white',
               border: 'none',
               padding: '12px 24px',
@@ -156,7 +156,7 @@ const EkukhanyeniProfessionalSchool = () => {
               <h3 style={{ fontSize: '20px', color: '#333', marginBottom: '15px' }}>Donate</h3>
               <p style={{ fontSize: '16px', color: '#666', marginBottom: '20px' }}>Make a one-time or recurring donation to support our programs and facilities.</p>
               <button style={{
-                backgroundColor: '#0088cc',
+                backgroundColor: '#2563EB',
                 color: 'white',
                 border: 'none',
                 padding: '10px 20px',
@@ -177,7 +177,7 @@ const EkukhanyeniProfessionalSchool = () => {
               <h3 style={{ fontSize: '20px', color: '#333', marginBottom: '15px' }}>Sponsor</h3>
               <p style={{ fontSize: '16px', color: '#666', marginBottom: '20px' }}>Sponsor a student or a specific program to help sustain our educational initiatives.</p>
               <button style={{
-                backgroundColor: '#0088cc',
+                backgroundColor: '#2563EB',
                 color: 'white',
                 border: 'none',
                 padding: '10px 20px',
@@ -198,7 +198,7 @@ const EkukhanyeniProfessionalSchool = () => {
               <h3 style={{ fontSize: '20px', color: '#333', marginBottom: '15px' }}>Volunteer</h3>
               <p style={{ fontSize: '16px', color: '#666', marginBottom: '20px' }}>Donate your time and skills to help our students learn and grow in a supportive environment.</p>
               <button style={{
-                backgroundColor: '#0088cc',
+                backgroundColor: '#2563EB',
                 color: 'white',
                 border: 'none',
                 padding: '10px 20px',
@@ -232,7 +232,7 @@ const EkukhanyeniProfessionalSchool = () => {
           }}>
             <div style={{ flex: '1 1 300px', minWidth: '250px', maxWidth: '400px' }}>
               <img 
-                src="../../src/assets/slide 3.jpg" 
+                src="/slide 3.jpg" 
                 alt="Students in classroom" 
                 style={{
                   width: '100%',
@@ -244,7 +244,7 @@ const EkukhanyeniProfessionalSchool = () => {
             </div>
             <div style={{ flex: '1 1 300px', minWidth: '250px', maxWidth: '400px' }}>
               <img 
-                src="../../src/assets/bead2.jpg" 
+                src="/bead2.jpg" 
                 alt="Arts and crafts activities" 
                 style={{
                   width: '100%',
@@ -256,7 +256,7 @@ const EkukhanyeniProfessionalSchool = () => {
             </div>
             <div style={{ flex: '1 1 300px', minWidth: '250px', maxWidth: '400px' }}>
               <img 
-                src="../../src/assets/gardening.jpg" 
+                src="/gardening.jpg" 
                 alt="Outdoor activities" 
                 style={{
                   width: '100%',

@@ -59,7 +59,7 @@ const LoginCMS = () => {
     minHeight: '100vh',
     backgroundColor: 'white',
     position: 'relative',
-    backgroundImage: "url('../../src/assets/signin bg.png')",
+    backgroundImage: "url('/signin bg.png')",
     backgroundSize: 'cover',
   };
 
@@ -130,7 +130,7 @@ const LoginCMS = () => {
     <div style={containerStyles}>
       <div style={formContainerStyles}>
         <img
-          src="../../src/assets/Ekukhanyeni Logo 2.jpg"
+          src="/Ekukhanyeni Logo 2.jpg"
           alt="School Logo"
           style={logoStyles}
         />

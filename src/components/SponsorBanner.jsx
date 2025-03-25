@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../utills/FirebaseConfig'; // Assuming firebase.js is in the same folder
 import { addDoc, collection } from 'firebase/firestore';
-import HandshakeIcon from '../assets/handshake.png';
+import HandshakeIcon from '/handshake.png';
 
 // SponsorBanner component
 const SponsorBanner = () => {
