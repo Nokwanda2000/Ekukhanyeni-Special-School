@@ -561,7 +561,8 @@ const UsersCMS = () => {
       <h1 style={{ 
         fontSize: '20px',
         marginBottom: '20px',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color:"#3B82F6"
       }}>Users</h1>
       
       {error && (

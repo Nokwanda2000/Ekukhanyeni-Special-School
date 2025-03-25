@@ -193,7 +193,7 @@ const TimetableCMS = () => {
         <button 
           onClick={handleAddNew}
           style={{
-            backgroundColor: '#0095ff',
+            backgroundColor: '#2563EB',
             color: 'white',
             border: 'none',
             borderRadius: '4px',
@@ -212,7 +212,7 @@ const TimetableCMS = () => {
           <button 
             onClick={() => setShowListView(false)}
             style={{
-              backgroundColor: !showListView ? '#0095ff' : '#e5e5e5',
+              backgroundColor: !showListView ? '#2563EB' : '#e5e5e5',
               color: !showListView ? 'white' : 'black',
               border: 'none',
               borderRadius: '4px',
@@ -252,7 +252,7 @@ const TimetableCMS = () => {
             style={{
               padding: '8px 16px',
               borderRadius: '4px',
-              backgroundColor: selectedGrade === grade ? '#3b82f6' : '#dbeafe',
+              backgroundColor: selectedGrade === grade ? '#2563EB' : '#dbeafe',
               color: selectedGrade === grade ? 'white' : '#3b82f6',
               border: 'none',
               cursor: 'pointer',

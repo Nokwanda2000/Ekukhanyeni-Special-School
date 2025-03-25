@@ -2,6 +2,91 @@ import React, { useState, useEffect } from 'react';
 import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../src/utills/FirebaseConfig';
 
+
+// EventDetailsModal component
+const EventDetailsModal = ({ event, onClose }) => {
+  if (!event) return null;
+
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 2000,
+      padding: '20px'
+    }}>
+      <div style={{
+        backgroundColor: 'white',
+        borderRadius: '8px',
+        padding: '25px',
+        width: '90%',
+        maxWidth: '800px',
+        maxHeight: '90vh',
+        overflowY: 'auto',
+        position: 'relative'
+      }}>
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute',
+            top: '15px',
+            right: '15px',
+            background: 'none',
+            border: 'none',
+            fontSize: '24px',
+            cursor: 'pointer',
+            color: '#666'
+          }}
+        >
+          ×
+        </button>
+
+        <h2 style={{ marginBottom: '20px', color: '#1D4ED8' }}>{event.title}</h2>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+            <div style={{ flex: 1, minWidth: '250px' }}>
+              <img 
+                src={event.imageURL} 
+                alt={event.title}
+                style={{
+                  width: '100%',
+                  borderRadius: '8px',
+                  maxHeight: '300px',
+                  objectFit: 'cover'
+                }}
+              />
+            </div>
+            
+            <div style={{ flex: 1, minWidth: '250px' }}>
+              <div style={{ marginBottom: '15px' }}>
+                <h3 style={{ marginBottom: '5px', color: '#555' }}>Date & Time</h3>
+                <p>{event.date} | {event.startTime} - {event.endTime}</p>
+              </div>
+              
+              <div style={{ marginBottom: '15px' }}>
+                <h3 style={{ marginBottom: '5px', color: '#555' }}>Location</h3>
+                <p>{event.location}</p>
+              </div>
+              
+              <div>
+                <h3 style={{ marginBottom: '5px', color: '#555' }}>Description</h3>
+                <p style={{ whiteSpace: 'pre-line' }}>{event.description}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // AddEventModal component
 const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {
   const [title, setTitle] = useState('');
@@ -312,6 +397,7 @@ const EventsCMS = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   const eventsPerPage = 5;
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   // Handle window resize
   useEffect(() => {
@@ -406,7 +492,8 @@ const EventsCMS = () => {
       <h1 style={{
         fontSize: '20px',
         marginBottom: '20px',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color:'#3B82F6'
       }}>Events</h1>
 
       {error && (
@@ -567,6 +654,24 @@ const EventsCMS = () => {
                       >
                         Delete
                       </button>
+
+
+                      <button
+  onClick={() => setSelectedEvent(event)}
+  style={{
+    backgroundColor: '#1D4ED8',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '8px 20px',
+    cursor: 'pointer',
+    marginLeft: '10px'
+    
+   
+  }}
+>
+  View More
+</button>
                     </td>
                   </tr>
                 ))}
@@ -633,6 +738,12 @@ const EventsCMS = () => {
         onClose={() => setIsAddModalOpen(false)}
         onAddEvent={handleAddNewEvent}
       />
+
+
+<EventDetailsModal 
+  event={selectedEvent}
+  onClose={() => setSelectedEvent(null)}
+/>
     </div>
   );
 };
