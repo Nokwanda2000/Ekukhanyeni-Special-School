@@ -84,12 +84,11 @@ const ClientFooter = () => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.5rem' }}>
             {[
               { name: 'Home', link: '/' },
-              { name: 'Events', link: '/events' },
-              { name: 'Timetables', link: '/timetables' },
-              { name: 'About Us', link: '/about' },
-              { name: 'Programmes', link: '/programmes' },
-              { name: 'Sponsors', link: '/sponsors' },
-              { name: 'Contact', link: '/contact' },
+              { name: 'Events', link: '/eventspage' },
+              { name: 'Timetables', link: '/timetablespage' },
+              { name: 'About Us', link: '/aboutuspage' },
+              { name: 'Programmes', link: '/programmespage' },
+              { name: 'Contact Us', link: '/contactpage' },
             ].map((item, index) => (
               <a 
                 key={index}
