@@ -1,171 +1,205 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { MapPin, Phone, Clock } from 'lucide-react'; // Import icons
+import { Link, useLocation } from 'react-router-dom';
+import { MapPin, Phone, Clock, Menu, X } from 'lucide-react';
 import Logo from '/Ekukhanyeni Special School trpnt logo.png';
 
 const Navbar = () => {
-  // State to handle mobile menu toggle
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
-  // Toggle menu visibility
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const infoBarStyles = {
-    backgroundColor: '#f3f4f6',
-    width: '100%',
-    padding: '0.5rem 0',
+  // Color Palette
+  const colors = {
+    primary: '#1E40AF', // Deep blue
+    secondary: '#2563EB', // Bright blue
+    background: '#F3F4F6', // Light gray
+    text: '#1F2937', // Dark gray
+    white: '#FFFFFF',
   };
 
+  // Responsive Container
   const containerStyles = {
+    maxWidth: '1280px',
+    margin: '0 auto',
+    padding: '0 1rem',
+  };
+
+  // Info Bar Styles
+  const infoBarStyles = {
+    backgroundColor: colors.background,
+    borderBottom: `1px solid ${colors.primary}`,
+    padding: '1rem 0',
+  };
+
+  // Contact Info Styles
+  const contactInfoStyles = {
     display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '0 2rem',
-    maxWidth: '1200px',
-    margin: '0 auto',
+    flexWrap: 'wrap',
+    gap: '1rem',
   };
 
-  const infoItemStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-  };
-
-  const infoTextStyles = {
-    fontSize: '0.875rem',
-    color: '#6b7280',
-  };
-
-  const navBarStyles = {
-    borderBottom: '1px solid #e5e7eb',
-    padding: '1rem 0',
-    backgroundColor: '#f3f4f6',
+  // Navigation Styles
+  const navStyles = {
+    backgroundColor: colors.white,
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
   };
 
   const navContainerStyles = {
-    width: '100%',
-  };
-
-  const navMenuStyles = {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: '1rem 0',
   };
 
   const navListStyles = {
     display: 'flex',
-    gap: '1.5rem', // 24px space between nav items
+    gap: '1.5rem',
     listStyle: 'none',
-    padding: '0',
+    margin: 0,
+    padding: 0,
   };
 
-  const navItemStyles = {};
-
   const navLinkStyles = {
-    padding: '0.75rem 1rem',
-    fontWeight: '500',
     textDecoration: 'none',
-    color: '#333',
+    color: colors.text,
+    fontWeight: 600,
+    padding: '0.5rem 1rem',
+    borderRadius: '0.25rem',
+    transition: 'all 0.3s ease',
   };
 
   const activeLinkStyles = {
-    textDecoration: 'underline',
+    backgroundColor: colors.primary,
+    color: colors.white,
   };
 
-  const mobileMenuStyles = {
-    display: isMenuOpen ? 'block' : 'none',
-    backgroundColor: '#f3f4f6',
+  // Mobile Menu Styles
+  const mobileMenuToggleStyles = {
+    display: 'none',
+    '@media (max-width: 768px)': {
+      display: 'block',
+    },
+  };
+
+  // Responsive Menu
+  const responsiveMenuStyles = {
+    '@media (max-width: 768px)': {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundColor: colors.white,
+      zIndex: 50,
+      transform: isMenuOpen ? 'translateX(0)' : 'translateX(100%)',
+      transition: 'transform 0.3s ease-in-out',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '2rem',
+      padding: '2rem',
+    },
   };
 
   return (
-    <div>
-      {/* Info Bar with Logo and Contact Information */}
+    <header>
+      {/* Info Bar */}
       <div style={infoBarStyles}>
         <div style={containerStyles}>
-          {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem', marginLeft: '2rem' }}>
-            <img src={Logo} alt="Logo" style={{ height: '120px' }} />
-          </div>
+          <div style={contactInfoStyles}>
+            {/* Logo */}
+            <img 
+              src={Logo} 
+              alt="Ekukhanyeni Special School Logo" 
+              style={{ height: '100px', objectFit: 'contain' }} 
+            />
 
-          {/* Contact Info */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {/* Call */}
-            <div style={infoItemStyles}>
-              <div style={{ borderRadius: '50%', padding: '0.5rem', backgroundColor: '#e5e7eb' }}>
-                <Phone style={{ width: '20px', height: '20px', color: '#3b82f6' }} />
+            {/* Contact Details */}
+            <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Phone size={24} color={colors.secondary} />
+                <div>
+                  <p style={{ margin: 0, fontWeight: 'bold' }}>Call Us</p>
+                  <p style={{ margin: 0, color: colors.text }}>+27 33 398 1325</p>
+                </div>
               </div>
-              <div>
-                <p style={{ fontWeight: 'bold', fontSize: '0.875rem' }}>Call</p>
-                <p style={infoTextStyles}>+27 33 398 1325</p>
-              </div>
-            </div>
 
-            {/* Operating Hours */}
-            <div style={infoItemStyles}>
-              <div style={{ borderRadius: '50%', padding: '0.5rem', backgroundColor: '#e5e7eb' }}>
-                <Clock style={{ width: '20px', height: '20px', color: '#3b82f6' }} />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Clock size={24} color={colors.secondary} />
+                <div>
+                  <p style={{ margin: 0, fontWeight: 'bold' }}>Hours</p>
+                  <p style={{ margin: 0, color: colors.text }}>Mon-Fri 7 AM - 3 PM</p>
+                </div>
               </div>
-              <div>
-                <p style={{ fontWeight: 'bold', fontSize: '0.875rem' }}>Operating Hours</p>
-                <p style={infoTextStyles}>Mon - Fri 7 AM - 3 PM</p>
-              </div>
-            </div>
 
-            {/* Address */}
-            <div style={infoItemStyles}>
-              <div style={{ borderRadius: '50%', padding: '0.5rem', backgroundColor: '#e5e7eb' }}>
-                <MapPin style={{ width: '20px', height: '20px', color: '#3b82f6' }} />
-              </div>
-              <div>
-                <p style={{ fontWeight: 'bold', fontSize: '0.875rem' }}>Address</p>
-                <p style={infoTextStyles}>Sutherlands Road</p>
-                <p style={infoTextStyles}>Masons Mill</p>
-                <p style={infoTextStyles}>Pietermaritzburg</p>
-                <p style={infoTextStyles}>3201</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <MapPin size={24} color={colors.secondary} />
+                <div>
+                  <p style={{ margin: 0, fontWeight: 'bold' }}>Location</p>
+                  <p style={{ margin: 0, color: colors.text }}>Sutherlands Road, Pietermaritzburg</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile Hamburger Menu */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1rem 2rem', backgroundColor: '#1f2937', color: 'white' }}>
-        <button onClick={toggleMenu} style={{ color: 'white', background: 'none', border: 'none', fontSize: '1rem' }}>
-          {isMenuOpen ? 'Close Menu' : 'Open Menu'}
-        </button>
-      </div>
+      {/* Navigation */}
+      <nav style={navStyles}>
+        <div style={{...containerStyles, ...navContainerStyles}}>
+          {/* Mobile Menu Toggle */}
+          <button 
+            onClick={toggleMenu} 
+            style={{
+              ...mobileMenuToggleStyles,
+              background: 'none', 
+              border: 'none', 
+              cursor: 'pointer'
+            }}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
 
-      {/* Navigation Menu */}
-      <div style={mobileMenuStyles}>
-        <div style={navContainerStyles}>
-          <nav>
-            <ul style={navListStyles}>
-              <li style={navItemStyles}>
-                <Link to="/" style={navLinkStyles}>Home</Link>
+          {/* Navigation Menu */}
+          <ul 
+            style={{
+              ...navListStyles,
+              ...responsiveMenuStyles,
+              '@media (min-width: 769px)': {
+                flexDirection: 'row',
+              }
+            }}
+          >
+            {[
+              { path: '/', label: 'Home' },
+              { path: '/Eventspage', label: 'Events' },
+              { path: '/TimetablesPage', label: 'Timetables' },
+              { path: '/AboutUspage', label: 'About Us' },
+              { path: '/ProgrammesPage', label: 'Our Programmes' },
+              { path: '/Contactpage', label: 'Contact Us' }
+            ].map(({ path, label }) => (
+              <li key={path}>
+                <Link 
+                  to={path} 
+                  style={{
+                    ...navLinkStyles,
+                    ...(location.pathname === path ? activeLinkStyles : {})
+                  }}
+                >
+                  {label}
+                </Link>
               </li>
-              <li style={navItemStyles}>
-                <Link to="/Eventspage" style={{ ...navLinkStyles, ...activeLinkStyles }}>Events</Link>
-              </li>
-              <li style={navItemStyles}>
-                <Link to="/TimetablesPage" style={navLinkStyles}>Timetables</Link>
-              </li>
-              <li style={navItemStyles}>
-                <Link to="/AboutUspage" style={navLinkStyles}>About Us</Link>
-              </li>
-              <li style={navItemStyles}>
-                <Link to="/ProgrammesPage" style={navLinkStyles}>Our Programmes</Link>
-              </li>
-              <li style={navItemStyles}>
-                <Link to="/Contactpage" style={navLinkStyles}>Contact Us</Link>
-              </li>
-            </ul>
-          </nav>
+            ))}
+          </ul>
         </div>
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 };
 
