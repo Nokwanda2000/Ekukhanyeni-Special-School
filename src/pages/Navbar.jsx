@@ -12,9 +12,10 @@
 //     backgroundColor: '#f3f4f6',
 //   };
 
-//   const logoStyles = {
-//     height: '80px',
-//   };
+  const logoStyles = {
+    height: '80px',
+    color:"#2563eb" 
+  };
 
 //   const contactInfoStyles = {
 //     display: 'flex',
@@ -78,61 +79,61 @@
 //         {/* Logo */}
 //         <img src={Logo} alt="Logo" style={logoStyles} />
 
-//         {/* Contact Information */}
-//         <div style={contactInfoStyles}>
-//           <div style={contactGroupStyles}>
-//             <div style={contactHeaderStyles}>Call</div>
-//             <div style={contactItemStyles}>
-//               <Phone size={20} />
-//               <span>+27 33 398 1325</span>
-//             </div>
-//           </div>
+        {/* Contact Information */}
+        <div style={contactInfoStyles}>
+          <div style={contactGroupStyles}>
+            <div style={contactHeaderStyles}>Call</div>
+            <div style={contactItemStyles}>
+              <Phone size={20} color="#2563eb"  />
+              <span>+27 33 398 1325</span>
+            </div>
+          </div>
 
-//           <div style={contactGroupStyles}>
-//             <div style={contactHeaderStyles}>Opening Hours</div>
-//             <div style={contactItemStyles}>
-//               <Clock size={20} />
-//               <span>Mon - Fri 7 AM - 3 PM</span>
-//             </div>
-//           </div>
+          <div style={contactGroupStyles}>
+            <div style={contactHeaderStyles}>Opening Hours</div>
+            <div style={contactItemStyles}>
+              <Clock size={20} color="#2563eb"  />
+              <span>Mon - Fri 7 AM - 3 PM</span>
+            </div>
+          </div>
 
-//           <div style={contactGroupStyles}>
-//             <div style={contactHeaderStyles}>Address</div>
-//             <div style={contactItemStyles}>
-//               <MapPin size={20} />
-//               <span>Mdoni Road, Edendale, Pietermaritzburg, KwaZulu Natal</span>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
+          <div style={contactGroupStyles}>
+            <div style={contactHeaderStyles}>Address</div>
+            <div style={contactItemStyles}>
+              <MapPin size={20} color="#2563eb" />
+              <span>Mdoni Road, Edendale, Pietermaritzburg, KwaZulu Natal</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-//       {/* Navigation Menu */}
-//       <div style={navBarStyles}>
-//         <nav>
-//           <ul style={navListStyles}>
-//             <li>
-//               <Link to="/" style={navLinkStyles}>Home</Link>
-//             </li>
-//             <li>
-//               <Link to="/eventspage" style={navLinkStyles}>Events</Link>
-//             </li>
-//             <li>
-//               <Link to="/timetablespage" style={navLinkStyles}>Timetables</Link>
-//             </li>
-//             <li>
-//               <Link to="/aboutuspage" style={navLinkStyles}>About Us</Link>
-//             </li>
-//             <li>
-//               <Link to="/programmespage" style={navLinkStyles}>Our Programmes</Link>
-//             </li>
-//             <li>
-//               <Link to="/contactpage" style={navLinkStyles}>Contacts</Link>
-//             </li>
-//           </ul>
-//         </nav>
-//       </div>
-//     </div>
-//   );
-// };
+      {/* Navigation Menu */}
+      <div style={navBarStyles}>
+        <nav>
+          <ul style={navListStyles}>
+            <li>
+              <Link to="/" style={navLinkStyles}>Home</Link>
+            </li>
+            <li>
+              <Link to="/Eventspage" style={navLinkStyles}>Events</Link>
+            </li>
+            <li>
+              <Link to="/TimetablesPage" style={navLinkStyles}>Timetables</Link>
+            </li>
+            <li>
+              <Link to="/AboutUsPage" style={navLinkStyles}>About Us</Link>
+            </li>
+            <li>
+              <Link to="/Programmespage" style={navLinkStyles}>Programmes</Link>
+            </li>
+            <li>
+              <Link to="/Contactpage" style={navLinkStyles}>Contacts</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  );
+};
 
 // export default Navbar;
