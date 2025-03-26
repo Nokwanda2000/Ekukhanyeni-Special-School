@@ -1,21 +1,50 @@
-import React, { useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import Sidebar from '../../src/cmspages/CMSbar';
+import React, { useState, useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import Sidebar from "../../src/cmspages/CMSbar";
 import { Menu } from "lucide-react";
+import { auth } from "../utills/FirebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function CMS() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isLoginPage = location.pathname === "/CMS";
   const [isOpen, setIsOpen] = useState(true);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Track loading state
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        setUser(null);
+        // Block navigation to other pages if not logged in
+        if (location.pathname !== "/CMS") {
+          navigate("/CMS"); // Redirect to login if not logged in
+        }
+      }
+      setLoading(false); // Mark as loaded after checking auth state
+    });
+
+    return () => unsubscribe();
+  }, [navigate, location.pathname]);
+
+  if (loading) {
+    return <div>Loading...</div>; // Show loading until Firebase restores session
+  }
+
+  // If the user is not logged in and they are not on the login page, prevent further navigation
+  if (!user && !isLoginPage) {
+    navigate("/CMS"); // Redirect to the login page
+    return null; // Return null to prevent rendering the rest of the layout
+  }
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "white", color: "#000" }}>
-      {!isLoginPage && (
+      {!isLoginPage && user && (
         <>
-          {/* Sidebar Component */}
           <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-          
-          {/* Mobile Toggle Button - Positioned safely in top-left corner */}
           {!isOpen && (
             <button
               onClick={() => setIsOpen(true)}
@@ -43,7 +72,6 @@ export default function CMS() {
         </>
       )}
 
-      {/* Main Content with safe area */}
       <div
         style={{
           flex: 1,
@@ -56,5 +84,5 @@ export default function CMS() {
         <Outlet />
       </div>
     </div>
-  );  
+  );
 }

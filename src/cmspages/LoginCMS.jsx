@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, setPersistence, browserLocalPersistence } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 const LoginCMS = () => {
@@ -28,10 +28,18 @@ const LoginCMS = () => {
     setLoading(true);
 
     try {
+
+      setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("Persistence set to LOCAL");
+  })
+  .catch((error) => {
+    console.error("Error setting persistence:", error);
+  });
       // Sign in with Firebase authentication
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      // console.log('User signed in successfully:', userCredential.user);
-      
+      console.log('User signed in successfully:', userCredential.user);
+     
       // Redirect to UsersCMS after successful login
       navigate('/CMS/UsersCMS');
     } catch (error) {

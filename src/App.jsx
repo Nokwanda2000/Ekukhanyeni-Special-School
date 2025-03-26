@@ -19,6 +19,7 @@ import Eventspage from './pages/Eventspage';
 import SponsorBanner from './components/SponsorBanner';
 import FormSubmissionsCMS from './cmspages/FormSubmissionsCMS';
 
+
 // Protected route component
 const ProtectedRoute = () => {
   const auth = getAuth();

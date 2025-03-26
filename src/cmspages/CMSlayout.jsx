@@ -1,10 +1,18 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { getAuth, signOut } from 'firebase/auth';
+import { getAuth, signOut , onAuthStateChanged } from 'firebase/auth';
 
 const CMS = () => {
   const navigate = useNavigate();
   const auth = getAuth();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log("User is signed in:", user);
+    } else {
+      console.log("User is signed out.");
+    }
+  });
 
   const handleSignOut = async () => {
     try {
