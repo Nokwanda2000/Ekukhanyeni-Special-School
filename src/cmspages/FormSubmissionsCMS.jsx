@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { db, auth } from '../utills/FirebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
+import { db } from '../utills/FirebaseConfig';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 const FormSubmissionsCMS = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -24,20 +24,45 @@ const FormSubmissionsCMS = () => {
     }
   }, []);
 
-  // Add authentication state listener
+  // Fetch current user data
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in
-        setCurrentUser(user);
-      } else {
-        // No user is signed in
-        setCurrentUser(null);
+    const fetchCurrentUser = async () => {
+      try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        
+        if (user) {
+          // Fetch user data from Firestore 'users' collection
+          const usersRef = collection(db, "users");
+          const q = query(usersRef, where("uid", "==", user.uid));
+          const querySnapshot = await getDocs(q);
+          
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach((doc) => {
+              const userData = doc.data();
+              setCurrentUser({
+                displayName: userData.name || user.displayName || 'Admin',
+                email: userData.email || user.email || '',
+                photoURL: userData.photoURL || user.photoURL || '',
+                color: userData.color || '#3B82F6'
+              });
+            });
+          } else {
+            // If user not found in 'users' collection, use auth data
+            setCurrentUser({
+              displayName: user.displayName || 'Admin',
+              email: user.email || '',
+              photoURL: user.photoURL || '',
+              color: '#3B82F6'
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
-    });
+    };
 
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
+    fetchCurrentUser();
   }, []);
 
   // Function to open modal with selected message
@@ -139,18 +164,42 @@ const FormSubmissionsCMS = () => {
           }}
         />
         
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ 
-            width: '40px', 
-            height: '40px', 
-            borderRadius: '50%', 
-            backgroundColor: '#eee',
-            marginRight: '10px'
-          }}></div>
-          <span style={{ fontWeight: 'normal' }}>
-            {currentUser ? (currentUser.displayName || currentUser.email) : 'User'}
-          </span>
-        </div>
+        {currentUser && (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {currentUser.photoURL ? (
+              <img 
+                src={currentUser.photoURL} 
+                alt={currentUser.displayName}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  marginRight: '10px',
+                  objectFit: 'cover'
+                }}
+              />
+            ) : (
+              <div style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                backgroundColor: currentUser.color || '#3B82F6',
+                marginRight: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontWeight: 'bold'
+              }}>
+                {currentUser.displayName?.charAt(0).toUpperCase() || 'A'}
+              </div>
+            )}
+            <div>
+              <div>{currentUser.displayName}</div>
+              <div style={{ fontSize: '12px', color: '#666' }}>{currentUser.email}</div>
+            </div>
+          </div>
+        )}
       </div>
       
       {isMobile ? (
@@ -223,7 +272,7 @@ const FormSubmissionsCMS = () => {
                 <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Phone Number</th>
                 <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Subject</th>
                 <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Message</th>
-                <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Actions</th>
+                <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -239,7 +288,7 @@ const FormSubmissionsCMS = () => {
                       <button
                         onClick={() => openModal(submission.message)}
                         style={{
-                          backgroundColor: '#0088ff',
+                          backgroundColor: '#2563EB',
                           color: 'white',
                           border: 'none',
                           borderRadius: '5px',

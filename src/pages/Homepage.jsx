@@ -73,7 +73,7 @@ const EkukhanyeniProfessionalSchool = () => {
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <h2 style={{
             fontSize: 'clamp(20px, 5vw, 30px)',
-            color: '#333',
+            color: '#1848A1',
             marginBottom: '24px',
             fontWeight: '600'
           }}>Our Mission</h2>
@@ -122,7 +122,7 @@ const EkukhanyeniProfessionalSchool = () => {
         }}>
           <h2 style={{
             fontSize: 'clamp(20px, 5vw, 30px)',
-            color: '#333',
+            color: '#1848A1',
             marginBottom: '24px',
             fontWeight: '600'
           }}>Feel Free To Help Out</h2>
@@ -221,7 +221,7 @@ const EkukhanyeniProfessionalSchool = () => {
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <h2 style={{
             fontSize: 'clamp(20px, 5vw, 30px)',
-            color: '#333',
+            color: '#1848A1',
             marginBottom: '40px',
             textAlign: 'center',
             fontWeight: '600'
