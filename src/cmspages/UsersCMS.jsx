@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { 
   getAuth, 
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
   onAuthStateChanged
 } from 'firebase/auth';
 import { 
@@ -32,17 +30,14 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
     firebase: ''
   });
 
-  // Email validation function
   const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Reset errors
     const newErrors = {
       email: '',
       password: '',
@@ -51,26 +46,19 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
       firebase: ''
     };
     
-    // Validate name
-    if (!name) {
-      newErrors.name = 'Name is required';
-    }
-    
-    // Validate email
+    if (!name) newErrors.name = 'Name is required';
     if (!email) {
       newErrors.email = 'Email is required';
     } else if (!validateEmail(email)) {
       newErrors.email = 'Please enter a valid email address';
     }
     
-    // Validate password
     if (!password) {
       newErrors.password = 'Password is required';
     } else if (password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
     
-    // Validate confirm password
     if (!confirmPassword) {
       newErrors.confirmPassword = 'Please confirm your password';
     } else if (password !== confirmPassword) {
@@ -79,17 +67,13 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
     
     setErrors(newErrors);
     
-    // If no errors, register user
     if (!newErrors.email && !newErrors.password && !newErrors.confirmPassword && !newErrors.name) {
       try {
         const auth = getAuth();
-        // Create user with Firebase Auth
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         
-        // Generate random color for user avatar
         const color = '#' + Math.floor(Math.random()*16777215).toString(16);
         
-        // Store additional user data in Firestore
         const userDocRef = await addDoc(collection(db, "users"), {
           uid: userCredential.user.uid,
           name: name,
@@ -98,7 +82,6 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
           createdAt: new Date()
         });
         
-        // Add user to the state
         onAddUser({
           id: userCredential.user.uid,
           docId: userDocRef.id,
@@ -107,7 +90,6 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
           color: color
         });
         
-        // Close modal
         onClose();
       } catch (error) {
         console.error('Error registering user:', error);
@@ -117,7 +99,6 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
     }
   };
 
-  // If modal is not open, don't render anything
   if (!isOpen) return null;
 
   return (
@@ -276,29 +257,21 @@ const EditUserModal = ({ isOpen, onClose, user, onUpdateUser }) => {
     }
   }, [user]);
 
-  // Email validation function
   const validateEmail = (email) => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Reset errors
     const newErrors = {
       name: '',
       email: '',
       firebase: ''
     };
     
-    // Validate name
-    if (!name) {
-      newErrors.name = 'Name is required';
-    }
-    
-    // Validate email
+    if (!name) newErrors.name = 'Name is required';
     if (!email) {
       newErrors.email = 'Email is required';
     } else if (!validateEmail(email)) {
@@ -307,10 +280,8 @@ const EditUserModal = ({ isOpen, onClose, user, onUpdateUser }) => {
     
     setErrors(newErrors);
     
-    // If no errors, update user
     if (!newErrors.name && !newErrors.email) {
       try {
-        // Update user in Firestore
         const userDocRef = doc(db, "users", user.docId);
         await updateDoc(userDocRef, {
           name: name,
@@ -318,14 +289,12 @@ const EditUserModal = ({ isOpen, onClose, user, onUpdateUser }) => {
           updatedAt: new Date()
         });
         
-        // Update user in the state
         onUpdateUser({
           ...user,
           name: name,
           email: email
         });
         
-        // Close modal
         onClose();
       } catch (error) {
         console.error('Error updating user:', error);
@@ -335,7 +304,6 @@ const EditUserModal = ({ isOpen, onClose, user, onUpdateUser }) => {
     }
   };
 
-  // If modal is not open, don't render anything
   if (!isOpen || !user) return null;
 
   return (
@@ -460,7 +428,6 @@ const UsersCMS = () => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
-          // Find the user document in Firestore
           const usersCollection = collection(db, "users");
           const q = query(usersCollection, where("uid", "==", user.uid));
           const querySnapshot = await getDocs(q);
@@ -469,13 +436,13 @@ const UsersCMS = () => {
             const userDoc = querySnapshot.docs[0];
             const userData = userDoc.data();
             
-            // Store current user details
             setCurrentUserDetails({
               id: userData.uid,
               docId: userDoc.id,
               name: userData.name,
               email: userData.email,
-              color: userData.color || '#FFD700',
+              color: userData.color || '#3B82F6',
+              photoURL: userData.photoURL || '',
               createdAt: userData.createdAt
             });
           }
@@ -491,7 +458,6 @@ const UsersCMS = () => {
       }
     });
     
-    // Cleanup subscription
     return () => unsubscribe();
   }, []);
   
@@ -507,7 +473,7 @@ const UsersCMS = () => {
     }
   }, []);
   
-  // Fetch users from Firestore on component mount
+  // Fetch users from Firestore
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -523,7 +489,8 @@ const UsersCMS = () => {
             docId: doc.id,
             name: userData.name,
             email: userData.email,
-            color: userData.color || '#FFD700'
+            color: userData.color || '#3B82F6',
+            photoURL: userData.photoURL || ''
           });
         });
         
@@ -561,13 +528,9 @@ const UsersCMS = () => {
   const handleDelete = async (userId, docId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        // Delete user document from Firestore
         await deleteDoc(doc(db, "users", docId));
-        
-        // Update state to remove the user
         const updatedUsers = users.filter(user => user.id !== userId);
         setUsers(updatedUsers);
-        console.log(`Deleted user with ID: ${userId}`);
       } catch (error) {
         console.error('Error deleting user:', error);
         setError('Failed to delete user. Please try again.');
@@ -581,7 +544,6 @@ const UsersCMS = () => {
   
   const handleAddNewUser = (newUser) => {
     setUsers([...users, newUser]);
-    console.log('New user added:', newUser);
   };
   
   const handleUpdateUser = (updatedUser) => {
@@ -589,7 +551,6 @@ const UsersCMS = () => {
       user.id === updatedUser.id ? updatedUser : user
     );
     setUsers(updatedUsers);
-    console.log('User updated:', updatedUser);
   };
 
   // Check if mobile view
@@ -644,22 +605,42 @@ const UsersCMS = () => {
           }}
         />
         
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {currentUserDetails ? (
-            <>
-              <div style={{ 
-                width: '40px', 
-                height: '40px', 
-                borderRadius: '50%', 
+        {currentUserDetails && (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {currentUserDetails.photoURL ? (
+              <img 
+                src={currentUserDetails.photoURL} 
+                alt={currentUserDetails.name}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  marginRight: '10px',
+                  objectFit: 'cover'
+                }}
+              />
+            ) : (
+              <div style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
                 backgroundColor: currentUserDetails.color,
-                marginRight: '10px'
-              }}></div>
-              <span style={{ fontWeight: 'normal' }}>{currentUserDetails.name}</span>
-            </>
-          ) : (
-            <span style={{ fontWeight: 'normal' }}>Loading...</span>
-          )}
-        </div>
+                marginRight: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontWeight: 'bold'
+              }}>
+                {currentUserDetails.name?.charAt(0).toUpperCase() || 'A'}
+              </div>
+            )}
+            <div>
+              <div >{currentUserDetails.name}</div>
+              <div style={{ fontSize: '12px', color: '#666' }}>{currentUserDetails.email}</div>
+            </div>
+          </div>
+        )}
       </div>
       
       <button
@@ -688,7 +669,6 @@ const UsersCMS = () => {
       ) : (
         <div style={{ overflowX: 'auto' }}>
           {isMobile ? (
-            // Mobile card view
             <div style={{ width: '100%' }}>
               {currentUsers.map((user) => (
                 <div 
@@ -701,13 +681,34 @@ const UsersCMS = () => {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                    <div style={{ 
-                      width: '30px', 
-                      height: '30px', 
-                      borderRadius: '50%', 
-                      backgroundColor: user.color,
-                      marginRight: '10px'
-                    }}></div>
+                    {user.photoURL ? (
+                      <img 
+                        src={user.photoURL} 
+                        alt={user.name}
+                        style={{
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '50%',
+                          marginRight: '10px',
+                          objectFit: 'cover'
+                        }}
+                      />
+                    ) : (
+                      <div style={{ 
+                        width: '40px', 
+                        height: '40px', 
+                        borderRadius: '50%', 
+                        backgroundColor: user.color,
+                        marginRight: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontWeight: 'bold'
+                      }}>
+                        {user.name?.charAt(0).toUpperCase() || 'U'}
+                      </div>
+                    )}
                     <div>
                       <div style={{ fontWeight: 'bold' }}>{user.name}</div>
                       <div style={{ fontSize: '14px', color: '#666' }}>{user.email}</div>
@@ -750,7 +751,6 @@ const UsersCMS = () => {
               ))}
             </div>
           ) : (
-            // Desktop table view
             <table style={{ 
               width: '100%', 
               borderCollapse: 'collapse',
@@ -758,7 +758,7 @@ const UsersCMS = () => {
             }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid #eee' }}>
-                  <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>User Name</th>
+                  <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>User</th>
                   <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Email</th>
                   <th style={{ textAlign: 'left', padding: '10px 15px', fontWeight: 'normal', color: '#666' }}>Actions</th>
                 </tr>
@@ -767,13 +767,34 @@ const UsersCMS = () => {
                 {currentUsers.map((user) => (
                   <tr key={user.id} style={{ borderBottom: '1px solid #eee' }}>
                     <td style={{ padding: '15px', display: 'flex', alignItems: 'center' }}>
-                      <div style={{ 
-                        width: '30px', 
-                        height: '30px', 
-                        borderRadius: '50%', 
-                        backgroundColor: user.color,
-                        marginRight: '10px'
-                      }}></div>
+                      {user.photoURL ? (
+                        <img 
+                          src={user.photoURL} 
+                          alt={user.name}
+                          style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '50%',
+                            marginRight: '10px',
+                            objectFit: 'cover'
+                          }}
+                        />
+                      ) : (
+                        <div style={{ 
+                          width: '40px', 
+                          height: '40px', 
+                          borderRadius: '50%', 
+                          backgroundColor: user.color,
+                          marginRight: '10px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'white',
+                          fontWeight: 'bold'
+                        }}>
+                          {user.name?.charAt(0).toUpperCase() || 'U'}
+                        </div>
+                      )}
                       {user.name}
                     </td>
                     <td style={{ padding: '15px' }}>{user.email}</td>
@@ -864,14 +885,12 @@ const UsersCMS = () => {
         </div>
       )}
       
-      {/* Add User Modal */}
       <AddUserModal 
         isOpen={isAddModalOpen} 
         onClose={() => setIsAddModalOpen(false)} 
         onAddUser={handleAddNewUser}
       />
       
-      {/* Edit User Modal */}
       <EditUserModal 
         isOpen={isEditModalOpen} 
         onClose={() => setIsEditModalOpen(false)} 

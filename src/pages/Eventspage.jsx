@@ -232,113 +232,134 @@ export default function Eventspage() {
         }} onClick={handleCloseModal}>
           <div style={{
             background: 'white',
-            padding: '24px',
             borderRadius: '12px',
-            maxWidth: '500px',
+            maxWidth: '600px',
             width: '90%',
             boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
             animation: 'slideUp 0.3s ease-out',
-            position: 'relative'
+            position: 'relative',
+            overflow: 'hidden'
           }} onClick={(e) => e.stopPropagation()}>
-            <button 
-              onClick={handleCloseModal}
-              style={{
-                position: 'absolute',
-                top: '16px',
-                right: '16px',
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '4px',
-                borderRadius: '50%',
-                transition: 'background 0.2s ease',
-                ':hover': {
-                  background: '#F3F4F6'
-                }
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18M6 6L18 18" stroke="#6B7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-            
-            <h2 style={{ 
-              fontSize: '1.5rem', 
-              fontWeight: '600',
-              color: '#1F2937',
-              marginBottom: '16px',
-              paddingRight: '24px'
-            }}>
-              {modalContent.title || modalContent.name}
-            </h2>
-            
+            {/* Event Image */}
             <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: '24px 1fr',
-              gap: '12px',
-              marginBottom: '16px'
+              height: '200px', 
+              width: '100%',
+              overflow: 'hidden'
             }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" fill="#4B5563"/>
-                <path d="M12 24C15 24 19.5 16.9706 19.5 12C19.5 7.02944 15.9706 4.5 12 4.5C8.02944 4.5 4.5 7.02944 4.5 12C4.5 16.9706 9 24 12 24Z" stroke="#4B5563" strokeWidth="1.5"/>
-              </svg>
-              <span style={{ color: '#4B5563' }}>{modalContent.location}</span>
-              
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 9H21M7 3V5M17 3V5M6 12H8M11 12H13M16 12H18M6 15H8M11 15H13M16 15H18M6 18H8M11 18H13M16 18H18M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z" stroke="#4B5563" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-              <span style={{ color: '#4B5563' }}>{modalContent.date}</span>
-              
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#4B5563" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span style={{ color: '#4B5563' }}>
-                {modalContent.startTime} - {modalContent.endTime}
-              </span>
+              <img 
+                src={modalContent.imageURL} 
+                alt={modalContent.title || modalContent.name} 
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover'
+                }}
+              />
             </div>
-            
-            <div style={{ 
-              background: '#F9FAFB',
-              borderRadius: '8px',
-              padding: '16px',
-              marginBottom: '20px'
-            }}>
-              <h3 style={{ 
-                fontSize: '0.875rem',
-                fontWeight: '600',
-                color: '#374151',
-                marginBottom: '8px'
-              }}>
-                Event Description
-              </h3>
-              <p style={{ 
-                fontSize: '0.875rem',
-                color: '#4B5563',
-                lineHeight: '1.6'
-              }}>
-                {modalContent.description}
-              </p>
-            </div>
-            
-            <div style={{ textAlign: 'right' }}>
+
+            <div style={{ padding: '24px' }}>
               <button 
+                onClick={handleCloseModal}
                 style={{
-                  background: '#2563EB',
-                  color: 'white',
+                  position: 'absolute',
+                  top: '16px',
+                  right: '16px',
+                  background: 'rgba(255, 255, 255, 0.8)',
                   border: 'none',
-                  padding: '8px 16px',
-                  fontSize: '0.875rem',
                   cursor: 'pointer',
-                  borderRadius: '6px',
+                  padding: '6px',
+                  borderRadius: '50%',
                   transition: 'background 0.2s ease',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   ':hover': {
-                    background: '#1D4ED8'
+                    background: 'rgba(255, 255, 255, 1)'
                   }
                 }}
-                onClick={handleCloseModal}
               >
-                Close
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18 6L6 18M6 6L18 18" stroke="#1F2937" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </button>
+              
+              <h2 style={{ 
+                fontSize: '1.5rem', 
+                fontWeight: '600',
+                color: '#1F2937',
+                marginBottom: '16px'
+              }}>
+                {modalContent.title || modalContent.name}
+              </h2>
+              
+              <div style={{ 
+                display: 'grid',
+                gridTemplateColumns: '24px 1fr',
+                gap: '12px',
+                marginBottom: '16px'
+              }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 12C13.1046 12 14 11.1046 14 10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10C10 11.1046 10.8954 12 12 12Z" fill="#4B5563"/>
+                  <path d="M12 24C15 24 19.5 16.9706 19.5 12C19.5 7.02944 15.9706 4.5 12 4.5C8.02944 4.5 4.5 7.02944 4.5 12C4.5 16.9706 9 24 12 24Z" stroke="#4B5563" strokeWidth="1.5"/>
+                </svg>
+                <span style={{ color: '#4B5563' }}>{modalContent.location}</span>
+                
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 9H21M7 3V5M17 3V5M6 12H8M11 12H13M16 12H18M6 15H8M11 15H13M16 15H18M6 18H8M11 18H13M16 18H18M6.2 21H17.8C18.9201 21 19.4802 21 19.908 20.782C20.2843 20.5903 20.5903 20.2843 20.782 19.908C21 19.4802 21 18.9201 21 17.8V8.2C21 7.07989 21 6.51984 20.782 6.09202C20.5903 5.71569 20.2843 5.40973 19.908 5.21799C19.4802 5 18.9201 5 17.8 5H6.2C5.0799 5 4.51984 5 4.09202 5.21799C3.71569 5.40973 3.40973 5.71569 3.21799 6.09202C3 6.51984 3 7.07989 3 8.2V17.8C3 18.9201 3 19.4802 3.21799 19.908C3.40973 20.2843 3.71569 20.5903 4.09202 20.782C4.51984 21 5.07989 21 6.2 21Z" stroke="#4B5563" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
+                <span style={{ color: '#4B5563' }}>{modalContent.date}</span>
+                
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#4B5563" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <span style={{ color: '#4B5563' }}>
+                  {modalContent.startTime} - {modalContent.endTime}
+                </span>
+              </div>
+              
+              <div style={{ 
+                background: '#F9FAFB',
+                borderRadius: '8px',
+                padding: '16px',
+                marginBottom: '20px'
+              }}>
+                <h3 style={{ 
+                  fontSize: '0.875rem',
+                  fontWeight: '600',
+                  color: '#374151',
+                  marginBottom: '8px'
+                }}>
+                  Event Description
+                </h3>
+                <p style={{ 
+                  fontSize: '0.875rem',
+                  color: '#4B5563',
+                  lineHeight: '1.6'
+                }}>
+                  {modalContent.description}
+                </p>
+              </div>
+              
+              <div style={{ textAlign: 'right' }}>
+                <button 
+                  style={{
+                    background: '#2563EB',
+                    color: 'white',
+                    border: 'none',
+                    padding: '8px 16px',
+                    fontSize: '0.875rem',
+                    cursor: 'pointer',
+                    borderRadius: '6px',
+                    transition: 'background 0.2s ease',
+                    ':hover': {
+                      background: '#1D4ED8'
+                    }
+                  }}
+                  onClick={handleCloseModal}
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
