@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../utills/FirebaseConfig';
+import { db, auth } from '../utills/FirebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const FormSubmissionsCMS = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -8,6 +9,7 @@ const FormSubmissionsCMS = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
+  const [currentUser, setCurrentUser] = useState(null);
   const itemsPerPage = 5;
   
   // Handle window resize
@@ -20,6 +22,22 @@ const FormSubmissionsCMS = () => {
       window.addEventListener('resize', handleResize);
       return () => window.removeEventListener('resize', handleResize);
     }
+  }, []);
+
+  // Add authentication state listener
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in
+        setCurrentUser(user);
+      } else {
+        // No user is signed in
+        setCurrentUser(null);
+      }
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
   }, []);
 
   // Function to open modal with selected message
@@ -129,7 +147,9 @@ const FormSubmissionsCMS = () => {
             backgroundColor: '#eee',
             marginRight: '10px'
           }}></div>
-          <span style={{ fontWeight: 'normal' }}>Admin</span>
+          <span style={{ fontWeight: 'normal' }}>
+            {currentUser ? (currentUser.displayName || currentUser.email) : 'User'}
+          </span>
         </div>
       </div>
       

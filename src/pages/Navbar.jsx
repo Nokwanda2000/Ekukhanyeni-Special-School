@@ -1,143 +1,50 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { MapPin, Phone, Clock, Menu, X } from 'lucide-react';
 import Logo from '/Ekukhanyeni Special School trpnt logo.png';
-
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // Toggle menu visibility
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
-  const infoBarStyles = {
-    backgroundColor: '#f3f4f6',
-    width: '100%',
-    padding: '0.5rem 0',
-  };
-
-  const containerStyles = {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '0 2rem',
-    maxWidth: '1200px',
-    margin: '0 auto',
-  };
-
-  const infoItemStyles = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-  };
-
-  const infoTextStyles = {
-    fontSize: '0.875rem',
-    color: '#6b7280',
-  };
-
-  const navBarStyles = {
-    borderBottom: '1px solid #e5e7eb',
-    padding: '1rem 0',
-    backgroundColor: '#f3f4f6',
-  };
-
-  const navContainerStyles = {
-    width: '100%',
-  };
-
-  const navMenuStyles = {
-    display: 'flex',
-    justifyContent: 'center',
-    padding: '1rem 0',
-  };
-
-  const navListStyles = {
-    display: 'flex',
-    gap: '1.5rem', // 24px space between nav items
-    listStyle: 'none',
-    padding: '0',
-  };
-
-  const navItemStyles = {};
-
-  const navLinkStyles = {
-    padding: '0.75rem 1rem',
-    fontWeight: '500',
-    textDecoration: 'none',
-    color: '#333',
-  };
-
-  const activeLinkStyles = {
-    textDecoration: 'underline',
-  };
-
-  const mobileMenuStyles = {
-    display: isMenuOpen ? 'block' : 'none',
-    backgroundColor: '#f3f4f6',
-  };
-
   return (
-    <div>
-      {/* Info Bar with Logo and Contact Information */}
-      <div style={infoBarStyles}>
-        <div style={containerStyles}>
-          {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem', marginLeft: '2rem' }}>
-            <img src={Logo} alt="Logo" style={{ height: '120px' }} />
-          </div>
-
-          {/* Contact Info */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {/* Call */}
-            <div style={infoItemStyles}>
-              <div style={{ borderRadius: '50%', padding: '0.5rem', backgroundColor: '#e5e7eb' }}>
-                <Phone style={{ width: '20px', height: '20px', color: '#3b82f6' }} />
+    <header className={`navbar-container ${isScrolled ? 'scrolled' : ''}`}>
+      {/* Top Bar - Contact Information */}
+      <div className="top-bar">
+        <div className="top-bar-content">
+          <div className="contact-info">
+            <div className="contact-group">
+              <div className="contact-header">Call</div>
+              <div className="contact-item">
+                <Phone size={16} />
+                <span>+27 33 398 1325</span>
               </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <MapPin size={24} color={colors.secondary} />
-                <div>
-                  <p style={{ margin: 0, fontWeight: 'bold' }}>Location</p>
-                  <p style={{ margin: 0, color: colors.text }}>Sutherlands Road, Pietermaritzburg</p>
-                </div>
+            </div>
+            <div className="contact-group">
+              <div className="contact-header">Opening Hours</div>
+              <div className="contact-item">
+                <Clock size={16} />
+                <span>Mon - Fri 7 AM - 3 PM</span>
+              </div>
+            </div>
+            <div className="contact-group">
+              <div className="contact-header">Address</div>
+              <div className="contact-item">
+                <MapPin size={16} />
+                <span>Mdoni Road, Edendale, Pietermaritzburg</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Navigation */}
-      <nav style={navStyles}>
-        <div style={{...containerStyles, ...navContainerStyles}}>
-          {/* Mobile Menu Toggle */}
-          <button 
-            onClick={toggleMenu} 
-            style={{
-              ...mobileMenuToggleStyles,
-              background: 'none', 
-              border: 'none', 
-              cursor: 'pointer'
-            }}
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-
-      {/* Navigation Menu */}
-      <div style={mobileMenuStyles}>
-        <div style={navContainerStyles}>
-          <nav>
-            <ul style={navListStyles}>
-              <li style={navItemStyles}>
-                <Link to="/" style={navLinkStyles}>Home</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
-=========
       {/* Main Navigation */}
       <div className="main-nav">
         <div className="nav-content">
@@ -145,7 +52,6 @@ const Navbar = () => {
           <Link to="/" className="logo-link">
             <img src={Logo} alt="Ekukhanyeni Special School Logo" className="logo" />
           </Link>
-
           {/* Desktop Navigation */}
           <nav className="desktop-nav">
             <ul className="nav-list">
@@ -169,13 +75,11 @@ const Navbar = () => {
               </li>
             </ul>
           </nav>
-
           {/* Mobile Menu Button */}
           <button className="mobile-menu-button" onClick={toggleMobileMenu}>
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-
         {/* Mobile Navigation */}
         <nav className={`mobile-nav ${isMobileMenuOpen ? 'open' : ''}`}>
           <ul className="mobile-nav-list">
@@ -200,19 +104,17 @@ const Navbar = () => {
           </ul>
         </nav>
       </div>
-
       <style jsx>{`
         :root {
-          --primary-color: #2563eb;
-          --primary-hover: #1d4ed8;
-          --text-color: #1f2937;
-          --text-light: #6b7280;
-          --bg-color: #ffffff;
-          --topbar-bg: #f3f4f6;
+          --primary-color: #2563EB;
+          --primary-hover: #1D4ED8;
+          --text-color: #1F2937;
+          --text-light: #6B7280;
+          --bg-color: #FFFFFF;
+          --topbar-bg: #F3F4F6;
           --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
           --transition: all 0.3s ease;
         }
-
         .navbar-container {
           position: sticky;
           top: 0;
@@ -220,45 +122,37 @@ const Navbar = () => {
           width: 100%;
           transition: var(--transition);
         }
-
         .navbar-container.scrolled {
           box-shadow: var(--shadow);
         }
-
         .scrolled .top-bar {
           display: none;
         }
-
         .scrolled .main-nav {
           padding: 0.75rem 2rem;
         }
-
         /* Top Bar Styles */
         .top-bar {
           background-color: var(--topbar-bg);
           padding: 0.5rem 0;
-          border-bottom: 1px solid #e5e7eb;
+          border-bottom: 1px solid #E5E7EB;
         }
-
         .top-bar-content {
           max-width: 1200px;
           margin: 0 auto;
           padding: 0 2rem;
         }
-
         .contact-info {
           display: flex;
           justify-content: flex-end;
           gap: 2rem;
           flex-wrap: wrap;
         }
-
         .contact-group {
           display: flex;
           flex-direction: column;
           gap: 0.25rem;
         }
-
         .contact-header {
           font-size: 0.7rem;
           font-weight: 600;
@@ -266,7 +160,6 @@ const Navbar = () => {
           text-transform: uppercase;
           letter-spacing: 0.05em;
         }
-
         .contact-item {
           display: flex;
           align-items: center;
@@ -274,11 +167,9 @@ const Navbar = () => {
           font-size: 0.85rem;
           color: var(--text-color);
         }
-
         .contact-item svg {
           color: var(--primary-color);
         }
-
         /* Main Navigation */
         .main-nav {
           background-color: var(--bg-color);
@@ -286,7 +177,6 @@ const Navbar = () => {
           transition: var(--transition);
           position: relative;
         }
-
         .nav-content {
           max-width: 1200px;
           margin: 0 auto;
@@ -295,25 +185,21 @@ const Navbar = () => {
           align-items: center;
           gap: 2rem;
         }
-
         .logo-link {
           display: flex;
           align-items: center;
           min-width: fit-content;
         }
-
         .logo {
           height: 80px;
           width: auto;
           transition: var(--transition);
         }
-
         /* Desktop Navigation */
         .desktop-nav {
           display: block;
           flex-grow: 1;
         }
-
         .nav-list {
           display: flex;
           justify-content: flex-end;
@@ -322,12 +208,10 @@ const Navbar = () => {
           margin: 0;
           padding: 0;
         }
-
         .nav-item {
           position: relative;
           white-space: nowrap;
         }
-
         .nav-link {
           text-decoration: none;
           color: var(--text-color);
@@ -337,11 +221,9 @@ const Navbar = () => {
           transition: var(--transition);
           position: relative;
         }
-
         .nav-link:hover {
           color: var(--primary-color);
         }
-
         .nav-link::after {
           content: '';
           position: absolute;
@@ -352,11 +234,9 @@ const Navbar = () => {
           background-color: var(--primary-color);
           transition: var(--transition);
         }
-
         .nav-link:hover::after {
           width: 100%;
         }
-
         /* Mobile Menu Button */
         .mobile-menu-button {
           display: none;
@@ -367,7 +247,6 @@ const Navbar = () => {
           padding: 0.5rem;
           z-index: 1001;
         }
-
         /* Mobile Navigation */
         .mobile-nav {
           display: none;
@@ -383,24 +262,20 @@ const Navbar = () => {
           transition: all 0.3s ease;
           pointer-events: none;
         }
-
         .mobile-nav.open {
           display: block;
           transform: translateY(0);
           opacity: 1;
           pointer-events: all;
         }
-
         .mobile-nav-list {
           list-style: none;
           margin: 0;
           padding: 1rem 0;
         }
-
         .mobile-nav-item {
-          border-bottom: 1px solid #f3f4f6;
+          border-bottom: 1px solid #F3F4F6;
         }
-
         .mobile-nav-link {
           display: block;
           padding: 1.25rem 2rem;
@@ -410,90 +285,71 @@ const Navbar = () => {
           font-size: 1.1rem;
           transition: var(--transition);
         }
-
         .mobile-nav-link:hover {
-          background-color: #f9fafb;
+          background-color: #F9FAFB;
           color: var(--primary-color);
         }
-
         /* Responsive Styles */
         @media (max-width: 1024px) {
           .contact-info {
             gap: 1.5rem;
           }
-          
           .nav-list {
             gap: 1.5rem;
           }
         }
-
         @media (max-width: 768px) {
           .top-bar-content {
             padding: 0 1rem;
           }
-
           .contact-info {
             justify-content: center;
             gap: 1rem;
           }
-
           .contact-group {
             align-items: center;
             text-align: center;
           }
-
           .main-nav {
             padding: 1rem;
           }
-
           .logo {
             height: 70px;
           }
-
           .desktop-nav {
             display: none;
           }
-
           .mobile-menu-button {
             display: block;
           }
-
           .mobile-nav {
             display: none;
           }
-
           .mobile-nav.open {
             display: block;
           }
         }
-
         @media (max-width: 480px) {
           .contact-info {
             flex-direction: column;
             gap: 0.5rem;
             align-items: center;
           }
-
           .contact-group {
             width: 100%;
           }
-
           .contact-item span {
             font-size: 0.8rem;
           }
-
           .logo {
             height: 60px;
           }
-
           .mobile-nav-link {
             padding: 1rem 1.5rem;
           }
         }
       `}</style>
->>>>>>>>> Temporary merge branch 2
     </header>
   );
 };
-
 export default Navbar;
