@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../utills/FirebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 
 const FormSubmissionsCMS = () => {
   const [submissions, setSubmissions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [deleteConfirmModal, setDeleteConfirmModal] = useState(null);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   const itemsPerPage = 5;
   
@@ -30,6 +31,40 @@ const FormSubmissionsCMS = () => {
   // Function to close modal
   const closeModal = () => {
     setSelectedMessage(null);
+  };
+
+  // Function to open delete confirmation modal
+  const openDeleteModal = (submission) => {
+    setDeleteConfirmModal(submission);
+  };
+
+  // Function to close delete confirmation modal
+  const closeDeleteModal = () => {
+    setDeleteConfirmModal(null);
+  };
+
+  // Function to delete submission
+  const handleDelete = async () => {
+    if (!deleteConfirmModal) return;
+
+    try {
+      // Determine the correct collection based on the subject
+      const collectionName = deleteConfirmModal.subject === 'sponsor' ? 'sponsors' : 'contacts';
+      
+      // Delete the document from Firestore
+      await deleteDoc(doc(db, collectionName, deleteConfirmModal.id));
+      
+      // Remove the deleted submission from the state
+      setSubmissions(prevSubmissions => 
+        prevSubmissions.filter(submission => submission.id !== deleteConfirmModal.id)
+      );
+      
+      // Close the delete confirmation modal
+      closeDeleteModal();
+    } catch (error) {
+      console.error("Error deleting submission:", error);
+      // Optional: Add error handling, like showing an error message to the user
+    }
   };
 
   // Function to truncate text
@@ -97,7 +132,7 @@ const FormSubmissionsCMS = () => {
         marginBottom: '20px',
         fontWeight: 'bold'
       }}>Form Submissions</h1>
-      
+        
       <div style={{
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
@@ -215,7 +250,7 @@ const FormSubmissionsCMS = () => {
                     <td style={{ padding: '15px' }}>{submission.phone}</td>
                     <td style={{ padding: '15px' }}>{submission.subject}</td>
                     <td style={{ padding: '15px' }}>{truncateText(submission.message, 30)}</td>
-                    <td style={{ padding: '15px' }}>
+                    <td style={{ padding: '15px', display: 'flex', gap: '10px' }}>
                       <button
                         onClick={() => openModal(submission.message)}
                         style={{
@@ -228,6 +263,19 @@ const FormSubmissionsCMS = () => {
                         }}
                       >
                         View
+                      </button>
+                      <button
+                        onClick={() => openDeleteModal(submission)}
+                        style={{
+                          backgroundColor: '#FF4E64',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '5px',
+                          padding: '8px 20px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Delete
                       </button>
                     </td>
                   </tr>
@@ -292,6 +340,72 @@ const FormSubmissionsCMS = () => {
           >
             Next
           </button>
+        </div>
+      )}
+      
+      {/* Delete Confirmation Modal */}
+      {deleteConfirmModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: 'white',
+              padding: '20px',
+              borderRadius: '8px',
+              width: '90%',
+              maxWidth: '400px',
+              textAlign: 'center'
+            }}
+          >
+            <h2 style={{ marginBottom: '15px', color: '#333' }}>Confirm Deletion</h2>
+            <p style={{ marginBottom: '20px', color: '#666' }}>
+              Are you sure you want to delete this submission from {deleteConfirmModal.name}?
+            </p>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'center', 
+              gap: '15px' 
+            }}>
+              <button
+                onClick={closeDeleteModal}
+                style={{
+                  backgroundColor: '#f5f5f5',
+                  color: '#333',
+                  border: 'none',
+                  borderRadius: '5px',
+                  padding: '10px 15px',
+                  cursor: 'pointer'
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                style={{
+                  backgroundColor: '#FF4E64',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '5px',
+                  padding: '10px 15px',
+                  cursor: 'pointer'
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
       )}
       
