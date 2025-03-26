@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, deleteDoc, doc, query, where } from 'firebase/firestore';
 import { db } from '../../src/utills/FirebaseConfig';
-
+import { getAuth } from 'firebase/auth';
 
 // EventDetailsModal component
 const EventDetailsModal = ({ event, onClose }) => {
   if (!event) return null;
-
+  
   return (
     <div style={{
       position: 'fixed',
@@ -106,11 +106,9 @@ const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {
     image: ''
   });
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Reset errors
     const newErrors = {
       title: '',
       date: '',
@@ -121,7 +119,6 @@ const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {
       image: ''
     };
 
-    // Validate fields
     if (!title) newErrors.title = 'Title is required';
     if (!date) newErrors.date = 'Date is required';
     if (!startTime) newErrors.startTime = 'Start time is required';
@@ -132,7 +129,6 @@ const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {
 
     setErrors(newErrors);
 
-    // If no errors, add event
     if (!Object.values(newErrors).some(error => error)) {
       try {
         const eventDocRef = await addDoc(collection(db, "events"), {
@@ -146,7 +142,6 @@ const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {
           createdAt: new Date()
         });
 
-        // Add event to the state
         onAddEvent({
           id: eventDocRef.id,
           title,
@@ -158,7 +153,6 @@ const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {
           imageURL: URL.createObjectURL(image)
         });
 
-        // Close modal
         onClose();
       } catch (error) {
         console.error('Error adding event:', error);
@@ -168,7 +162,6 @@ const AddEventModal = ({ isOpen, onClose, onAddEvent }) => {
     }
   };
 
-  // If modal is not open, don't render anything
   if (!isOpen) return null;
 
   return (
@@ -378,6 +371,47 @@ const EventsCMS = () => {
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   const eventsPerPage = 5;
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // Fetch current user data
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        
+        if (user) {
+          // Fetch additional user data from Firestore
+          const usersRef = collection(db, "users");
+          const q = query(usersRef, where("email", "==", user.email));
+          const querySnapshot = await getDocs(q);
+          
+          if (!querySnapshot.empty) {
+            querySnapshot.forEach((doc) => {
+              setCurrentUser({
+                uid: user.uid,
+                email: user.email,
+                displayName: doc.data().displayName || user.email,
+                photoURL: doc.data().photoURL || null
+              });
+            });
+          } else {
+            // If no additional user data found, just use auth data
+            setCurrentUser({
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName || user.email,
+              photoURL: user.photoURL || null
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchCurrentUser();
+  }, []);
 
   // Handle window resize
   useEffect(() => {
@@ -391,7 +425,7 @@ const EventsCMS = () => {
     }
   }, []);
 
-  // Fetch events from Firestore on component mount
+  // Fetch events from Firestore
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -436,13 +470,9 @@ const EventsCMS = () => {
   const handleDelete = async (eventId) => {
     if (window.confirm("Are you sure you want to delete this event?")) {
       try {
-        // Delete event document from Firestore
         await deleteDoc(doc(db, "events", eventId));
-
-        // Update state to remove the event
         const updatedEvents = events.filter(event => event.id !== eventId);
         setEvents(updatedEvents);
-        console.log(`Deleted event with ID: ${eventId}`);
       } catch (error) {
         console.error('Error deleting event:', error);
         setError('Failed to delete event. Please try again.');
@@ -456,7 +486,6 @@ const EventsCMS = () => {
 
   const handleAddNewEvent = (newEvent) => {
     setEvents([...events, newEvent]);
-    console.log('New event added:', newEvent);
   };
 
   // Check if mobile view
@@ -517,16 +546,34 @@ const EventsCMS = () => {
             height: '40px',
             borderRadius: '50%',
             backgroundColor: '#eee',
-            marginRight: '10px'
-          }}></div>
-          <span style={{ fontWeight: 'normal' }}>Admin</span>
+            marginRight: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            overflow: 'hidden'
+          }}>
+            {currentUser?.photoURL ? (
+              <img 
+                src={currentUser.photoURL} 
+                alt="Profile" 
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            ) : (
+              <span style={{ color: '#666' }}>
+                {currentUser?.displayName?.charAt(0).toUpperCase() || 'A'}
+              </span>
+            )}
+          </div>
+          <span style={{ fontWeight: 'normal' }}>
+            {currentUser?.displayName || 'Admin'}
+          </span>
         </div>
       </div>
 
       <button
         onClick={handleAddEvent}
         style={{
-          backgroundColor: '#0088ff',
+          backgroundColor: '#2563EB',
           color: 'white',
           border: 'none',
           borderRadius: '5px',
@@ -549,7 +596,6 @@ const EventsCMS = () => {
       ) : (
         <div style={{ overflowX: 'auto' }}>
           {isMobile ? (
-            // Mobile card view
             <div style={{ width: '100%' }}>
               {currentEvents.map((event) => (
                 <div
@@ -600,7 +646,6 @@ const EventsCMS = () => {
               ))}
             </div>
           ) : (
-            // Desktop table view
             <table style={{
               width: '100%',
               borderCollapse: 'collapse',
@@ -634,24 +679,20 @@ const EventsCMS = () => {
                       >
                         Delete
                       </button>
-
-
                       <button
-  onClick={() => setSelectedEvent(event)}
-  style={{
-    backgroundColor: '#1D4ED8',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '8px 20px',
-    cursor: 'pointer',
-    marginLeft: '10px'
-    
-   
-  }}
->
-  View More
-</button>
+                        onClick={() => setSelectedEvent(event)}
+                        style={{
+                          backgroundColor: '#1D4ED8',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '5px',
+                          padding: '8px 20px',
+                          cursor: 'pointer',
+                          marginLeft: '10px'
+                        }}
+                      >
+                        View More
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -712,18 +753,16 @@ const EventsCMS = () => {
         </div>
       )}
 
-      {/* Add Event Modal */}
       <AddEventModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onAddEvent={handleAddNewEvent}
       />
 
-
-<EventDetailsModal 
-  event={selectedEvent}
-  onClose={() => setSelectedEvent(null)}
-/>
+      <EventDetailsModal 
+        event={selectedEvent}
+        onClose={() => setSelectedEvent(null)}
+      />
     </div>
   );
 };

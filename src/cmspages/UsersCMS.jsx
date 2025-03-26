@@ -665,7 +665,7 @@ const UsersCMS = () => {
       <button
         onClick={handleAddUser}
         style={{
-          backgroundColor: '#0088ff',
+          backgroundColor: '#2563EB',
           color: 'white',
           border: 'none',
           borderRadius: '5px',

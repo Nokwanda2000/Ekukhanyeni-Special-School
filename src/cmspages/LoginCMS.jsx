@@ -30,7 +30,7 @@ const LoginCMS = () => {
     try {
       // Sign in with Firebase authentication
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log('User signed in successfully:', userCredential.user);
+      // console.log('User signed in successfully:', userCredential.user);
       
       // Redirect to UsersCMS after successful login
       navigate('/CMS/UsersCMS');
