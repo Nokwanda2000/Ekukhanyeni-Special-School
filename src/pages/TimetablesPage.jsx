@@ -80,10 +80,35 @@ const Timetablespage = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", padding: "24px" }}>
-      {/* Title */}
-      <h1 style={{ fontSize: "32px", fontWeight: "700", color: "#3B82F6", marginBottom: "24px" }}>
-        School Timetables
-      </h1>
+
+       {/* Header Section */}
+       <div style={{
+        position: 'relative',
+        padding: '4rem 0',
+        textAlign: 'center',
+        background: '#F2F7FD',
+        marginBottom: '2rem'
+      }}>
+        <div style={{
+          fontSize: '10vw',
+          fontWeight: 'bold',
+          color: '#0082FC',
+          opacity: '0.2',
+          position: 'absolute',
+          inset: '0',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          Ekukhanyeni
+        </div>
+        <h1 style={{ fontSize: '3rem', fontWeight: 'sans-serif', color: '#2d3748', marginBottom: '0.5rem' }}>School Timetables</h1>
+        <div style={{ fontSize: '0.875rem', color: '#718096' }}>
+          <span style={{ cursor: 'pointer' }} onMouseOver={(e) => e.target.style.color = '#3182ce'} onMouseOut={(e) => e.target.style.color = '#718096'}>Home</span> | <span style={{ fontWeight: '500' }}>School Timetables</span>
+        </div>
+      </div>
+      
+     
       
       {/* Grade Selection Buttons */}
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "16px", marginBottom: "24px" }}>
