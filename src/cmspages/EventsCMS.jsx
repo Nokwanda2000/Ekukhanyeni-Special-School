@@ -381,32 +381,34 @@ const EventsCMS = () => {
         const user = auth.currentUser;
         
         if (user) {
-          // Fetch additional user data from Firestore
+          // Fetch user data from Firestore 'users' collection by name
           const usersRef = collection(db, "users");
-          const q = query(usersRef, where("email", "==", user.email));
+          const q = query(usersRef, where("uid", "==", user.uid));
           const querySnapshot = await getDocs(q);
           
           if (!querySnapshot.empty) {
             querySnapshot.forEach((doc) => {
+              const userData = doc.data();
               setCurrentUser({
-                uid: user.uid,
-                email: user.email,
-                displayName: doc.data().displayName || user.email,
-                photoURL: doc.data().photoURL || null
+                displayName: userData.name || user.displayName || 'Admin',
+                email: userData.email || user.email || '',
+                photoURL: userData.photoURL || user.photoURL || '',
+                color: userData.color || '#3B82F6'
               });
             });
           } else {
-            // If no additional user data found, just use auth data
+            // If user not found in 'users' collection, use auth data
             setCurrentUser({
-              uid: user.uid,
-              email: user.email,
-              displayName: user.displayName || user.email,
-              photoURL: user.photoURL || null
+              displayName: user.displayName || 'Admin',
+              email: user.email || '',
+              photoURL: user.photoURL || '',
+              color: '#3B82F6'
             });
           }
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
+        setError("Failed to load user information");
       }
     };
 
@@ -540,34 +542,42 @@ const EventsCMS = () => {
           }}
         />
 
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{
-            width: '40px',
-            height: '40px',
-            borderRadius: '50%',
-            backgroundColor: '#eee',
-            marginRight: '10px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            overflow: 'hidden'
-          }}>
-            {currentUser?.photoURL ? (
+        {currentUser && (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {currentUser.photoURL ? (
               <img 
                 src={currentUser.photoURL} 
-                alt="Profile" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                alt={currentUser.displayName}
+                style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  marginRight: '10px',
+                  objectFit: 'cover'
+                }}
               />
             ) : (
-              <span style={{ color: '#666' }}>
-                {currentUser?.displayName?.charAt(0).toUpperCase() || 'A'}
-              </span>
+              <div style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                backgroundColor: currentUser.color || '#3B82F6',
+                marginRight: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontWeight: 'bold'
+              }}>
+                {currentUser.displayName?.charAt(0).toUpperCase() || 'A'}
+              </div>
             )}
+            <div>
+              <div style={{ }}>{currentUser.displayName}</div>
+              <div style={{ fontSize: '12px', color: '#666' }}>{currentUser.email}</div>
+            </div>
           </div>
-          <span style={{ fontWeight: 'normal' }}>
-            {currentUser?.displayName || 'Admin'}
-          </span>
-        </div>
+        )}
       </div>
 
       <button
