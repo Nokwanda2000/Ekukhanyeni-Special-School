@@ -1,83 +1,83 @@
-// import React from 'react';
-// import { Link } from 'react-router-dom';
-// import { MapPin, Phone, Clock } from 'lucide-react'; 
-// import Logo from '/Ekukhanyeni Special School trpnt logo.png';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { MapPin, Phone, Clock } from 'lucide-react'; 
+import Logo from '/Ekukhanyeni Special School trpnt logo.png';
 
-// const Navbar = () => {
-//   const topBarStyles = {
-//     display: 'flex',
-//     justifyContent: 'space-between',
-//     alignItems: 'center',
-//     padding: '2rem 2rem',
-//     backgroundColor: '#f3f4f6',
-//   };
+const Navbar = () => {
+  const topBarStyles = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '2rem 2rem',
+    backgroundColor: '#f3f4f6',
+  };
 
   const logoStyles = {
     height: '80px',
     color:"#2563eb" 
   };
 
-//   const contactInfoStyles = {
-//     display: 'flex',
-//     gap: '2rem',
-//     alignItems: 'center',
-//     fontFamily: 'Arial, sans-serif',
-//   };
+  const contactInfoStyles = {
+    display: 'flex',
+    gap: '2rem',
+    alignItems: 'center',
+    fontFamily: 'Arial, sans-serif',
+  };
 
-//   const contactGroupStyles = {
-//     display: 'flex',
-//     flexDirection: 'column',
-//     gap: '0.5rem',
-//   };
+  const contactGroupStyles = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5rem',
+  };
 
-//   const contactHeaderStyles = {
-//     fontSize: '0.75rem',
-//     fontWeight: '600',
-//     color: '#4b5563',
-//     letterSpacing: '0.05em',
-//     marginBottom: '0.25rem',
-//   };
+  const contactHeaderStyles = {
+    fontSize: '0.75rem',
+    fontWeight: '600',
+    color: '#4b5563',
+    letterSpacing: '0.05em',
+    marginBottom: '0.25rem',
+  };
 
-//   const contactItemStyles = {
-//     display: 'flex',
-//     alignItems: 'center',
-//     gap: '0.5rem',
-//     fontSize: '0.875rem',
-//     color: '#6b7280',
-//   };
+  const contactItemStyles = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '0.5rem',
+    fontSize: '0.875rem',
+    color: '#6b7280',
+  };
 
-//   const navBarStyles = {
-//     padding: '1rem 2rem',
-//     backgroundColor: 'white',
-//     marginTop: '2rem',
-//   };
+  const navBarStyles = {
+    padding: '1rem 2rem',
+    backgroundColor: 'white',
+    marginTop: '2rem',
+  };
 
-//   const navListStyles = {
-//     display: 'flex',
-//     justifyContent: 'center',
-//     gap: '2.5rem',
-//     listStyle: 'none',
-//     padding: '0',
-//     margin: '0',
-//     width: '100%',
-//   };
+  const navListStyles = {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '2.5rem',
+    listStyle: 'none',
+    padding: '0',
+    margin: '0',
+    width: '100%',
+  };
 
-//   const navLinkStyles = {
-//     textDecoration: 'none',
-//     color: '#333',
-//     fontWeight: '600',
-//     fontSize: '1.450rem',
-//     padding: '0.5rem 1rem',
-//     transition: 'color 0.3s ease',
-//     letterSpacing: '0.5px',
-//     fontFamily: '"Poppins", sans-serif',
-//   };
+  const navLinkStyles = {
+    textDecoration: 'none',
+    color: '#333',
+    fontWeight: '600',
+    fontSize: '1.450rem',
+    padding: '0.5rem 1rem',
+    transition: 'color 0.3s ease',
+    letterSpacing: '0.5px',
+    fontFamily: '"Poppins", sans-serif',
+  };
 
-//   return (
-//     <div>
-//       <div style={topBarStyles}>
-//         {/* Logo */}
-//         <img src={Logo} alt="Logo" style={logoStyles} />
+  return (
+    <div>
+      <div style={topBarStyles}>
+        {/* Logo */}
+        <img src={Logo} alt="Logo" style={logoStyles} />
 
         {/* Contact Information */}
         <div style={contactInfoStyles}>
@@ -136,4 +136,4 @@
   );
 };
 
-// export default Navbar;
+export default Navbar;
