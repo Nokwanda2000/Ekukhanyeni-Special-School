@@ -87,7 +87,8 @@ const Timetablespage = () => {
         padding: '4rem 0',
         textAlign: 'center',
         background: '#F2F7FD',
-        marginBottom: '2rem'
+        marginBottom: '2rem',
+        width: '100%'
       }}>
         <div style={{
           fontSize: '10vw',
@@ -102,9 +103,11 @@ const Timetablespage = () => {
         }}>
           Ekukhanyeni
         </div>
-        <h1 style={{ fontSize: '3rem', fontWeight: 'sans-serif', color: '#2d3748', marginBottom: '0.5rem' }}>School Timetables</h1>
+     
+    
+        <h1 style={{ fontSize: '3rem', fontWeight: 'sans-serif', color: '#1E3A8A', marginBottom: '0.5rem' }}>School Timetables</h1>
         <div style={{ fontSize: '0.875rem', color: '#718096' }}>
-          <span style={{ cursor: 'pointer' }} onMouseOver={(e) => e.target.style.color = '#3182ce'} onMouseOut={(e) => e.target.style.color = '#718096'}>Home</span> | <span style={{ fontWeight: '500' }}>School Timetables</span>
+          <span style={{ cursor: 'pointer'}} onMouseOver={(e) => e.target.style.color = '#3182ce'} onMouseOut={(e) => e.target.style.color = '#718096'}>Home</span> | <span style={{ fontWeight: '500',  }}>School Timetables</span>
         </div>
       </div>
       

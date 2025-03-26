@@ -74,7 +74,7 @@ const handleSubmit = async (e) => {
         }}>
           Ekukhanyeni
         </div>
-        <h1 style={{ fontSize: '3rem', fontWeight: 'sans-serif', color: '#2d3748', marginBottom: '0.5rem' }}>Contacts</h1>
+        <h1 style={{ fontSize: '3rem', fontWeight: 'sans-serif', color: '#1E3A8A', marginBottom: '0.5rem' }}>Contacts</h1>
         <div style={{ fontSize: '0.875rem', color: '#718096' }}>
           <span style={{ cursor: 'pointer' }} onMouseOver={(e) => e.target.style.color = '#3182ce'} onMouseOut={(e) => e.target.style.color = '#718096'}>Home</span> | <span style={{ fontWeight: '500' }}>Contacts</span>
         </div>
