@@ -154,6 +154,7 @@ const EkukhanyeniProfessionalSchool = () => {
             }}>
               <h3 style={{ fontSize: '20px', color: '#333', marginBottom: '15px' }}>Donate</h3>
               <p style={{ fontSize: '16px', color: '#666', marginBottom: '20px' }}>Make a one-time or recurring donation to support our programs and facilities.</p>
+              <Link to="/Contactpage">
               <button style={{
                 backgroundColor: '#2563EB',
                 color: 'white',
@@ -162,7 +163,7 @@ const EkukhanyeniProfessionalSchool = () => {
                 borderRadius: '30px',
                 cursor: 'pointer',
                 fontWeight: '500'
-              }}>Donate Now</button>
+              }}>Donate Now</button> </Link>
             </div>
             <div style={{
               flex: '1 1 300px',
@@ -175,6 +176,7 @@ const EkukhanyeniProfessionalSchool = () => {
             }}>
               <h3 style={{ fontSize: '20px', color: '#333', marginBottom: '15px' }}>Sponsor</h3>
               <p style={{ fontSize: '16px', color: '#666', marginBottom: '20px' }}>Sponsor a student or a specific program to help sustain our educational initiatives.</p>
+              <Link to="/Contactpage">
               <button style={{
                 backgroundColor: '#2563EB',
                 color: 'white',
@@ -183,7 +185,7 @@ const EkukhanyeniProfessionalSchool = () => {
                 borderRadius: '30px',
                 cursor: 'pointer',
                 fontWeight: '500'
-              }}>Sponsor</button>
+              }}>Sponsor</button> </Link>
             </div>
             <div style={{
               flex: '1 1 300px',
@@ -196,6 +198,7 @@ const EkukhanyeniProfessionalSchool = () => {
             }}>
               <h3 style={{ fontSize: '20px', color: '#333', marginBottom: '15px' }}>Volunteer</h3>
               <p style={{ fontSize: '16px', color: '#666', marginBottom: '20px' }}>Donate your time and skills to help our students learn and grow in a supportive environment.</p>
+              <Link to="/Contactpage">
               <button style={{
                 backgroundColor: '#2563EB',
                 color: 'white',
@@ -204,7 +207,7 @@ const EkukhanyeniProfessionalSchool = () => {
                 borderRadius: '30px',
                 cursor: 'pointer',
                 fontWeight: '500'
-              }}>Join Us</button>
+              }}>Join Us</button></Link>
             </div>
           </div>
         </div>
