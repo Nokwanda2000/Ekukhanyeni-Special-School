@@ -3,7 +3,8 @@ import {
   getAuth, 
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  onAuthStateChanged
 } from 'firebase/auth';
 import { 
   collection, 
@@ -100,7 +101,7 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
         // Add user to the state
         onAddUser({
           id: userCredential.user.uid,
-          docId: userDocRef.id, // Store Firestore doc ID for later use
+          docId: userDocRef.id,
           name: name,
           email: email,
           color: color
@@ -258,7 +259,7 @@ const AddUserModal = ({ isOpen, onClose, onAddUser }) => {
   );
 };
 
-// Edit User Modal component
+// EditUserModal component
 const EditUserModal = ({ isOpen, onClose, user, onUpdateUser }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -448,8 +449,51 @@ const UsersCMS = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [currentUserDetails, setCurrentUserDetails] = useState(null);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
   const usersPerPage = 5;
+  
+  // Retrieve current user details
+  useEffect(() => {
+    const auth = getAuth();
+    
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          // Find the user document in Firestore
+          const usersCollection = collection(db, "users");
+          const q = query(usersCollection, where("uid", "==", user.uid));
+          const querySnapshot = await getDocs(q);
+          
+          if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0];
+            const userData = userDoc.data();
+            
+            // Store current user details
+            setCurrentUserDetails({
+              id: userData.uid,
+              docId: userDoc.id,
+              name: userData.name,
+              email: userData.email,
+              color: userData.color || '#FFD700',
+              createdAt: userData.createdAt
+            });
+          }
+          
+          setCurrentUser(user);
+        } catch (error) {
+          console.error('Error fetching current user details:', error);
+          setError('Failed to fetch current user details.');
+        }
+      } else {
+        setCurrentUser(null);
+        setCurrentUserDetails(null);
+      }
+    });
+    
+    // Cleanup subscription
+    return () => unsubscribe();
+  }, []);
   
   // Handle window resize
   useEffect(() => {
@@ -476,7 +520,7 @@ const UsersCMS = () => {
           const userData = doc.data();
           fetchedUsers.push({
             id: userData.uid,
-            docId: doc.id, // Store Firestore doc ID for later use
+            docId: doc.id,
             name: userData.name,
             email: userData.email,
             color: userData.color || '#FFD700'
@@ -601,14 +645,20 @@ const UsersCMS = () => {
         />
         
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ 
-            width: '40px', 
-            height: '40px', 
-            borderRadius: '50%', 
-            backgroundColor: '#eee',
-            marginRight: '10px'
-          }}></div>
-          <span style={{ fontWeight: 'normal' }}>Admin</span>
+          {currentUserDetails ? (
+            <>
+              <div style={{ 
+                width: '40px', 
+                height: '40px', 
+                borderRadius: '50%', 
+                backgroundColor: currentUserDetails.color,
+                marginRight: '10px'
+              }}></div>
+              <span style={{ fontWeight: 'normal' }}>{currentUserDetails.name}</span>
+            </>
+          ) : (
+            <span style={{ fontWeight: 'normal' }}>Loading...</span>
+          )}
         </div>
       </div>
       

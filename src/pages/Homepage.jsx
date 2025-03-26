@@ -9,7 +9,7 @@ const EkukhanyeniProfessionalSchool = () => {
         backgroundImage: 'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("/slide2.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        height: '100vh',
+        height: 'clamp(600px, 50vh, 500px)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
