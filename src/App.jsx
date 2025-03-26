@@ -18,6 +18,7 @@ import TimetablesCMS from './cmspages/TimetablesCMS';
 import Eventspage from './pages/Eventspage';
 import SponsorBanner from './components/SponsorBanner';
 import FormSubmissionsCMS from './cmspages/FormSubmissionsCMS';
+import { onAuthStateChanged } from 'firebase/auth';
 
 
 // Protected route component
@@ -34,7 +35,21 @@ const ProtectedRoute = () => {
   return <Outlet />;
 };
 
-function App() {
+
+
+export default function App() {
+  // const auth = getAuth();
+
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       console.log("You are logged in!");
+  //     }
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
+
   return (
     <>
       <BrowserRouter>
@@ -70,5 +85,3 @@ function App() {
     </>
   );
 }
-
-export default App;
