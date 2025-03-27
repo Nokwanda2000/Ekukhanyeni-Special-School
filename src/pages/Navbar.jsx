@@ -39,7 +39,7 @@ const Navbar = () => {
               <div className="contact-header">Address</div>
               <div className="contact-item">
                 <MapPin size={16} />
-                <span>Mdoni Road, Edendale, Pietermaritzburg</span>
+                <span>Sutherlands Road, Masons Mill, Pietermaritzburg, 3201</span>
               </div>
             </div>
           </div>

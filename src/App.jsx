@@ -37,17 +37,17 @@ const ProtectedRoute = () => {
 
 
 export default function App() {
-  // const auth = getAuth();
+  const auth = getAuth();
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       console.log("You are logged in!");
-  //     }
-  //   });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("You are logged in!");
+      }
+    });
 
-  //   return () => unsubscribe();
-  // }, []);
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
