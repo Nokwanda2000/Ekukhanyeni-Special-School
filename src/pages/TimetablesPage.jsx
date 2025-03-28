@@ -187,9 +187,9 @@ const Timetablespage = () => {
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ backgroundColor: "#F3F4F6", borderBottom: "1px solid #D1D5DB" }}>
-                <th style={{ padding: "16px", fontSize: "18px", fontWeight: "600", color: "#374151", borderRight: "1px solid #D1D5DB", minWidth: "120px" }}>
+                {/* <th style={{ padding: "16px", fontSize: "18px", fontWeight: "600", color: "#374151", borderRight: "1px solid #D1D5DB", minWidth: "120px" }}>
                   Time
-                </th>
+                </th> */}
                 {weekdays.map((day) => (
                   <th key={day} style={{ padding: "16px", fontSize: "18px", fontWeight: "600", color: "#374151", borderRight: "1px solid #D1D5DB", minWidth: "150px" }}>
                     {day}
@@ -200,9 +200,9 @@ const Timetablespage = () => {
             <tbody>
               {timeSlots.map((timeSlot, index) => (
                 <tr key={`${timeSlot.startTime}-${timeSlot.endTime}`} style={{ borderTop: "1px solid #D1D5DB" }}>
-                  <td style={{ padding: "16px", fontSize: "16px", fontWeight: "600", color: "#374151", backgroundColor: "#F9FAFB", borderRight: "1px solid #D1D5DB", textAlign: "center" }}>
+                  {/* <td style={{ padding: "16px", fontSize: "16px", fontWeight: "600", color: "#374151", backgroundColor: "#F9FAFB", borderRight: "1px solid #D1D5DB", textAlign: "center" }}>
                     {timeSlot.startTime} - {timeSlot.endTime}
-                  </td>
+                  </td> */}
                   {weekdays.map((day) => {
                     const cellData = getCellData(timeSlot, day);
                     return (
@@ -218,8 +218,11 @@ const Timetablespage = () => {
                       >
                         {cellData ? (
                           <div style={{ textAlign: "center" }}>
-                            <div style={{ fontSize: "16px", fontWeight: "500", color: "#111827", marginBottom: "4px" }}>
+                            <div style={{ fontSize: "16px", fontWeight: "600", color: "#676873", marginBottom: "4px" }}>
                               {cellData.activity}
+                            </div>
+                            <div style={{ fontSize: "16px", fontWeight: "550", color: '#9D9FB3', marginBottom: "4px" }}>
+                                {cellData.startTime} - {cellData.endTime}
                             </div>
                           </div>
                         ) : (
@@ -243,85 +246,65 @@ const Timetablespage = () => {
       )}
       
       {/* Schedule Table - Mobile View */}
-      {isMobile && (
-        <div style={{ 
-          width: "100%", 
-          maxWidth: "100%", 
-          border: "1px solid #D1D5DB", 
-          borderRadius: "8px", 
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-          overflowX: "auto"
+{isMobile && (
+  <div style={{ width: "100%", maxWidth: "100%" }}>
+    {weekdays.map((day) => (
+      <div 
+        key={day} 
+        style={{ 
+          borderBottom: "1px solid #D1D5DB", 
+          padding: "12px",
+          marginBottom: "12px",
+          borderRadius: "6px",
+          backgroundColor: "#F9FAFB"
+        }}
+      >
+        <h3 style={{ 
+          fontSize: "16px", 
+          fontWeight: "600", 
+          color: "#374151",
+          marginBottom: "8px",
+          textAlign: "center"
         }}>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            {timeSlots.map((timeSlot, index) => (
-              <div key={`${timeSlot.startTime}-${timeSlot.endTime}`} style={{ 
-                borderBottom: "1px solid #D1D5DB",
-                padding: "12px"
-              }}>
-                <div style={{ 
-                  fontSize: "16px", 
-                  fontWeight: "600", 
-                  color: "#374151", 
-                  marginBottom: "8px",
-                  backgroundColor: "#F9FAFB",
-                  padding: "8px",
-                  borderRadius: "4px",
-                  textAlign: "center"
-                }}>
-                  {timeSlot.startTime} - {timeSlot.endTime}
+          {day}
+        </h3>
+
+        {timeSlots.map((timeSlot) => {
+          const cellData = getCellData(timeSlot, day);
+          return (
+            <div 
+              key={`${day}-${timeSlot.startTime}`} 
+              style={{ 
+                padding: "12px", 
+                borderRadius: "6px",
+                backgroundColor: cellData ? "#F0F9FF" : "white",
+                border: "1px solid #D1D5DB",
+                marginBottom: "8px",
+                textAlign: "center"
+              }}
+            >
+              
+              {cellData ? (<>
+                <div style={{ fontSize: "14px", color: "#111827" }}>
+                  {cellData.activity}
                 </div>
-                
-                <div style={{ display: "flex", overflowX: "auto", gap: "8px", padding: "8px 0" }}>
-                  {weekdays.map((day) => {
-                    const cellData = getCellData(timeSlot, day);
-                    return (
-                      <div 
-                        key={day} 
-                        style={{ 
-                          minWidth: "120px",
-                          padding: "12px",
-                          borderRadius: "6px",
-                          backgroundColor: cellData ? "#F0F9FF" : "white",
-                          border: "1px solid #D1D5DB"
-                        }}
-                      >
-                        <div style={{ 
-                          fontSize: "14px", 
-                          fontWeight: "600", 
-                          color: "#374151",
-                          marginBottom: "8px",
-                          textAlign: "center"
-                        }}>
-                          {day.substring(0, 3)}
-                        </div>
-                        {cellData ? (
-                          <div style={{ 
-                            fontSize: "14px", 
-                            color: "#111827", 
-                            textAlign: "center",
-                            wordBreak: "break-word"
-                          }}>
-                            {cellData.activity}
-                          </div>
-                        ) : (
-                          <div style={{ 
-                            color: "#9CA3AF", 
-                            textAlign: "center", 
-                            fontSize: "12px",
-                            fontStyle: "italic"
-                          }}>
-                            No activity
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
+                <div style={{ fontSize: "14px", color: "#111827" }}>
+                {cellData.startTime} - {cellData.endTime}
               </div>
-            ))}
-          </div>
-        </div>
-      )}
+              </>
+              ) : (
+                <div style={{ color: "#9CA3AF", fontSize: "12px", fontStyle: "italic" }}>
+                  No activity
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    ))}
+  </div>
+)}
+
     </div>
   );
 };
